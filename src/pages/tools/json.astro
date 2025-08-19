@@ -1,0 +1,463 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CaiatechToolLayout from '../../components/tools/CaiatechToolLayout.astro';
+import ToolAttribution from '../../components/tools/ToolAttribution.astro';
+import PrivacyBadge from '../../components/tools/PrivacyBadge.astro';
+import ToolSEO from '../../components/tools/ToolSEO.astro';
+
+const toolInfo = {
+  name: "JSON Formatter & Validator",
+  description: "Format, validate, minify and beautify JSON data instantly. Check JSON syntax errors, convert between compact and pretty-print formats",
+  category: "Data Formats",
+  keywords: ["json formatter", "json validator", "json beautifier", "json minifier", "json parser", "json syntax checker", "pretty print json", "json online"],
+  path: "/tools/json"
+};
+---
+
+<BaseLayout 
+  title={`${toolInfo.name} - Free Online Tool | Caiatech`}
+  description={toolInfo.description}
+  canonical={`https://caiatech.com${toolInfo.path}`}
+>
+  <ToolSEO {...toolInfo} />
+  <CaiatechToolLayout 
+    title="JSON Formatter & Validator" 
+    description="Format, validate, and beautify JSON data"
+    icon="{}">
+    
+    <div slot="header-actions">
+      <PrivacyBadge />
+    </div>
+    
+    <div class="json-tool">
+      <div class="tool-grid">
+        <!-- Input Panel -->
+        <div class="terminal-panel input-panel">
+          <div class="terminal-header">
+            <div class="terminal-controls">
+              <span class="control red"></span>
+              <span class="control yellow"></span>
+              <span class="control green"></span>
+            </div>
+            <span class="terminal-title">INPUT://json</span>
+            <div class="terminal-actions">
+              <button class="terminal-action" id="paste-btn" title="Paste">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/>
+                  <rect x="8" y="2" width="8" height="4" rx="1"/>
+                </svg>
+              </button>
+              <button class="terminal-action" id="sample-btn" title="Load Sample">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                  <polyline points="14,2 14,8 20,8"/>
+                </svg>
+              </button>
+              <button class="terminal-action" id="clear-btn" title="Clear">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="terminal-body">
+            <textarea 
+              id="json-input" 
+              class="terminal-input"
+              placeholder="Paste your JSON here..."
+              spellcheck="false"
+            ></textarea>
+            <div id="error-message" class="error-message"></div>
+          </div>
+        </div>
+
+        <!-- Output Panel -->
+        <div class="terminal-panel output-panel">
+          <div class="terminal-header">
+            <div class="terminal-controls">
+              <span class="control red"></span>
+              <span class="control yellow"></span>
+              <span class="control green"></span>
+            </div>
+            <span class="terminal-title">OUTPUT://formatted</span>
+            <div class="terminal-actions">
+              <label class="checkbox-label">
+                <input type="checkbox" id="minify-checkbox">
+                Minify
+              </label>
+              <button class="terminal-action" id="copy-btn" title="Copy">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2"/>
+                  <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+                </svg>
+              </button>
+              <button class="terminal-action" id="download-btn" title="Download">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                  <polyline points="7 10 12 15 17 10"/>
+                  <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="terminal-body">
+            <pre id="json-output" class="terminal-output"></pre>
+            <div class="stats-bar">
+              <span class="stat">Size: <span id="size-stat">0</span> chars</span>
+              <span class="stat">Lines: <span id="lines-stat">0</span></span>
+              <span class="stat">Depth: <span id="depth-stat">0</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <ToolAttribution toolName="JSON Formatter & Validator" version="2.0.0" />
+  </CaiatechToolLayout>
+</BaseLayout>
+
+<style>
+  .json-tool {
+    width: 100%;
+  }
+
+  .tool-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    min-height: 500px;
+  }
+
+  @media (max-width: 768px) {
+    .tool-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+  }
+
+  /* Terminal panels */
+  .terminal-panel {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 
+      0 10px 40px rgba(0, 0, 0, 0.3),
+      0 0 60px rgba(0, 212, 255, 0.05);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .terminal-panel:hover {
+    box-shadow: 
+      0 10px 40px rgba(0, 0, 0, 0.4),
+      0 0 80px rgba(0, 212, 255, 0.1);
+    border-color: rgba(0, 212, 255, 0.3);
+  }
+
+  .terminal-header {
+    background: linear-gradient(90deg, rgba(42, 42, 43, 1) 0%, rgba(26, 26, 27, 1) 100%);
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+    flex-shrink: 0;
+  }
+
+  .terminal-controls {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .control {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    transition: all 0.2s;
+  }
+
+  .control.red { 
+    background: #ff5f57; 
+    box-shadow: 0 0 10px rgba(255, 95, 87, 0.5);
+  }
+  .control.yellow { 
+    background: #ffbd2e; 
+    box-shadow: 0 0 10px rgba(255, 189, 46, 0.5);
+  }
+  .control.green { 
+    background: #28ca42; 
+    box-shadow: 0 0 10px rgba(40, 202, 66, 0.5);
+  }
+
+  .terminal-panel:hover .control {
+    box-shadow: 0 0 15px currentColor;
+  }
+
+  .terminal-title {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-accent);
+    margin-left: auto;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.8;
+  }
+
+  .terminal-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: 1rem;
+    align-items: center;
+  }
+
+  .terminal-action {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--color-text-secondary);
+    padding: 0.25rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .terminal-action:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    background: rgba(0, 212, 255, 0.1);
+  }
+
+  .terminal-body {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .terminal-input,
+  .terminal-output {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 8px;
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    padding: 1rem;
+    width: 100%;
+    flex: 1;
+    resize: none;
+    transition: all 0.3s;
+  }
+
+  .terminal-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 
+      0 0 20px rgba(0, 212, 255, 0.2),
+      inset 0 0 20px rgba(0, 212, 255, 0.05);
+  }
+
+  .terminal-output {
+    white-space: pre;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    overflow: auto;
+    line-height: 1.4;
+    margin-bottom: 1rem;
+  }
+
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    margin-right: 0.5rem;
+  }
+
+  .checkbox-label input[type="checkbox"] {
+    accent-color: var(--color-accent);
+  }
+
+  .error-message {
+    color: #ff5f57;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    background: rgba(255, 95, 87, 0.1);
+    border: 1px solid rgba(255, 95, 87, 0.3);
+    border-radius: 4px;
+    display: none;
+  }
+
+  .error-message.show {
+    display: block;
+  }
+
+  .stats-bar {
+    display: flex;
+    gap: 1rem;
+    padding: 0.5rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    border: 1px solid rgba(0, 212, 255, 0.1);
+  }
+
+  .stat {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+  }
+
+  .stat span {
+    color: var(--color-accent);
+  }
+</style>
+
+<script>
+  // JSON Formatter & Validator - JavaScript Implementation
+  const jsonInput = document.getElementById('json-input');
+  const jsonOutput = document.getElementById('json-output');
+  const minifyCheckbox = document.getElementById('minify-checkbox');
+  const errorMessage = document.getElementById('error-message');
+  
+  const copyBtn = document.getElementById('copy-btn');
+  const clearBtn = document.getElementById('clear-btn');
+  const pasteBtn = document.getElementById('paste-btn');
+  const sampleBtn = document.getElementById('sample-btn');
+  const downloadBtn = document.getElementById('download-btn');
+  
+  const sizeStat = document.getElementById('size-stat');
+  const linesStat = document.getElementById('lines-stat');
+  const depthStat = document.getElementById('depth-stat');
+
+  const sampleData = {
+    name: "John Doe",
+    age: 30,
+    city: "New York",
+    skills: ["JavaScript", "Python", "SQL"],
+    active: true,
+    profile: {
+      bio: "Software developer with 5+ years experience",
+      website: "https://johndoe.dev",
+      social: {
+        twitter: "@johndoe",
+        github: "johndoe"
+      }
+    }
+  };
+  
+  function showError(message) {
+    errorMessage.textContent = message;
+    errorMessage.classList.add('show');
+  }
+  
+  function clearError() {
+    errorMessage.textContent = '';
+    errorMessage.classList.remove('show');
+  }
+
+  function getObjectDepth(obj) {
+    if (typeof obj !== 'object' || obj === null) return 0;
+    return 1 + Math.max(0, ...Object.values(obj).map(getObjectDepth));
+  }
+  
+  function updateStats(jsonString) {
+    if (sizeStat) sizeStat.textContent = jsonString.length;
+    if (linesStat) linesStat.textContent = jsonString.split('\n').length;
+    
+    try {
+      const parsed = JSON.parse(jsonString);
+      if (depthStat) depthStat.textContent = getObjectDepth(parsed);
+    } catch (e) {
+      if (depthStat) depthStat.textContent = '0';
+    }
+  }
+  
+  function validateAndFormat() {
+    const input = jsonInput.value.trim();
+    if (!input) {
+      jsonOutput.textContent = '';
+      clearError();
+      updateStats('');
+      return;
+    }
+    
+    try {
+      const parsed = JSON.parse(input);
+      const formatted = JSON.stringify(parsed, null, minifyCheckbox.checked ? 0 : 2);
+      jsonOutput.textContent = formatted;
+      clearError();
+      updateStats(formatted);
+    } catch (e) {
+      showError(`Invalid JSON: ${e.message}`);
+      jsonOutput.textContent = '';
+      updateStats('');
+    }
+  }
+  
+  // Event listeners
+  if (jsonInput) jsonInput.addEventListener('input', validateAndFormat);
+  if (minifyCheckbox) minifyCheckbox.addEventListener('change', validateAndFormat);
+  
+  if (copyBtn) {
+    copyBtn.addEventListener('click', async () => {
+      if (jsonOutput.textContent) {
+        try {
+          await navigator.clipboard.writeText(jsonOutput.textContent);
+        } catch (e) {
+          console.error('Copy failed:', e);
+        }
+      }
+    });
+  }
+  
+  if (clearBtn) {
+    clearBtn.addEventListener('click', () => {
+      jsonInput.value = '';
+      jsonOutput.textContent = '';
+      clearError();
+      updateStats('');
+    });
+  }
+  
+  if (pasteBtn) {
+    pasteBtn.addEventListener('click', async () => {
+      try {
+        const text = await navigator.clipboard.readText();
+        jsonInput.value = text;
+        validateAndFormat();
+      } catch (e) {
+        console.error('Paste failed:', e);
+      }
+    });
+  }
+  
+  if (sampleBtn) {
+    sampleBtn.addEventListener('click', () => {
+      const sampleJson = JSON.stringify(sampleData, null, 2);
+      jsonInput.value = sampleJson;
+      validateAndFormat();
+    });
+  }
+  
+  if (downloadBtn) {
+    downloadBtn.addEventListener('click', () => {
+      if (jsonOutput.textContent) {
+        const blob = new Blob([jsonOutput.textContent], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `formatted-${Date.now()}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+    });
+  }
+
+  // Initialize
+  updateStats('');
+</script>

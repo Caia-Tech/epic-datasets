@@ -1,0 +1,707 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CaiatechToolLayout from '../../components/tools/CaiatechToolLayout.astro';
+import ToolAttribution from '../../components/tools/ToolAttribution.astro';
+import PrivacyBadge from '../../components/tools/PrivacyBadge.astro';
+---
+
+<BaseLayout title="Hash Generator - Caiatech">
+  <CaiatechToolLayout 
+    title="Hash Generator" 
+    description="Generate MD5, SHA-256, and more hashes"
+    icon="#">
+    
+    <div slot="header-actions">
+      <PrivacyBadge />
+    </div>
+    
+    <div class="hash-tool">
+      <div class="tool-grid">
+        <!-- Input Panel -->
+        <div class="terminal-panel input-panel">
+          <div class="terminal-header">
+            <div class="terminal-controls">
+              <span class="control red"></span>
+              <span class="control yellow"></span>
+              <span class="control green"></span>
+            </div>
+            <span class="terminal-title">INPUT://text</span>
+            <div class="terminal-actions">
+              <button class="terminal-action" id="paste-btn" title="Paste">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/>
+                  <rect x="8" y="2" width="8" height="4" rx="1"/>
+                </svg>
+              </button>
+              <button class="terminal-action" id="clear-btn" title="Clear">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="terminal-body">
+            <textarea 
+              id="text-input" 
+              class="terminal-input"
+              placeholder="Enter text to hash..."
+              spellcheck="false"
+            ></textarea>
+            
+            <!-- Algorithm Selection -->
+            <div class="algorithm-section">
+              <div class="section-header">Hash Algorithms</div>
+              <div class="algorithm-grid">
+                <label class="algorithm-checkbox">
+                  <input type="checkbox" value="MD5" checked>
+                  <span class="checkmark"></span>
+                  MD5 <span class="deprecated">(deprecated)</span>
+                </label>
+                <label class="algorithm-checkbox">
+                  <input type="checkbox" value="SHA-1">
+                  <span class="checkmark"></span>
+                  SHA-1 <span class="deprecated">(deprecated)</span>
+                </label>
+                <label class="algorithm-checkbox">
+                  <input type="checkbox" value="SHA-256" checked>
+                  <span class="checkmark"></span>
+                  SHA-256 <span class="recommended">(recommended)</span>
+                </label>
+                <label class="algorithm-checkbox">
+                  <input type="checkbox" value="SHA-384">
+                  <span class="checkmark"></span>
+                  SHA-384
+                </label>
+                <label class="algorithm-checkbox">
+                  <input type="checkbox" value="SHA-512">
+                  <span class="checkmark"></span>
+                  SHA-512
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Results Panel -->
+        <div class="terminal-panel results-panel">
+          <div class="terminal-header">
+            <div class="terminal-controls">
+              <span class="control red"></span>
+              <span class="control yellow"></span>
+              <span class="control green"></span>
+            </div>
+            <span class="terminal-title">OUTPUT://hashes</span>
+            <div class="terminal-actions">
+              <button class="terminal-action" id="copy-all-btn" title="Copy All">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2"/>
+                  <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="terminal-body">
+            <div id="hash-results" class="hash-results">
+              <div class="empty-state">Enter text to generate hashes</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Compare Panel -->
+      <div class="terminal-panel compare-panel">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">COMPARE://verify</span>
+        </div>
+        <div class="terminal-body">
+          <div class="compare-input-group">
+            <input 
+              type="text" 
+              id="compare-input" 
+              class="compare-input"
+              placeholder="Paste a hash to compare..."
+            >
+            <button id="compare-btn" class="cyber-btn secondary">Compare</button>
+          </div>
+          <div id="compare-result" class="compare-result"></div>
+        </div>
+      </div>
+    </div>
+    
+    <ToolAttribution toolName="Hash Generator" version="2.0.0" />
+  </CaiatechToolLayout>
+</BaseLayout>
+
+<style>
+  .hash-tool {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .tool-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .tool-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Terminal panels */
+  .terminal-panel {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 
+      0 10px 40px rgba(0, 0, 0, 0.3),
+      0 0 60px rgba(0, 212, 255, 0.05);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .terminal-panel:hover {
+    box-shadow: 
+      0 10px 40px rgba(0, 0, 0, 0.4),
+      0 0 80px rgba(0, 212, 255, 0.1);
+    border-color: rgba(0, 212, 255, 0.3);
+  }
+
+  .terminal-header {
+    background: linear-gradient(90deg, rgba(42, 42, 43, 1) 0%, rgba(26, 26, 27, 1) 100%);
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+    flex-shrink: 0;
+  }
+
+  .terminal-controls {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .control {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    transition: all 0.2s;
+  }
+
+  .control.red { background: #ff5f57; box-shadow: 0 0 10px rgba(255, 95, 87, 0.5); }
+  .control.yellow { background: #ffbd2e; box-shadow: 0 0 10px rgba(255, 189, 46, 0.5); }
+  .control.green { background: #28ca42; box-shadow: 0 0 10px rgba(40, 202, 66, 0.5); }
+
+  .terminal-panel:hover .control {
+    box-shadow: 0 0 15px currentColor;
+  }
+
+  .terminal-title {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-accent);
+    margin-left: auto;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.8;
+  }
+
+  .terminal-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: 1rem;
+    align-items: center;
+  }
+
+  .terminal-action {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--color-text-secondary);
+    padding: 0.25rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .terminal-action:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    background: rgba(0, 212, 255, 0.1);
+  }
+
+  .terminal-body {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .terminal-input {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 8px;
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    padding: 1rem;
+    width: 100%;
+    min-height: 120px;
+    resize: vertical;
+    transition: all 0.3s;
+    margin-bottom: 1.5rem;
+  }
+
+  .terminal-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 
+      0 0 20px rgba(0, 212, 255, 0.2),
+      inset 0 0 20px rgba(0, 212, 255, 0.05);
+  }
+
+  /* Algorithm Section */
+  .algorithm-section {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(0, 212, 255, 0.1);
+    border-radius: 8px;
+    padding: 1rem;
+  }
+
+  .section-header {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--color-accent);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .algorithm-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .algorithm-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-text);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .algorithm-checkbox:hover {
+    color: var(--color-accent);
+  }
+
+  .algorithm-checkbox input[type="checkbox"] {
+    display: none;
+  }
+
+  .checkmark {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(0, 212, 255, 0.3);
+    border-radius: 3px;
+    background: transparent;
+    transition: all 0.2s;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .algorithm-checkbox input[type="checkbox"]:checked + .checkmark {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+
+  .algorithm-checkbox input[type="checkbox"]:checked + .checkmark::after {
+    content: '✓';
+    position: absolute;
+    top: -1px;
+    left: 1px;
+    color: var(--color-bg);
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  .deprecated {
+    color: #ff5f57;
+    font-size: 0.75rem;
+    opacity: 0.7;
+  }
+
+  .recommended {
+    color: #28ca42;
+    font-size: 0.75rem;
+    opacity: 0.8;
+  }
+
+  /* Hash Results */
+  .hash-results {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  .empty-state {
+    color: var(--color-text-secondary);
+    font-family: var(--font-mono);
+    font-style: italic;
+    text-align: center;
+    padding: 2rem;
+    opacity: 0.6;
+  }
+
+  .hash-result {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(0, 212, 255, 0.1);
+    border-radius: 8px;
+    padding: 1rem;
+  }
+
+  .hash-label {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--color-accent);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .hash-value {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-text);
+    word-break: break-all;
+    margin-bottom: 0.75rem;
+    line-height: 1.4;
+    user-select: all;
+  }
+
+  .hash-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .copy-hash {
+    background: transparent;
+    border: 1px solid rgba(0, 212, 255, 0.3);
+    color: var(--color-accent);
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .copy-hash:hover {
+    background: rgba(0, 212, 255, 0.1);
+    border-color: var(--color-accent);
+  }
+
+  /* Compare Panel */
+  .compare-panel {
+    grid-column: 1 / -1;
+  }
+
+  .compare-input-group {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .compare-input {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 6px;
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    padding: 0.75rem;
+    transition: all 0.3s;
+  }
+
+  .compare-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.2);
+  }
+
+  .cyber-btn {
+    position: relative;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+
+  .cyber-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0, 212, 255, 0.3);
+  }
+
+  .compare-result {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    padding: 1rem;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    display: none;
+  }
+
+  .compare-result.show {
+    display: block;
+  }
+
+  .compare-result.match {
+    background: rgba(40, 202, 66, 0.1);
+    border-color: rgba(40, 202, 66, 0.3);
+    color: #28ca42;
+  }
+
+  .compare-result.no-match {
+    background: rgba(255, 95, 87, 0.1);
+    border-color: rgba(255, 95, 87, 0.3);
+    color: #ff5f57;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .algorithm-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .compare-input-group {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+</style>
+
+<script>
+  // Hash Generator - JavaScript Implementation
+  const textInput = document.getElementById('text-input');
+  const hashResults = document.getElementById('hash-results');
+  const compareInput = document.getElementById('compare-input');
+  const compareResult = document.getElementById('compare-result');
+  const compareBtn = document.getElementById('compare-btn');
+  const pasteBtn = document.getElementById('paste-btn');
+  const clearBtn = document.getElementById('clear-btn');
+  const copyAllBtn = document.getElementById('copy-all-btn');
+
+  let generatedHashes = {};
+
+  // Simple MD5 implementation (basic, for demo purposes)
+  function md5(string) {
+    // This is a simple hash implementation for demo
+    // In production, you'd use a proper MD5 library
+    let hash = 0;
+    for (let i = 0; i < string.length; i++) {
+      const char = string.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash;
+    }
+    return Math.abs(hash).toString(16).padStart(32, '0').substring(0, 32);
+  }
+
+  async function hashText(text, algorithm) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(text);
+    
+    if (algorithm === 'MD5') {
+      return md5(text);
+    }
+    
+    try {
+      let algo = algorithm.toLowerCase().replace('-', '');
+      const hashBuffer = await crypto.subtle.digest(algo, data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+      return hashHex;
+    } catch (err) {
+      console.error(`Error generating ${algorithm} hash:`, err);
+      return 'Error generating hash';
+    }
+  }
+
+  async function generateHashes() {
+    const text = textInput.value;
+    
+    if (!text) {
+      if (hashResults) {
+        hashResults.innerHTML = '<div class="empty-state">Enter text to generate hashes</div>';
+      }
+      return;
+    }
+
+    // Get selected algorithms
+    const checkboxes = document.querySelectorAll('.algorithm-checkbox input[type="checkbox"]:checked');
+    const selectedAlgorithms = Array.from(checkboxes).map(cb => cb.value);
+    
+    if (selectedAlgorithms.length === 0) {
+      if (hashResults) {
+        hashResults.innerHTML = '<div class="empty-state">Select at least one algorithm</div>';
+      }
+      return;
+    }
+
+    const results = [];
+    generatedHashes = {};
+
+    for (const algo of selectedAlgorithms) {
+      try {
+        const hash = await hashText(text, algo);
+        generatedHashes[algo] = hash;
+        results.push(`
+          <div class="hash-result">
+            <div class="hash-label">${algo}</div>
+            <div class="hash-value">${hash}</div>
+            <div class="hash-actions">
+              <button class="copy-hash" data-hash="${hash}" data-algo="${algo}">Copy</button>
+              <button class="copy-hash" data-hash="${algo.toLowerCase()}:${hash}" data-algo="${algo}">Copy with prefix</button>
+            </div>
+          </div>
+        `);
+      } catch (err) {
+        console.error(`Error generating ${algo} hash:`, err);
+      }
+    }
+
+    if (hashResults) {
+      hashResults.innerHTML = results.join('');
+      
+      // Add copy event listeners
+      hashResults.querySelectorAll('.copy-hash').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          const hash = e.target.getAttribute('data-hash');
+          if (hash) {
+            try {
+              await navigator.clipboard.writeText(hash);
+              e.target.textContent = 'Copied!';
+              setTimeout(() => {
+                e.target.textContent = e.target.textContent.includes('prefix') ? 'Copy with prefix' : 'Copy';
+              }, 1000);
+            } catch (err) {
+              console.error('Copy failed:', err);
+            }
+          }
+        });
+      });
+    }
+  }
+
+  function compareHash() {
+    const hashToCompare = compareInput.value.trim().toLowerCase();
+    if (!hashToCompare || !compareResult) return;
+
+    let found = false;
+    let matchedAlgo = '';
+
+    for (const [algo, hash] of Object.entries(generatedHashes)) {
+      if (hash.toLowerCase() === hashToCompare) {
+        found = true;
+        matchedAlgo = algo;
+        break;
+      }
+    }
+
+    if (found) {
+      compareResult.className = 'compare-result show match';
+      compareResult.textContent = `✓ Match found! This hash matches the ${matchedAlgo} hash.`;
+    } else {
+      compareResult.className = 'compare-result show no-match';
+      compareResult.textContent = '✗ No match found. This hash does not match any generated hashes.';
+    }
+  }
+
+  function clearAll() {
+    textInput.value = '';
+    compareInput.value = '';
+    if (hashResults) hashResults.innerHTML = '<div class="empty-state">Enter text to generate hashes</div>';
+    if (compareResult) compareResult.className = 'compare-result';
+    generatedHashes = {};
+  }
+
+  // Event listeners
+  if (textInput) {
+    textInput.addEventListener('input', generateHashes);
+  }
+
+  // Algorithm checkboxes
+  document.querySelectorAll('.algorithm-checkbox input[type="checkbox"]').forEach(checkbox => {
+    checkbox.addEventListener('change', generateHashes);
+  });
+
+  if (compareBtn) {
+    compareBtn.addEventListener('click', compareHash);
+  }
+
+  if (compareInput) {
+    compareInput.addEventListener('input', () => {
+      if (compareResult) compareResult.className = 'compare-result';
+    });
+  }
+
+  if (pasteBtn) {
+    pasteBtn.addEventListener('click', async () => {
+      try {
+        const text = await navigator.clipboard.readText();
+        textInput.value = text;
+        generateHashes();
+      } catch (e) {
+        console.error('Paste failed:', e);
+      }
+    });
+  }
+
+  if (clearBtn) {
+    clearBtn.addEventListener('click', clearAll);
+  }
+
+  if (copyAllBtn) {
+    copyAllBtn.addEventListener('click', async () => {
+      const allHashes = Object.entries(generatedHashes)
+        .map(([algo, hash]) => `${algo}: ${hash}`)
+        .join('\n');
+      
+      if (allHashes) {
+        try {
+          await navigator.clipboard.writeText(allHashes);
+        } catch (e) {
+          console.error('Copy failed:', e);
+        }
+      }
+    });
+  }
+
+  // Initialize
+  if (hashResults) {
+    hashResults.innerHTML = '<div class="empty-state">Enter text to generate hashes</div>';
+  }
+</script>

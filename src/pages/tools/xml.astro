@@ -1,0 +1,911 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CaiatechToolLayout from '../../components/tools/CaiatechToolLayout.astro';
+import ToolAttribution from '../../components/tools/ToolAttribution.astro';
+import PrivacyBadge from '../../components/tools/PrivacyBadge.astro';
+---
+
+<BaseLayout title="XML Formatter - Caiatech">
+  <CaiatechToolLayout 
+    title="XML Formatter & Validator" 
+    description="Format, validate, and minify XML documents with syntax highlighting"
+    icon="XML">
+    
+    <div slot="header-actions">
+      <PrivacyBadge />
+    </div>
+    
+    <div class="tool-container">
+      <!-- Options Panel -->
+      <div class="options-panel">
+        <h3 class="options-title">⚙️ XML OPTIONS</h3>
+        <div class="options-grid">
+          <div class="option-group">
+            <label>Format</label>
+            <select id="format-mode">
+              <option value="beautify" selected>Beautify</option>
+              <option value="minify">Minify</option>
+              <option value="validate">Validate Only</option>
+            </select>
+          </div>
+          <div class="option-group">
+            <label>Indentation</label>
+            <select id="indent-size">
+              <option value="2" selected>2 spaces</option>
+              <option value="4">4 spaces</option>
+              <option value="tab">Tab</option>
+            </select>
+          </div>
+          <div class="option-group checkbox-group">
+            <label class="checkbox-option">
+              <input type="checkbox" id="preserve-comments" checked>
+              <span class="checkbox-custom"></span>
+              <span>Preserve comments</span>
+            </label>
+            <label class="checkbox-option">
+              <input type="checkbox" id="sort-attributes">
+              <span class="checkbox-custom"></span>
+              <span>Sort attributes</span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <!-- Terminal-style input section -->
+      <div class="terminal-panel input-terminal">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">INPUT://xml</span>
+          <div class="terminal-actions">
+            <button class="terminal-action" id="clear-input-btn" title="Clear">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6"/>
+              </svg>
+            </button>
+            <button class="terminal-action" id="paste-btn" title="Paste">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/>
+                <rect x="8" y="2" width="8" height="4" rx="1"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-prompt">
+            <span class="prompt-symbol">$</span>
+            <span class="prompt-text">xml</span>
+            <span class="prompt-arrow">→</span>
+          </div>
+          <textarea 
+            id="input" 
+            class="terminal-input"
+            placeholder="Paste your XML here...\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n  <element attr=\"value\">Content</element>\n</root>"
+            spellcheck="false"
+            rows="12"
+          ></textarea>
+        </div>
+      </div>
+
+      <!-- Control center -->
+      <div class="control-center">
+        <div class="control-grid">
+          <button id="process-btn" class="cyber-btn primary">
+            <span class="btn-glow"></span>
+            <span class="btn-text">Process</span>
+          </button>
+          <button id="clear-btn" class="cyber-btn secondary">
+            <span class="btn-text">Clear All</span>
+          </button>
+          <button id="sample-btn" class="cyber-btn secondary">
+            <span class="btn-text">Load Sample</span>
+          </button>
+          <button id="copy-btn" class="cyber-btn secondary">
+            <span class="btn-text">Copy Output</span>
+          </button>
+        </div>
+        
+        <!-- Status indicator -->
+        <div class="status-bar">
+          <div class="status-indicator" id="status">
+            <span class="status-dot"></span>
+            <span class="status-text">Ready</span>
+          </div>
+          <div class="stats" id="stats">
+            <span class="stat-item">Input: <span id="input-length">0</span> chars</span>
+            <span class="stat-separator">•</span>
+            <span class="stat-item">Output: <span id="output-length">0</span> chars</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Terminal-style output section -->
+      <div class="terminal-panel output-terminal">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">OUTPUT://xml.result</span>
+          <div class="terminal-actions">
+            <button class="terminal-action" id="copy-output-btn" title="Copy">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2"/>
+                <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+              </svg>
+            </button>
+            <button class="terminal-action" id="download-btn" title="Download">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-prompt">
+            <span class="prompt-symbol">></span>
+            <span class="prompt-text">result</span>
+          </div>
+          <pre id="output" class="terminal-output"></pre>
+        </div>
+      </div>
+    </div>
+    
+    <ToolAttribution toolName="XML Formatter & Validator" version="2.0.0" />
+  </CaiatechToolLayout>
+</BaseLayout>
+
+<style>
+  .tool-container {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  /* Terminal panels */
+  .terminal-panel {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 
+      0 10px 40px rgba(0, 0, 0, 0.3),
+      0 0 60px rgba(0, 212, 255, 0.05);
+    transition: all 0.3s ease;
+  }
+
+  .terminal-panel:hover {
+    box-shadow: 
+      0 10px 40px rgba(0, 0, 0, 0.4),
+      0 0 80px rgba(0, 212, 255, 0.1);
+    border-color: rgba(0, 212, 255, 0.3);
+  }
+
+  .terminal-header {
+    background: linear-gradient(90deg, rgba(42, 42, 43, 1) 0%, rgba(26, 26, 27, 1) 100%);
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .terminal-controls {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .control {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    transition: all 0.2s;
+  }
+
+  .control.red { 
+    background: #ff5f57; 
+    box-shadow: 0 0 10px rgba(255, 95, 87, 0.5);
+  }
+  .control.yellow { 
+    background: #ffbd2e; 
+    box-shadow: 0 0 10px rgba(255, 189, 46, 0.5);
+  }
+  .control.green { 
+    background: #28ca42; 
+    box-shadow: 0 0 10px rgba(40, 202, 66, 0.5);
+  }
+
+  .terminal-panel:hover .control {
+    box-shadow: 0 0 15px currentColor;
+  }
+
+  .terminal-title {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-accent);
+    margin-left: auto;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.8;
+  }
+
+  .terminal-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: 1rem;
+  }
+
+  .terminal-action {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--color-text-secondary);
+    padding: 0.25rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .terminal-action:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    background: rgba(0, 212, 255, 0.1);
+  }
+
+  .terminal-body {
+    padding: 1.5rem;
+  }
+
+  .terminal-prompt {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .prompt-symbol {
+    color: var(--color-accent);
+    font-weight: bold;
+  }
+
+  .prompt-text {
+    color: var(--color-text-secondary);
+  }
+
+  .prompt-arrow {
+    color: var(--color-accent);
+    opacity: 0.5;
+  }
+
+  .terminal-input,
+  .terminal-output {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 8px;
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    padding: 1rem;
+    width: 100%;
+    min-height: 200px;
+    resize: vertical;
+    transition: all 0.3s;
+  }
+
+  .terminal-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 
+      0 0 20px rgba(0, 212, 255, 0.2),
+      inset 0 0 20px rgba(0, 212, 255, 0.05);
+  }
+
+  .terminal-output {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.6;
+  }
+
+  /* Control center */
+  .control-center {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.02) 0%, rgba(118, 75, 162, 0.02) 100%);
+    border: 1px solid rgba(0, 212, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+
+  .control-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Cyber buttons */
+  .cyber-btn {
+    position: relative;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+
+  .cyber-btn.primary {
+    border-color: var(--color-accent);
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  }
+
+  .cyber-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0, 212, 255, 0.3);
+  }
+
+  .cyber-btn.primary:hover {
+    border-color: var(--color-accent);
+    box-shadow: 
+      0 5px 30px rgba(0, 212, 255, 0.4),
+      inset 0 0 30px rgba(0, 212, 255, 0.1);
+  }
+
+  .btn-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--color-accent) 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+
+  .cyber-btn:hover .btn-glow {
+    width: 300px;
+    height: 300px;
+    opacity: 0;
+  }
+
+  .btn-text {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  /* Status bar */
+  .status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    border: 1px solid rgba(0, 212, 255, 0.1);
+  }
+
+  .status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { 
+      opacity: 1;
+      box-shadow: 0 0 10px var(--color-accent);
+    }
+    50% { 
+      opacity: 0.5;
+      box-shadow: 0 0 5px var(--color-accent);
+    }
+  }
+
+  .status-text {
+    color: var(--color-text-secondary);
+  }
+
+  .stats {
+    display: flex;
+    gap: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+  }
+
+  .stat-item {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .stat-separator {
+    opacity: 0.3;
+  }
+
+  /* Success/Error states */
+  .status-indicator.success .status-dot {
+    background: #28ca42;
+    animation: success-pulse 1s;
+  }
+
+  .status-indicator.error .status-dot {
+    background: #ff5f57;
+    animation: error-pulse 1s;
+  }
+
+  @keyframes success-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.5); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes error-pulse {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+  }
+
+  /* Options panel */
+  .options-panel {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 
+      0 10px 40px rgba(0, 0, 0, 0.3),
+      0 0 60px rgba(0, 212, 255, 0.05);
+  }
+
+  .options-title {
+    margin: 0 0 1rem 0;
+    font-size: 0.9rem;
+    color: var(--color-accent);
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+
+  .option-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .option-group label {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    font-family: var(--font-mono);
+  }
+
+  .option-group select {
+    padding: 0.5rem;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 6px;
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .option-group select:hover,
+  .option-group select:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.2);
+  }
+
+  .checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .checkbox-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+  }
+
+  .checkbox-option input[type="checkbox"] {
+    display: none;
+  }
+
+  .checkbox-custom {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(0, 212, 255, 0.3);
+    border-radius: 3px;
+    position: relative;
+    transition: all 0.3s;
+    flex-shrink: 0;
+  }
+
+  .checkbox-option input[type="checkbox"]:checked + .checkbox-custom {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+  }
+
+  .checkbox-option input[type="checkbox"]:checked + .checkbox-custom::after {
+    content: '✓';
+    position: absolute;
+    top: -2px;
+    left: 2px;
+    color: var(--color-background);
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .options-grid {
+      grid-template-columns: 1fr;
+    }
+    .control-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .stats {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .stat-separator {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // XML Formatter & Validator - Complete Implementation
+  (function() {
+    const input = document.getElementById('input');
+    const output = document.getElementById('output');
+    const status = document.getElementById('status');
+    const statusText = status.querySelector('.status-text');
+    const inputLength = document.getElementById('input-length');
+    const outputLength = document.getElementById('output-length');
+    
+    const processBtn = document.getElementById('process-btn');
+    const clearBtn = document.getElementById('clear-btn');
+    const sampleBtn = document.getElementById('sample-btn');
+    const copyBtn = document.getElementById('copy-btn');
+    const copyOutputBtn = document.getElementById('copy-output-btn');
+    const downloadBtn = document.getElementById('download-btn');
+    const pasteBtn = document.getElementById('paste-btn');
+    const clearInputBtn = document.getElementById('clear-input-btn');
+    
+    // XML formatting functions
+    function parseXML(xmlString) {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(xmlString, 'text/xml');
+      
+      // Check for parser errors
+      const parserError = doc.querySelector('parsererror');
+      if (parserError) {
+        const errorText = parserError.textContent || 'XML parsing error';
+        throw new Error(errorText.split('\n')[0]);
+      }
+      
+      return doc;
+    }
+    
+    function formatXML(xmlDoc, indentSize = 2, preserveComments = true, sortAttributes = false) {
+      const indentStr = indentSize === 'tab' ? '\t' : ' '.repeat(indentSize);
+      
+      function nodeToString(node, level = 0) {
+        const indent = indentStr.repeat(level);
+        const nextIndent = indentStr.repeat(level + 1);
+        
+        if (node.nodeType === Node.TEXT_NODE) {
+          const text = node.textContent.trim();
+          return text ? text : '';
+        }
+        
+        if (node.nodeType === Node.COMMENT_NODE) {
+          return preserveComments ? indent + '<!--' + node.textContent + '-->' : '';
+        }
+        
+        if (node.nodeType === Node.ELEMENT_NODE) {
+          let result = indent + '<' + node.nodeName;
+          
+          // Add attributes
+          if (node.attributes && node.attributes.length > 0) {
+            const attrs = Array.from(node.attributes);
+            if (sortAttributes) {
+              attrs.sort((a, b) => a.name.localeCompare(b.name));
+            }
+            
+            attrs.forEach(attr => {
+              result += ' ' + attr.name + '="' + escapeXML(attr.value) + '"';
+            });
+          }
+          
+          // Check if self-closing
+          if (!node.hasChildNodes()) {
+            result += '/>';
+            return result;
+          }
+          
+          result += '>';
+          
+          // Process children
+          const children = Array.from(node.childNodes);
+          const hasTextOnly = children.every(child => 
+            child.nodeType === Node.TEXT_NODE || child.nodeType === Node.CDATA_SECTION_NODE
+          );
+          
+          if (hasTextOnly) {
+            const text = children.map(child => child.textContent).join('').trim();
+            if (text) {
+              result += escapeXML(text);
+            }
+            result += '</' + node.nodeName + '>';
+          } else {
+            result += '\n';
+            children.forEach(child => {
+              const childStr = nodeToString(child, level + 1);
+              if (childStr) {
+                result += childStr + '\n';
+              }
+            });
+            result += indent + '</' + node.nodeName + '>';
+          }
+          
+          return result;
+        }
+        
+        if (node.nodeType === Node.DOCUMENT_NODE) {
+          let result = '';
+          
+          // Add XML declaration if it exists
+          if (xmlDoc.xmlVersion) {
+            result = '<?xml version="' + (xmlDoc.xmlVersion || '1.0') + '"';
+            if (xmlDoc.xmlEncoding) {
+              result += ' encoding="' + xmlDoc.xmlEncoding + '"';
+            }
+            result += '?>\n';
+          }
+          
+          // Process children
+          Array.from(node.childNodes).forEach(child => {
+            const childStr = nodeToString(child, 0);
+            if (childStr) {
+              result += childStr + '\n';
+            }
+          });
+          
+          return result.trim();
+        }
+        
+        return '';
+      }
+      
+      return nodeToString(xmlDoc);
+    }
+    
+    function minifyXML(xmlString) {
+      // Remove comments
+      let minified = xmlString.replace(/<!--[\s\S]*?-->/g, '');
+      // Remove whitespace between tags
+      minified = minified.replace(/>\s+</g, '><');
+      // Remove leading/trailing whitespace
+      minified = minified.trim();
+      return minified;
+    }
+    
+    function escapeXML(str) {
+      return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&apos;');
+    }
+    
+    function updateStats() {
+      inputLength.textContent = input.value.length;
+      outputLength.textContent = output.textContent.length;
+    }
+    
+    function setStatus(text, type = 'normal') {
+      status.className = 'status-indicator ' + type;
+      statusText.textContent = text;
+      
+      if (type !== 'normal') {
+        setTimeout(() => {
+          status.className = 'status-indicator';
+          statusText.textContent = 'Ready';
+        }, 3000);
+      }
+    }
+    
+    function processInput() {
+      const text = input.value.trim();
+      if (!text) {
+        setStatus('Please enter some XML', 'error');
+        return;
+      }
+      
+      const formatMode = document.getElementById('format-mode').value;
+      const indentSelect = document.getElementById('indent-size');
+      const indentSize = indentSelect.value === 'tab' ? 'tab' : parseInt(indentSelect.value);
+      const preserveComments = document.getElementById('preserve-comments').checked;
+      const sortAttributes = document.getElementById('sort-attributes').checked;
+      
+      try {
+        let result;
+        
+        if (formatMode === 'minify') {
+          result = minifyXML(text);
+          setStatus('XML minified', 'success');
+        } else {
+          // Parse XML
+          const xmlDoc = parseXML(text);
+          
+          if (formatMode === 'validate') {
+            result = 'XML is valid!\n\n' + text;
+            setStatus('XML is valid', 'success');
+          } else {
+            // Beautify
+            result = formatXML(xmlDoc, indentSize, preserveComments, sortAttributes);
+            setStatus('XML formatted', 'success');
+          }
+        }
+        
+        output.textContent = result;
+        
+      } catch (error) {
+        setStatus('Error: ' + error.message, 'error');
+        output.textContent = '';
+      }
+      
+      updateStats();
+    }
+    
+    function clearAll() {
+      input.value = '';
+      output.textContent = '';
+      updateStats();
+      setStatus('Cleared', 'success');
+    }
+    
+    function clearInput() {
+      input.value = '';
+      output.textContent = '';
+      updateStats();
+      setStatus('Input cleared', 'success');
+    }
+    
+    async function copyOutput() {
+      const text = output.textContent;
+      if (!text) {
+        setStatus('Nothing to copy', 'error');
+        return;
+      }
+      
+      try {
+        await navigator.clipboard.writeText(text);
+        setStatus('Copied to clipboard', 'success');
+      } catch (error) {
+        setStatus('Copy failed', 'error');
+      }
+    }
+    
+    function downloadOutput() {
+      const text = output.textContent;
+      if (!text) {
+        setStatus('Nothing to download', 'error');
+        return;
+      }
+      
+      const blob = new Blob([text], { type: 'text/xml' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'formatted.xml';
+      a.click();
+      URL.revokeObjectURL(url);
+      setStatus('Downloaded', 'success');
+    }
+    
+    async function pasteInput() {
+      try {
+        const text = await navigator.clipboard.readText();
+        input.value = text;
+        updateStats();
+        setStatus('Pasted from clipboard', 'success');
+      } catch (error) {
+        setStatus('Paste failed - check permissions', 'error');
+      }
+    }
+    
+    function loadSample() {
+      input.value = `<?xml version="1.0" encoding="UTF-8"?>
+<catalog>
+  <!-- Book collection -->
+  <book id="bk101" category="fiction">
+    <author>Gambardella, Matthew</author>
+    <title>XML Developer's Guide</title>
+    <genre>Computer</genre>
+    <price currency="USD">44.95</price>
+    <publish_date>2000-10-01</publish_date>
+    <description>An in-depth look at creating applications with XML.</description>
+  </book>
+  <book id="bk102" category="fiction">
+    <author>Ralls, Kim</author>
+    <title>Midnight Rain</title>
+    <genre>Fantasy</genre>
+    <price currency="USD">5.95</price>
+    <publish_date>2000-12-16</publish_date>
+    <description>A former architect battles corporate zombies.</description>
+  </book>
+  <metadata>
+    <created>2024-01-15</created>
+    <modified>2024-01-20</modified>
+    <version>1.0</version>
+  </metadata>
+</catalog>`;
+      processInput();
+    }
+    
+    // Event listeners
+    processBtn.addEventListener('click', processInput);
+    clearBtn.addEventListener('click', clearAll);
+    clearInputBtn.addEventListener('click', clearInput);
+    sampleBtn.addEventListener('click', loadSample);
+    copyBtn.addEventListener('click', copyOutput);
+    copyOutputBtn.addEventListener('click', copyOutput);
+    downloadBtn.addEventListener('click', downloadOutput);
+    pasteBtn.addEventListener('click', pasteInput);
+    
+    // Update stats on input
+    input.addEventListener('input', updateStats);
+    
+    // Keyboard shortcuts
+    input.addEventListener('keydown', function(e) {
+      if (e.ctrlKey || e.metaKey) {
+        if (e.key === 'Enter') {
+          processInput();
+        }
+      }
+    });
+    
+    // Initial stats
+    updateStats();
+  })();
+</script>

@@ -1,0 +1,539 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout 
+  title="Caia Tech - Computer Science Research & Practical AI Implementations" 
+  description="Building the future of creative technology with ML. From transformers to Kubernetes: Full-stack innovation in distributed systems, machine learning pipeline optimization, and open source AI research."
+  canonical="https://caiatech.com/"
+>
+  <section class="hero" itemscope itemtype="https://schema.org/Organization">
+    <div class="container">
+      <div class="hero-content">
+        <h1 itemprop="name">
+          <span class="mono">Caia</span>
+          <span class="accent">Tech</span>
+        </h1>
+        <div class="button-container">
+          <a href="/articles/" class="terminal-btn"><span class="prompt">$</span> ./articles</a>
+          <a href="/tools/" class="terminal-btn"><span class="prompt">$</span> ./tools</a>
+          <button class="terminal-btn" onclick="showModal('Software')"><span class="prompt">$</span> ./software</button>
+          <button class="terminal-btn" onclick="showModal('Papers')"><span class="prompt">$</span> ./papers</button>
+          <button class="terminal-btn" onclick="showModal('Books')"><span class="prompt">$</span> ./books</button>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="terminal-controls">
+              <span class="control red"></span>
+              <span class="control yellow"></span>
+              <span class="control green"></span>
+            </div>
+            <span class="terminal-title">caia://</span>
+          </div>
+          <div class="terminal-body">
+            <div class="terminal-line">
+              <span class="prompt">$</span>
+              <span class="command">kubectl apply -f ml-pipeline.yaml</span>
+            </div>
+            <div class="terminal-line output">
+              <span class="text-accent">✓</span> Deploying transformer model...
+            </div>
+            <div class="terminal-line output">
+              <span class="text-accent">✓</span> Optimizing neural network layers
+            </div>
+            <div class="terminal-line output">
+              <span class="text-accent">✓</span> Scaling distributed compute nodes
+            </div>
+            <div class="terminal-line">
+              <span class="prompt">$</span>
+              <span class="cursor">_</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="contact-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-links">
+          <a href="/" class="footer-link">Home</a>
+          <span class="separator">•</span>
+          <a href="/articles/" class="footer-link">Articles</a>
+          <span class="separator">•</span>
+          <a href="https://theburden.org" target="_blank" rel="noopener noreferrer" class="footer-link">The Burden</a>
+          <span class="separator">•</span>
+          <a href="https://gitforensics.org" target="_blank" rel="noopener noreferrer" class="footer-link">Git Forensics</a>
+        </div>
+        <div class="contact-info">
+          <a href="mailto:owner@caiatech.com" class="contact-email">owner@caiatech.com</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div id="modal" class="modal">
+    <div class="modal-terminal">
+      <div class="modal-terminal-header">
+        <div class="terminal-controls">
+          <span class="control red" onclick="closeModal()"></span>
+          <span class="control yellow"></span>
+          <span class="control green"></span>
+        </div>
+        <span class="terminal-title" id="modal-title">caia://</span>
+      </div>
+      <div class="modal-terminal-body">
+        <div class="terminal-line">
+          <span class="prompt">$</span>
+          <span class="command" id="modal-command">./software</span>
+        </div>
+        <div class="terminal-line output" id="modal-output-1">
+          <span class="text-accent">></span> Initializing module...
+        </div>
+        <div class="terminal-line output" id="modal-output-2">
+          <span class="text-accent">></span> Status: Coming soon!
+        </div>
+        <div class="terminal-line">
+          <span class="prompt">$</span>
+          <span class="cursor">_</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</BaseLayout>
+
+<script>
+  window.showModal = function(title) {
+    const modal = document.getElementById('modal');
+    const modalTitle = document.getElementById('modal-title');
+    const modalCommand = document.getElementById('modal-command');
+    const output1 = document.getElementById('modal-output-1');
+    const output2 = document.getElementById('modal-output-2');
+    
+    modalTitle.textContent = `caia://${title.toLowerCase()}`;
+    modalCommand.textContent = `./${title.toLowerCase()}`;
+    
+    if (title === 'Books') {
+      output1.innerHTML = '<span class="text-accent">></span> The Burden: <a href="https://theburden.org" target="_blank" rel="noopener noreferrer" class="terminal-link">theburden.org</a>';
+      output2.innerHTML = '<span class="text-accent">></span> Git Forensics: <a href="https://gitforensics.org" target="_blank" rel="noopener noreferrer" class="terminal-link">gitforensics.org</a>';
+    } else if (title === 'Software') {
+      output1.innerHTML = '<span class="text-accent">></span> Loading open source AI research projects...';
+      output2.innerHTML = '<span class="text-accent">></span> Full-stack implementations coming soon!';
+    } else if (title === 'Papers') {
+      output1.innerHTML = '<span class="text-accent">></span> Accessing peer-reviewed ML implementations...';
+      output2.innerHTML = '<span class="text-accent">></span> Research publications coming soon!';
+    }
+    
+    modal.style.display = 'flex';
+  }
+
+  window.closeModal = function() {
+    const modal = document.getElementById('modal');
+    modal.style.display = 'none';
+  }
+
+  window.onclick = function(event) {
+    const modal = document.getElementById('modal');
+    if (event.target === modal) {
+      modal.style.display = 'none';
+    }
+  }
+</script>
+
+<style>
+  .hero {
+    min-height: calc(100vh - 60px);
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, var(--color-bg) 0%, #151516 100%);
+    position: relative;
+    overflow: hidden;
+    padding: 2rem 0;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 20% 80%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(0, 212, 255, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .hero-content {
+    z-index: 1;
+  }
+
+  .hero h1 {
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 700;
+    line-height: 0.9;
+    margin-bottom: 1rem;
+  }
+
+  .mono {
+    font-family: var(--font-mono);
+    color: var(--color-text);
+  }
+
+  .accent {
+    color: var(--color-accent);
+    font-family: var(--font-mono);
+  }
+
+  .button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 2rem;
+    align-items: flex-start;
+  }
+
+  .terminal-btn {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    padding: 0.75rem 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 0.25rem;
+    transition: all 0.2s ease;
+    position: relative;
+    min-width: 180px;
+    text-align: left;
+  }
+
+  .terminal-btn:hover {
+    border-color: var(--color-accent);
+    background: rgba(0, 212, 255, 0.05);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.1);
+  }
+
+  .terminal-btn:hover .prompt {
+    color: var(--color-accent);
+  }
+
+  .terminal-btn .prompt {
+    color: var(--color-accent);
+    opacity: 0.7;
+    transition: all 0.2s ease;
+    margin-right: 0.5rem;
+  }
+
+  .terminal {
+    background: var(--color-surface);
+    border-radius: 0.75rem;
+    border: 1px solid var(--color-border);
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  .terminal-header {
+    background: var(--color-border);
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .terminal-controls {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .control {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+
+  .control.red { background: #ff5f57; }
+  .control.yellow { background: #ffbd2e; }
+  .control.green { background: #28ca42; }
+
+  .terminal-title {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    margin-left: auto;
+  }
+
+  .terminal-body {
+    padding: 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .terminal-line {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .prompt {
+    color: var(--color-accent);
+  }
+
+  .badge-new {
+    background: linear-gradient(135deg, #4caf50, #45a049);
+    color: white;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    margin-left: 0.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    display: inline-block;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+  }
+
+  .command {
+    color: var(--color-text);
+  }
+
+  .output {
+    color: var(--color-text-secondary);
+  }
+
+  .text-accent {
+    color: var(--color-accent);
+  }
+
+  .cursor {
+    color: var(--color-accent);
+    animation: blink 1s infinite;
+  }
+
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+
+  .contact-footer {
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    padding: 3rem 0;
+  }
+
+  .contact-footer .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-content {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-links {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .footer-link {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+  }
+
+  .footer-link:hover {
+    color: var(--color-accent);
+  }
+
+  .separator {
+    color: var(--color-text-secondary);
+    opacity: 0.3;
+  }
+
+  .contact-info {
+    text-align: right;
+  }
+
+  .contact-email {
+    color: var(--color-accent);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+  }
+
+  .contact-email:hover {
+    color: var(--color-accent-hover);
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+  }
+
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-terminal {
+    background: var(--color-surface);
+    border-radius: 0.75rem;
+    border: 1px solid var(--color-border);
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    max-width: 500px;
+    width: 90%;
+  }
+
+  .modal-terminal-header {
+    background: var(--color-border);
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .modal-terminal-header .terminal-controls {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .modal-terminal-header .control {
+    cursor: pointer;
+  }
+
+  .modal-terminal-header .control.red:hover {
+    opacity: 0.8;
+  }
+
+  .modal-terminal-body {
+    padding: 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .modal-terminal-body .terminal-line {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .modal-terminal-body .prompt {
+    color: var(--color-accent);
+  }
+
+  .modal-terminal-body .command {
+    color: var(--color-text);
+  }
+
+  .modal-terminal-body .output {
+    color: var(--color-text-secondary);
+  }
+
+  .modal-terminal-body .text-accent {
+    color: var(--color-accent);
+  }
+
+  .modal-terminal-body .cursor {
+    color: var(--color-accent);
+    animation: blink 1s infinite;
+  }
+
+  .terminal-link {
+    color: var(--color-accent);
+    text-decoration: underline;
+    transition: all 0.2s ease;
+  }
+
+  .terminal-link:hover {
+    color: var(--color-accent-hover);
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+  }
+
+  @media (max-width: 768px) {
+    .hero {
+      padding: 4rem 0;
+    }
+
+    .contact-footer .container {
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .footer-content {
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .footer-links {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .contact-info {
+      text-align: center;
+    }
+
+
+    .container {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .button-container {
+      align-items: center;
+      width: 100%;
+    }
+
+    .terminal-btn {
+      width: 100%;
+      max-width: 250px;
+    }
+
+    .terminal {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .contact-footer {
+      padding: 1.5rem 0;
+    }
+  }
+</style>

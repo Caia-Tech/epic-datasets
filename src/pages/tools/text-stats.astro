@@ -1,0 +1,1199 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CaiatechToolLayout from '../../components/tools/CaiatechToolLayout.astro';
+import ToolAttribution from '../../components/tools/ToolAttribution.astro';
+import PrivacyBadge from '../../components/tools/PrivacyBadge.astro';
+---
+
+<BaseLayout title="Text Statistics - Caiatech">
+  <CaiatechToolLayout 
+    title="Text Statistics" 
+    description="Analyze text statistics and readability"
+    icon="📊">
+    
+    <div slot="header-actions">
+      <PrivacyBadge />
+    </div>
+    
+    <div class="tool-container">
+      <!-- Terminal-style input section -->
+      <div class="terminal-panel input-terminal">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">INPUT://text-stats</span>
+          <div class="terminal-actions">
+            <button class="terminal-action" id="clear-input-btn" title="Clear">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6"/>
+              </svg>
+            </button>
+            <button class="terminal-action" id="paste-btn" title="Paste">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/>
+                <rect x="8" y="2" width="8" height="4" rx="1"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-prompt">
+            <span class="prompt-symbol">$</span>
+            <span class="prompt-text">text-stats</span>
+            <span class="prompt-arrow">→</span>
+          </div>
+          <textarea 
+            id="input" 
+            class="terminal-input"
+            placeholder="Enter text to analyze (supports multiple languages and formats)..."
+            spellcheck="false"
+          ></textarea>
+        </div>
+      </div>
+
+      <!-- Analysis Configuration -->
+      <div class="terminal-panel config-terminal">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">CONFIG://text.analysis</span>
+        </div>
+        <div class="terminal-body">
+          <div class="config-grid">
+            <div class="config-item">
+              <label for="include-readability">Readability Analysis:</label>
+              <select id="include-readability" class="config-select">
+                <option value="true" selected>Yes</option>
+                <option value="false">No</option>
+              </select>
+            </div>
+            <div class="config-item">
+              <label for="include-frequency">Word Frequency:</label>
+              <select id="include-frequency" class="config-select">
+                <option value="true" selected>Yes</option>
+                <option value="false">No</option>
+              </select>
+            </div>
+            <div class="config-item">
+              <label for="language-detection">Language Detection:</label>
+              <select id="language-detection" class="config-select">
+                <option value="true" selected>Yes</option>
+                <option value="false">No</option>
+              </select>
+            </div>
+            <div class="config-item">
+              <label for="sentiment-analysis">Sentiment Analysis:</label>
+              <select id="sentiment-analysis" class="config-select">
+                <option value="true" selected>Yes</option>
+                <option value="false">No</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Control center -->
+      <div class="control-center">
+        <div class="control-grid">
+          <button id="analyze-btn" class="cyber-btn primary">
+            <span class="btn-glow"></span>
+            <span class="btn-text">📊 Analyze Text</span>
+          </button>
+          <button id="compare-btn" class="cyber-btn primary">
+            <span class="btn-glow"></span>
+            <span class="btn-text">🔄 Compare</span>
+          </button>
+          <button id="export-btn" class="cyber-btn secondary">
+            <span class="btn-text">📈 Export CSV</span>
+          </button>
+          <button id="clear-btn" class="cyber-btn secondary">
+            <span class="btn-text">Clear All</span>
+          </button>
+        </div>
+        
+        <!-- Status indicator -->
+        <div class="status-bar">
+          <div class="status-indicator" id="status">
+            <span class="status-dot"></span>
+            <span class="status-text">Ready</span>
+          </div>
+          <div class="stats" id="stats">
+            <span class="stat-item">Input: <span id="input-length">0</span> chars</span>
+            <span class="stat-separator">•</span>
+            <span class="stat-item">Output: <span id="output-length">0</span> chars</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Terminal-style output section -->
+      <div class="terminal-panel output-terminal">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">OUTPUT://text-stats.result</span>
+          <div class="terminal-actions">
+            <button class="terminal-action" id="copy-output-btn" title="Copy">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2"/>
+                <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+              </svg>
+            </button>
+            <button class="terminal-action" id="download-btn" title="Download">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-prompt">
+            <span class="prompt-symbol">></span>
+            <span class="prompt-text">result</span>
+          </div>
+          <pre id="output" class="terminal-output"></pre>
+        </div>
+      </div>
+    </div>
+    
+    <ToolAttribution toolName="Text Statistics" version="2.0.0" />
+  </CaiatechToolLayout>
+</BaseLayout>
+
+<style>
+  .tool-container {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  /* Terminal panels */
+  .terminal-panel {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 
+      0 10px 40px rgba(0, 0, 0, 0.3),
+      0 0 60px rgba(0, 212, 255, 0.05);
+    transition: all 0.3s ease;
+  }
+
+  .terminal-panel:hover {
+    box-shadow: 
+      0 10px 40px rgba(0, 0, 0, 0.4),
+      0 0 80px rgba(0, 212, 255, 0.1);
+    border-color: rgba(0, 212, 255, 0.3);
+  }
+
+  .terminal-header {
+    background: linear-gradient(90deg, rgba(42, 42, 43, 1) 0%, rgba(26, 26, 27, 1) 100%);
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .terminal-controls {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .control {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    transition: all 0.2s;
+  }
+
+  .control.red { 
+    background: #ff5f57; 
+    box-shadow: 0 0 10px rgba(255, 95, 87, 0.5);
+  }
+  .control.yellow { 
+    background: #ffbd2e; 
+    box-shadow: 0 0 10px rgba(255, 189, 46, 0.5);
+  }
+  .control.green { 
+    background: #28ca42; 
+    box-shadow: 0 0 10px rgba(40, 202, 66, 0.5);
+  }
+
+  .terminal-panel:hover .control {
+    box-shadow: 0 0 15px currentColor;
+  }
+
+  .terminal-title {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-accent);
+    margin-left: auto;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.8;
+  }
+
+  .terminal-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: 1rem;
+  }
+
+  .terminal-action {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--color-text-secondary);
+    padding: 0.25rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .terminal-action:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    background: rgba(0, 212, 255, 0.1);
+  }
+
+  .terminal-body {
+    padding: 1.5rem;
+  }
+
+  .terminal-prompt {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .prompt-symbol {
+    color: var(--color-accent);
+    font-weight: bold;
+  }
+
+  .prompt-text {
+    color: var(--color-text-secondary);
+  }
+
+  .prompt-arrow {
+    color: var(--color-accent);
+    opacity: 0.5;
+  }
+
+  .terminal-input,
+  .terminal-output {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 8px;
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    padding: 1rem;
+    width: 100%;
+    min-height: 200px;
+    resize: vertical;
+    transition: all 0.3s;
+  }
+
+  .terminal-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 
+      0 0 20px rgba(0, 212, 255, 0.2),
+      inset 0 0 20px rgba(0, 212, 255, 0.05);
+  }
+
+  .terminal-output {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.6;
+  }
+
+  /* Control center */
+  .control-center {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.02) 0%, rgba(118, 75, 162, 0.02) 100%);
+    border: 1px solid rgba(0, 212, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+
+  .control-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Cyber buttons */
+  .cyber-btn {
+    position: relative;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+
+  .cyber-btn.primary {
+    border-color: var(--color-accent);
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  }
+
+  .cyber-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0, 212, 255, 0.3);
+  }
+
+  .cyber-btn.primary:hover {
+    border-color: var(--color-accent);
+    box-shadow: 
+      0 5px 30px rgba(0, 212, 255, 0.4),
+      inset 0 0 30px rgba(0, 212, 255, 0.1);
+  }
+
+  .btn-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--color-accent) 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+
+  .cyber-btn:hover .btn-glow {
+    width: 300px;
+    height: 300px;
+    opacity: 0;
+  }
+
+  .btn-text {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  /* Status bar */
+  .status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    border: 1px solid rgba(0, 212, 255, 0.1);
+  }
+
+  .status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { 
+      opacity: 1;
+      box-shadow: 0 0 10px var(--color-accent);
+    }
+    50% { 
+      opacity: 0.5;
+      box-shadow: 0 0 5px var(--color-accent);
+    }
+  }
+
+  .status-text {
+    color: var(--color-text-secondary);
+  }
+
+  .stats {
+    display: flex;
+    gap: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+  }
+
+  .stat-item {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .stat-separator {
+    opacity: 0.3;
+  }
+
+  /* Success/Error states */
+  .status-indicator.success .status-dot {
+    background: #28ca42;
+    animation: success-pulse 1s;
+  }
+
+  .status-indicator.error .status-dot {
+    background: #ff5f57;
+    animation: error-pulse 1s;
+  }
+
+  @keyframes success-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.5); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes error-pulse {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+  }
+
+  /* Config panel */
+  .config-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+
+  .config-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .config-item label {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+  }
+
+  .config-select {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 4px;
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    padding: 0.5rem;
+    transition: all 0.3s;
+  }
+
+  .config-select:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.2);
+  }
+
+  .config-select option {
+    background: var(--color-surface);
+    color: var(--color-text);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .control-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .stats {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .stat-separator {
+      display: none;
+    }
+
+    .config-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  // Comprehensive Text Statistics Analyzer
+  (function() {
+    // DOM elements
+    const input = document.getElementById('input');
+    const output = document.getElementById('output');
+    const status = document.getElementById('status');
+    const statusText = status.querySelector('.status-text');
+    const inputLength = document.getElementById('input-length');
+    const outputLength = document.getElementById('output-length');
+    
+    const includeReadability = document.getElementById('include-readability');
+    const includeFrequency = document.getElementById('include-frequency');
+    const languageDetection = document.getElementById('language-detection');
+    const sentimentAnalysis = document.getElementById('sentiment-analysis');
+    
+    const analyzeBtn = document.getElementById('analyze-btn');
+    const compareBtn = document.getElementById('compare-btn');
+    const exportBtn = document.getElementById('export-btn');
+    const clearBtn = document.getElementById('clear-btn');
+    const copyOutputBtn = document.getElementById('copy-output-btn');
+    const downloadBtn = document.getElementById('download-btn');
+    const pasteBtn = document.getElementById('paste-btn');
+    const clearInputBtn = document.getElementById('clear-input-btn');
+    
+    let lastAnalysis = null;
+    
+    function updateStats() {
+      inputLength.textContent = input.value.length;
+      outputLength.textContent = output.textContent.length;
+    }
+    
+    function setStatus(text, type = 'normal') {
+      status.className = 'status-indicator ' + type;
+      statusText.textContent = text;
+      
+      if (type !== 'normal') {
+        setTimeout(() => {
+          status.className = 'status-indicator';
+          statusText.textContent = 'Ready';
+        }, 3000);
+      }
+    }
+    
+    // Text analysis functions
+    function analyzeText() {
+      const text = input.value.trim();
+      if (!text) {
+        setStatus('Please enter text to analyze', 'error');
+        return;
+      }
+      
+      setStatus('Analyzing text...', 'working');
+      
+      const analysisConfig = {
+        includeReadability: includeReadability.value === 'true',
+        includeFrequency: includeFrequency.value === 'true',
+        languageDetection: languageDetection.value === 'true',
+        sentimentAnalysis: sentimentAnalysis.value === 'true'
+      };
+      
+      const analysis = performTextAnalysis(text, analysisConfig);
+      lastAnalysis = analysis;
+      
+      displayAnalysis(analysis);
+      setStatus('Text analysis completed!', 'success');
+      updateStats();
+    }
+    
+    function performTextAnalysis(text, config) {
+      const analysis = {
+        timestamp: new Date().toISOString(),
+        config: config,
+        basic: calculateBasicStats(text),
+        advanced: calculateAdvancedStats(text),
+        readability: config.includeReadability ? calculateReadability(text) : null,
+        frequency: config.includeFrequency ? calculateWordFrequency(text) : null,
+        language: config.languageDetection ? detectLanguage(text) : null,
+        sentiment: config.sentimentAnalysis ? analyzeSentiment(text) : null
+      };
+      
+      return analysis;
+    }
+    
+    function calculateBasicStats(text) {
+      const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0);
+      const paragraphs = text.split(/\n\s*\n/).filter(p => p.trim().length > 0);
+      const words = text.trim() ? text.trim().split(/\s+/) : [];
+      const characters = text.length;
+      const charactersNoSpaces = text.replace(/\s/g, '').length;
+      const lines = text.split('\n').length;
+      
+      // Calculate averages
+      const avgWordsPerSentence = sentences.length > 0 ? words.length / sentences.length : 0;
+      const avgCharsPerWord = words.length > 0 ? charactersNoSpaces / words.length : 0;
+      const avgSentencesPerParagraph = paragraphs.length > 0 ? sentences.length / paragraphs.length : 0;
+      
+      return {
+        characters,
+        charactersNoSpaces,
+        words: words.length,
+        sentences: sentences.length,
+        paragraphs: paragraphs.length,
+        lines,
+        avgWordsPerSentence: parseFloat(avgWordsPerSentence.toFixed(2)),
+        avgCharsPerWord: parseFloat(avgCharsPerWord.toFixed(2)),
+        avgSentencesPerParagraph: parseFloat(avgSentencesPerParagraph.toFixed(2))
+      };
+    }
+    
+    function calculateAdvancedStats(text) {
+      const words = text.toLowerCase().replace(/[^\w\s]/g, '').split(/\s+/).filter(w => w.length > 0);
+      const uniqueWords = new Set(words);
+      const vocabularyRichness = words.length > 0 ? uniqueWords.size / words.length : 0;
+      
+      // Calculate word length distribution
+      const wordLengths = words.map(w => w.length);
+      const avgWordLength = wordLengths.length > 0 ? wordLengths.reduce((a, b) => a + b, 0) / wordLengths.length : 0;
+      const shortWords = wordLengths.filter(l => l <= 4).length;
+      const mediumWords = wordLengths.filter(l => l > 4 && l <= 8).length;
+      const longWords = wordLengths.filter(l => l > 8).length;
+      
+      // Calculate syllable count (simplified)
+      const totalSyllables = words.reduce((total, word) => {
+        return total + estimateSyllables(word);
+      }, 0);
+      
+      // Special character analysis
+      const punctuation = (text.match(/[.,;:!?]/g) || []).length;
+      const exclamations = (text.match(/!/g) || []).length;
+      const questions = (text.match(/\?/g) || []).length;
+      const numbers = (text.match(/\d/g) || []).length;
+      const upperCase = (text.match(/[A-Z]/g) || []).length;
+      
+      return {
+        uniqueWords: uniqueWords.size,
+        vocabularyRichness: parseFloat(vocabularyRichness.toFixed(3)),
+        avgWordLength: parseFloat(avgWordLength.toFixed(2)),
+        shortWords,
+        mediumWords,
+        longWords,
+        totalSyllables,
+        punctuation,
+        exclamations,
+        questions,
+        numbers,
+        upperCase
+      };
+    }
+    
+    function estimateSyllables(word) {
+      // Simplified syllable counting
+      word = word.toLowerCase();
+      if (word.length <= 3) return 1;
+      
+      const vowels = word.match(/[aeiouy]/g);
+      let syllables = vowels ? vowels.length : 1;
+      
+      if (word.endsWith('e')) syllables--;
+      if (word.match(/[aeiouy]{2,}/g)) syllables--;
+      if (syllables < 1) syllables = 1;
+      
+      return syllables;
+    }
+    
+    function calculateReadability(text) {
+      const stats = calculateBasicStats(text);
+      const advanced = calculateAdvancedStats(text);
+      
+      if (stats.sentences === 0 || stats.words === 0) {
+        return {
+          fleschKincaid: 0,
+          fleschReadingEase: 0,
+          gunningFog: 0,
+          colemanLiau: 0,
+          automatedReadability: 0,
+          readingLevel: 'Insufficient text'
+        };
+      }
+      
+      // Flesch-Kincaid Grade Level
+      const fleschKincaid = 0.39 * (stats.words / stats.sentences) + 11.8 * (advanced.totalSyllables / stats.words) - 15.59;
+      
+      // Flesch Reading Ease
+      const fleschReadingEase = 206.835 - 1.015 * (stats.words / stats.sentences) - 84.6 * (advanced.totalSyllables / stats.words);
+      
+      // Gunning Fog Index (simplified)
+      const complexWords = advanced.longWords; // Words with 3+ syllables
+      const gunningFog = 0.4 * ((stats.words / stats.sentences) + 100 * (complexWords / stats.words));
+      
+      // Coleman-Liau Index (simplified)
+      const avgSentencesPer100Words = (stats.sentences / stats.words) * 100;
+      const avgCharsPer100Words = (stats.charactersNoSpaces / stats.words) * 100;
+      const colemanLiau = 0.0588 * avgCharsPer100Words - 0.296 * avgSentencesPer100Words - 15.8;
+      
+      // Automated Readability Index
+      const automatedReadability = 4.71 * (stats.charactersNoSpaces / stats.words) + 0.5 * (stats.words / stats.sentences) - 21.43;
+      
+      // Determine reading level
+      const avgGrade = (fleschKincaid + gunningFog + colemanLiau + automatedReadability) / 4;
+      let readingLevel = 'Graduate';
+      if (avgGrade <= 6) readingLevel = 'Elementary';
+      else if (avgGrade <= 9) readingLevel = 'Middle School';
+      else if (avgGrade <= 13) readingLevel = 'High School';
+      else if (avgGrade <= 16) readingLevel = 'College';
+      
+      return {
+        fleschKincaid: parseFloat(fleschKincaid.toFixed(1)),
+        fleschReadingEase: parseFloat(fleschReadingEase.toFixed(1)),
+        gunningFog: parseFloat(gunningFog.toFixed(1)),
+        colemanLiau: parseFloat(colemanLiau.toFixed(1)),
+        automatedReadability: parseFloat(automatedReadability.toFixed(1)),
+        averageGradeLevel: parseFloat(avgGrade.toFixed(1)),
+        readingLevel
+      };
+    }
+    
+    function calculateWordFrequency(text) {
+      const words = text.toLowerCase()
+        .replace(/[^\w\s]/g, ' ')
+        .split(/\s+/)
+        .filter(w => w.length > 2); // Only words longer than 2 characters
+      
+      const frequency = {};
+      words.forEach(word => {
+        frequency[word] = (frequency[word] || 0) + 1;
+      });
+      
+      // Sort by frequency and get top 20
+      const sortedWords = Object.entries(frequency)
+        .sort(([,a], [,b]) => b - a)
+        .slice(0, 20);
+      
+      const totalWords = words.length;
+      const topWords = sortedWords.map(([word, count]) => ({
+        word,
+        count,
+        percentage: parseFloat((count / totalWords * 100).toFixed(2))
+      }));
+      
+      return {
+        totalUniqueWords: Object.keys(frequency).length,
+        totalWords,
+        topWords
+      };
+    }
+    
+    function detectLanguage(text) {
+      // Simplified language detection based on common words
+      const languages = {
+        english: ['the', 'and', 'you', 'that', 'was', 'for', 'are', 'with', 'his', 'they'],
+        spanish: ['que', 'del', 'para', 'una', 'con', 'por', 'sus', 'las', 'como', 'esto'],
+        french: ['que', 'des', 'les', 'dans', 'est', 'pour', 'avec', 'par', 'ces', 'ses'],
+        german: ['und', 'der', 'die', 'das', 'den', 'dem', 'des', 'eine', 'ein', 'sich'],
+        italian: ['che', 'del', 'della', 'dei', 'delle', 'per', 'con', 'una', 'sono', 'dalla']
+      };
+      
+      const words = text.toLowerCase().replace(/[^\w\s]/g, '').split(/\s+/);
+      const scores = {};
+      
+      Object.keys(languages).forEach(lang => {
+        scores[lang] = 0;
+        languages[lang].forEach(commonWord => {
+          scores[lang] += words.filter(w => w === commonWord).length;
+        });
+      });
+      
+      const detectedLang = Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
+      const confidence = Math.min(scores[detectedLang] / words.length * 100, 100);
+      
+      return {
+        detected: detectedLang,
+        confidence: parseFloat(confidence.toFixed(1)),
+        allScores: scores
+      };
+    }
+    
+    function analyzeSentiment(text) {
+      // Simplified sentiment analysis using word lists
+      const positiveWords = ['good', 'great', 'excellent', 'amazing', 'wonderful', 'fantastic', 'love', 'happy', 'joy', 'success', 'beautiful', 'perfect', 'awesome', 'brilliant', 'outstanding'];
+      const negativeWords = ['bad', 'terrible', 'awful', 'horrible', 'hate', 'sad', 'angry', 'fail', 'failure', 'ugly', 'worst', 'disgusting', 'disappointing', 'annoying', 'frustrated'];
+      
+      const words = text.toLowerCase().replace(/[^\w\s]/g, '').split(/\s+/);
+      
+      let positiveScore = 0;
+      let negativeScore = 0;
+      
+      words.forEach(word => {
+        if (positiveWords.includes(word)) positiveScore++;
+        if (negativeWords.includes(word)) negativeScore++;
+      });
+      
+      const totalSentimentWords = positiveScore + negativeScore;
+      const netScore = positiveScore - negativeScore;
+      
+      let sentiment = 'neutral';
+      let polarity = 0;
+      
+      if (totalSentimentWords > 0) {
+        polarity = netScore / totalSentimentWords;
+        if (polarity > 0.1) sentiment = 'positive';
+        else if (polarity < -0.1) sentiment = 'negative';
+      }
+      
+      return {
+        sentiment,
+        polarity: parseFloat(polarity.toFixed(3)),
+        positiveWords: positiveScore,
+        negativeWords: negativeScore,
+        totalSentimentWords,
+        confidence: Math.min(totalSentimentWords / words.length * 100, 100).toFixed(1)
+      };
+    }
+    
+    function displayAnalysis(analysis) {
+      let result = '╔════════════════════════════════════════╗\n';
+      result += '║        COMPREHENSIVE TEXT ANALYSIS     ║\n';
+      result += '╚════════════════════════════════════════╝\n\n';
+      
+      // Basic Statistics
+      result += 'BASIC STATISTICS:\n';
+      result += '─'.repeat(40) + '\n';
+      result += `• Characters: ${analysis.basic.characters.toLocaleString()}\n`;
+      result += `• Characters (no spaces): ${analysis.basic.charactersNoSpaces.toLocaleString()}\n`;
+      result += `• Words: ${analysis.basic.words.toLocaleString()}\n`;
+      result += `• Sentences: ${analysis.basic.sentences.toLocaleString()}\n`;
+      result += `• Paragraphs: ${analysis.basic.paragraphs.toLocaleString()}\n`;
+      result += `• Lines: ${analysis.basic.lines.toLocaleString()}\n\n`;
+      
+      // Averages
+      result += 'AVERAGES:\n';
+      result += '─'.repeat(40) + '\n';
+      result += `• Words per sentence: ${analysis.basic.avgWordsPerSentence}\n`;
+      result += `• Characters per word: ${analysis.basic.avgCharsPerWord}\n`;
+      result += `• Sentences per paragraph: ${analysis.basic.avgSentencesPerParagraph}\n\n`;
+      
+      // Advanced Statistics
+      result += 'ADVANCED STATISTICS:\n';
+      result += '─'.repeat(40) + '\n';
+      result += `• Unique words: ${analysis.advanced.uniqueWords.toLocaleString()}\n`;
+      result += `• Vocabulary richness: ${analysis.advanced.vocabularyRichness}\n`;
+      result += `• Average word length: ${analysis.advanced.avgWordLength} characters\n`;
+      result += `• Short words (≤4 chars): ${analysis.advanced.shortWords} (${(analysis.advanced.shortWords/analysis.basic.words*100).toFixed(1)}%)\n`;
+      result += `• Medium words (5-8 chars): ${analysis.advanced.mediumWords} (${(analysis.advanced.mediumWords/analysis.basic.words*100).toFixed(1)}%)\n`;
+      result += `• Long words (>8 chars): ${analysis.advanced.longWords} (${(analysis.advanced.longWords/analysis.basic.words*100).toFixed(1)}%)\n`;
+      result += `• Total syllables: ${analysis.advanced.totalSyllables.toLocaleString()}\n`;
+      result += `• Punctuation marks: ${analysis.advanced.punctuation}\n`;
+      result += `• Exclamation marks: ${analysis.advanced.exclamations}\n`;
+      result += `• Question marks: ${analysis.advanced.questions}\n`;
+      result += `• Numbers: ${analysis.advanced.numbers}\n`;
+      result += `• Uppercase letters: ${analysis.advanced.upperCase}\n\n`;
+      
+      // Readability Analysis
+      if (analysis.readability) {
+        result += 'READABILITY ANALYSIS:\n';
+        result += '─'.repeat(40) + '\n';
+        result += `• Reading level: ${analysis.readability.readingLevel}\n`;
+        result += `• Average grade level: ${analysis.readability.averageGradeLevel}\n`;
+        result += `• Flesch-Kincaid Grade: ${analysis.readability.fleschKincaid}\n`;
+        result += `• Flesch Reading Ease: ${analysis.readability.fleschReadingEase}\n`;
+        result += `• Gunning Fog Index: ${analysis.readability.gunningFog}\n`;
+        result += `• Coleman-Liau Index: ${analysis.readability.colemanLiau}\n`;
+        result += `• Automated Readability: ${analysis.readability.automatedReadability}\n\n`;
+      }
+      
+      // Language Detection
+      if (analysis.language) {
+        result += 'LANGUAGE DETECTION:\n';
+        result += '─'.repeat(40) + '\n';
+        result += `• Detected language: ${analysis.language.detected} (${analysis.language.confidence}% confidence)\n`;
+        result += `• Language scores:\n`;
+        Object.entries(analysis.language.allScores).forEach(([lang, score]) => {
+          result += `  - ${lang}: ${score} matches\n`;
+        });
+        result += '\n';
+      }
+      
+      // Sentiment Analysis
+      if (analysis.sentiment) {
+        result += 'SENTIMENT ANALYSIS:\n';
+        result += '─'.repeat(40) + '\n';
+        result += `• Overall sentiment: ${analysis.sentiment.sentiment.toUpperCase()}\n`;
+        result += `• Polarity score: ${analysis.sentiment.polarity} (-1 to +1)\n`;
+        result += `• Positive words: ${analysis.sentiment.positiveWords}\n`;
+        result += `• Negative words: ${analysis.sentiment.negativeWords}\n`;
+        result += `• Confidence: ${analysis.sentiment.confidence}%\n\n`;
+      }
+      
+      // Word Frequency
+      if (analysis.frequency) {
+        result += 'WORD FREQUENCY ANALYSIS:\n';
+        result += '─'.repeat(40) + '\n';
+        result += `• Total unique words: ${analysis.frequency.totalUniqueWords.toLocaleString()}\n`;
+        result += `• Top 20 most frequent words:\n`;
+        analysis.frequency.topWords.forEach((item, index) => {
+          result += `  ${(index + 1).toString().padStart(2)}. ${item.word.padEnd(15)} ${item.count.toString().padStart(3)} (${item.percentage}%)\n`;
+        });
+        result += '\n';
+      }
+      
+      // Analysis metadata
+      result += 'ANALYSIS METADATA:\n';
+      result += '─'.repeat(40) + '\n';
+      result += `• Analysis date: ${new Date(analysis.timestamp).toLocaleString()}\n`;
+      result += `• Readability analysis: ${analysis.config.includeReadability ? 'Enabled' : 'Disabled'}\n`;
+      result += `• Word frequency: ${analysis.config.includeFrequency ? 'Enabled' : 'Disabled'}\n`;
+      result += `• Language detection: ${analysis.config.languageDetection ? 'Enabled' : 'Disabled'}\n`;
+      result += `• Sentiment analysis: ${analysis.config.sentimentAnalysis ? 'Enabled' : 'Disabled'}`;
+      
+      output.textContent = result;
+    }
+    
+    function compareTexts() {
+      if (!lastAnalysis) {
+        setStatus('No previous analysis to compare with. Analyze text first.', 'error');
+        return;
+      }
+      
+      const currentText = input.value.trim();
+      if (!currentText) {
+        setStatus('Please enter text to compare', 'error');
+        return;
+      }
+      
+      setStatus('Comparing texts...', 'working');
+      
+      const analysisConfig = {
+        includeReadability: includeReadability.value === 'true',
+        includeFrequency: includeFrequency.value === 'true',
+        languageDetection: languageDetection.value === 'true',
+        sentimentAnalysis: sentimentAnalysis.value === 'true'
+      };
+      
+      const currentAnalysis = performTextAnalysis(currentText, analysisConfig);
+      displayComparison(lastAnalysis, currentAnalysis);
+      setStatus('Text comparison completed!', 'success');
+      updateStats();
+    }
+    
+    function displayComparison(analysis1, analysis2) {
+      let result = '╔════════════════════════════════════════╗\n';
+      result += '║           TEXT COMPARISON              ║\n';
+      result += '╚════════════════════════════════════════╝\n\n';
+      
+      result += 'COMPARISON SUMMARY:\n';
+      result += '─'.repeat(40) + '\n';
+      result += 'Metric'.padEnd(25) + 'Previous'.padEnd(12) + 'Current'.padEnd(12) + 'Change\n';
+      result += '─'.repeat(40) + '\n';
+      
+      // Basic stats comparison
+      const comparisons = [
+        ['Characters', analysis1.basic.characters, analysis2.basic.characters],
+        ['Words', analysis1.basic.words, analysis2.basic.words],
+        ['Sentences', analysis1.basic.sentences, analysis2.basic.sentences],
+        ['Paragraphs', analysis1.basic.paragraphs, analysis2.basic.paragraphs],
+        ['Unique words', analysis1.advanced.uniqueWords, analysis2.advanced.uniqueWords],
+        ['Avg word length', analysis1.advanced.avgWordLength, analysis2.advanced.avgWordLength],
+        ['Vocabulary richness', analysis1.advanced.vocabularyRichness, analysis2.advanced.vocabularyRichness]
+      ];
+      
+      if (analysis1.readability && analysis2.readability) {
+        comparisons.push(['Reading level (FL)', analysis1.readability.fleschKincaid, analysis2.readability.fleschKincaid]);
+        comparisons.push(['Reading ease', analysis1.readability.fleschReadingEase, analysis2.readability.fleschReadingEase]);
+      }
+      
+      if (analysis1.sentiment && analysis2.sentiment) {
+        comparisons.push(['Sentiment polarity', analysis1.sentiment.polarity, analysis2.sentiment.polarity]);
+      }
+      
+      comparisons.forEach(([metric, prev, curr]) => {
+        const change = curr - prev;
+        const changeStr = change >= 0 ? `+${change.toFixed(2)}` : change.toFixed(2);
+        result += `${metric.padEnd(25)}${prev.toString().padEnd(12)}${curr.toString().padEnd(12)}${changeStr}\n`;
+      });
+      
+      result += '\n';
+      
+      // Detailed comparison sections would go here...
+      result += 'ANALYSIS NOTES:\n';
+      result += '─'.repeat(40) + '\n';
+      result += '• Previous analysis: ' + new Date(analysis1.timestamp).toLocaleString() + '\n';
+      result += '• Current analysis: ' + new Date(analysis2.timestamp).toLocaleString() + '\n';
+      result += '• Positive changes indicate improvement/increase\n';
+      result += '• Negative changes indicate reduction/decrease';
+      
+      output.textContent = result;
+    }
+    
+    function exportToCSV() {
+      if (!lastAnalysis) {
+        setStatus('No analysis data to export. Analyze text first.', 'error');
+        return;
+      }
+      
+      let csv = 'Metric,Value,Category\n';
+      
+      // Basic stats
+      Object.entries(lastAnalysis.basic).forEach(([key, value]) => {
+        csv += `"${key}",${value},"Basic Statistics"\n`;
+      });
+      
+      // Advanced stats
+      Object.entries(lastAnalysis.advanced).forEach(([key, value]) => {
+        csv += `"${key}",${value},"Advanced Statistics"\n`;
+      });
+      
+      // Readability
+      if (lastAnalysis.readability) {
+        Object.entries(lastAnalysis.readability).forEach(([key, value]) => {
+          csv += `"${key}","${value}","Readability"\n`;
+        });
+      }
+      
+      // Sentiment
+      if (lastAnalysis.sentiment) {
+        Object.entries(lastAnalysis.sentiment).forEach(([key, value]) => {
+          csv += `"${key}","${value}","Sentiment"\n`;
+        });
+      }
+      
+      // Word frequency top 10
+      if (lastAnalysis.frequency) {
+        lastAnalysis.frequency.topWords.slice(0, 10).forEach((item, index) => {
+          csv += `"Top word ${index + 1}: ${item.word}",${item.count},"Word Frequency"\n`;
+        });
+      }
+      
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'text-analysis-' + new Date().toISOString().slice(0, 10) + '.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+      setStatus('CSV exported successfully!', 'success');
+    }
+    
+    function clearAll() {
+      input.value = '';
+      output.textContent = '';
+      lastAnalysis = null;
+      updateStats();
+      setStatus('Cleared', 'success');
+    }
+    
+    function clearInput() {
+      input.value = '';
+      updateStats();
+      setStatus('Input cleared', 'success');
+    }
+    
+    async function copyOutput() {
+      const text = output.textContent;
+      if (!text) {
+        setStatus('Nothing to copy', 'error');
+        return;
+      }
+      
+      try {
+        await navigator.clipboard.writeText(text);
+        setStatus('Copied to clipboard', 'success');
+      } catch (error) {
+        setStatus('Copy failed', 'error');
+      }
+    }
+    
+    function downloadOutput() {
+      const text = output.textContent;
+      if (!text) {
+        setStatus('Nothing to download', 'error');
+        return;
+      }
+      
+      const blob = new Blob([text], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'text-analysis-report.txt';
+      a.click();
+      URL.revokeObjectURL(url);
+      setStatus('Downloaded report', 'success');
+    }
+    
+    async function pasteInput() {
+      try {
+        const text = await navigator.clipboard.readText();
+        input.value = text;
+        updateStats();
+        setStatus('Pasted from clipboard', 'success');
+      } catch (error) {
+        setStatus('Paste failed - check permissions', 'error');
+      }
+    }
+    
+    function loadSample() {
+      const sampleTexts = [
+        "The quick brown fox jumps over the lazy dog. This pangram contains every letter of the alphabet at least once. It's commonly used for testing fonts and keyboards. The sentence is both practical and memorable, making it a standard in typography and printing industries.",
+        "Technology has revolutionized the way we communicate, work, and live. From smartphones to artificial intelligence, digital innovation continues to transform our daily experiences. However, we must consider the ethical implications and ensure that progress benefits all of humanity.",
+        "Climate change represents one of the most pressing challenges of our time. Rising global temperatures, melting ice caps, and extreme weather patterns threaten ecosystems worldwide. Immediate action through renewable energy, conservation efforts, and international cooperation is essential for our planet's future."
+      ];
+      
+      const randomSample = sampleTexts[Math.floor(Math.random() * sampleTexts.length)];
+      input.value = randomSample;
+      setStatus('Loaded sample text', 'success');
+      updateStats();
+    }
+    
+    // Event listeners
+    if (analyzeBtn) analyzeBtn.addEventListener('click', analyzeText);
+    if (compareBtn) compareBtn.addEventListener('click', compareTexts);
+    if (exportBtn) exportBtn.addEventListener('click', exportToCSV);
+    if (clearBtn) clearBtn.addEventListener('click', clearAll);
+    if (clearInputBtn) clearInputBtn.addEventListener('click', clearInput);
+    if (copyOutputBtn) copyOutputBtn.addEventListener('click', copyOutput);
+    if (downloadBtn) downloadBtn.addEventListener('click', downloadOutput);
+    if (pasteBtn) pasteBtn.addEventListener('click', pasteInput);
+    
+    // Add sample button
+    const controlGrid = document.querySelector('.control-grid');
+    const sampleBtn = document.createElement('button');
+    sampleBtn.className = 'cyber-btn secondary';
+    sampleBtn.innerHTML = '<span class="btn-text">📝 Load Sample</span>';
+    sampleBtn.addEventListener('click', loadSample);
+    controlGrid.appendChild(sampleBtn);
+    
+    // Update stats on input
+    input.addEventListener('input', updateStats);
+    
+    // Auto-analyze on configuration change
+    [includeReadability, includeFrequency, languageDetection, sentimentAnalysis].forEach(element => {
+      if (element) {
+        element.addEventListener('change', () => {
+          if (input.value.trim() && lastAnalysis) {
+            analyzeText();
+          }
+        });
+      }
+    });
+    
+    // Keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+      if (e.ctrlKey || e.metaKey) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          analyzeText();
+        } else if (e.key === 'r') {
+          e.preventDefault();
+          compareTexts();
+        }
+      }
+    });
+    
+    // Initial setup
+    updateStats();
+    setStatus('Ready - Enter text for comprehensive analysis', 'normal');
+  })();
+</script>

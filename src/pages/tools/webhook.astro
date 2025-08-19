@@ -1,0 +1,1195 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CaiatechToolLayout from '../../components/tools/CaiatechToolLayout.astro';
+import ToolAttribution from '../../components/tools/ToolAttribution.astro';
+import PrivacyBadge from '../../components/tools/PrivacyBadge.astro';
+---
+
+<BaseLayout title="Webhook Tester - Caiatech">
+  <CaiatechToolLayout 
+    title="Webhook Tester" 
+    description="Test webhook endpoints"
+    icon="🪝">
+    
+    <div slot="header-actions">
+      <PrivacyBadge />
+    </div>
+    
+    <div class="tool-container">
+      <!-- Terminal-style input section -->
+      <div class="terminal-panel input-terminal">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">INPUT://webhook</span>
+          <div class="terminal-actions">
+            <button class="terminal-action" id="clear-input-btn" title="Clear">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6"/>
+              </svg>
+            </button>
+            <button class="terminal-action" id="paste-btn" title="Paste">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/>
+                <rect x="8" y="2" width="8" height="4" rx="1"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-prompt">
+            <span class="prompt-symbol">$</span>
+            <span class="prompt-text">webhook</span>
+            <span class="prompt-arrow">→</span>
+          </div>
+          <textarea 
+            id="input" 
+            class="terminal-input"
+            placeholder="Enter webhook URL to test or JSON payload to generate sample webhooks..."
+            spellcheck="false"
+          ></textarea>
+        </div>
+      </div>
+
+      <!-- Control center -->
+      <div class="control-center">
+        <div class="control-grid">
+          <button id="process-btn" class="cyber-btn primary">
+            <span class="btn-glow"></span>
+            <span class="btn-text">🪝 Generate Webhooks</span>
+          </button>
+          <button id="clear-btn" class="cyber-btn secondary">
+            <span class="btn-text">Clear All</span>
+          </button>
+          <button id="sample-btn" class="cyber-btn secondary">
+            <span class="btn-text">Load Sample</span>
+          </button>
+          <button id="copy-btn" class="cyber-btn secondary">
+            <span class="btn-text">Copy Output</span>
+          </button>
+        </div>
+        
+        <!-- Status indicator -->
+        <div class="status-bar">
+          <div class="status-indicator" id="status">
+            <span class="status-dot"></span>
+            <span class="status-text">Ready</span>
+          </div>
+          <div class="stats" id="stats">
+            <span class="stat-item">Input: <span id="input-length">0</span> chars</span>
+            <span class="stat-separator">•</span>
+            <span class="stat-item">Output: <span id="output-length">0</span> chars</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Terminal-style output section -->
+      <div class="terminal-panel output-terminal">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">OUTPUT://webhook.result</span>
+          <div class="terminal-actions">
+            <button class="terminal-action" id="copy-output-btn" title="Copy">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2"/>
+                <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+              </svg>
+            </button>
+            <button class="terminal-action" id="download-btn" title="Download">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-prompt">
+            <span class="prompt-symbol">></span>
+            <span class="prompt-text">result</span>
+          </div>
+          <pre id="output" class="terminal-output"></pre>
+        </div>
+      </div>
+    </div>
+    
+    <ToolAttribution toolName="Webhook Tester" version="2.0.0" />
+  </CaiatechToolLayout>
+</BaseLayout>
+
+<style>
+  .tool-container {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  /* Terminal panels */
+  .terminal-panel {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 
+      0 10px 40px rgba(0, 0, 0, 0.3),
+      0 0 60px rgba(0, 212, 255, 0.05);
+    transition: all 0.3s ease;
+  }
+
+  .terminal-panel:hover {
+    box-shadow: 
+      0 10px 40px rgba(0, 0, 0, 0.4),
+      0 0 80px rgba(0, 212, 255, 0.1);
+    border-color: rgba(0, 212, 255, 0.3);
+  }
+
+  .terminal-header {
+    background: linear-gradient(90deg, rgba(42, 42, 43, 1) 0%, rgba(26, 26, 27, 1) 100%);
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .terminal-controls {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .control {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    transition: all 0.2s;
+  }
+
+  .control.red { 
+    background: #ff5f57; 
+    box-shadow: 0 0 10px rgba(255, 95, 87, 0.5);
+  }
+  .control.yellow { 
+    background: #ffbd2e; 
+    box-shadow: 0 0 10px rgba(255, 189, 46, 0.5);
+  }
+  .control.green { 
+    background: #28ca42; 
+    box-shadow: 0 0 10px rgba(40, 202, 66, 0.5);
+  }
+
+  .terminal-panel:hover .control {
+    box-shadow: 0 0 15px currentColor;
+  }
+
+  .terminal-title {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-accent);
+    margin-left: auto;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.8;
+  }
+
+  .terminal-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: 1rem;
+  }
+
+  .terminal-action {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--color-text-secondary);
+    padding: 0.25rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .terminal-action:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    background: rgba(0, 212, 255, 0.1);
+  }
+
+  .terminal-body {
+    padding: 1.5rem;
+  }
+
+  .terminal-prompt {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .prompt-symbol {
+    color: var(--color-accent);
+    font-weight: bold;
+  }
+
+  .prompt-text {
+    color: var(--color-text-secondary);
+  }
+
+  .prompt-arrow {
+    color: var(--color-accent);
+    opacity: 0.5;
+  }
+
+  .terminal-input,
+  .terminal-output {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 8px;
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    padding: 1rem;
+    width: 100%;
+    min-height: 200px;
+    resize: vertical;
+    transition: all 0.3s;
+  }
+
+  .terminal-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 
+      0 0 20px rgba(0, 212, 255, 0.2),
+      inset 0 0 20px rgba(0, 212, 255, 0.05);
+  }
+
+  .terminal-output {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.6;
+  }
+
+  /* Control center */
+  .control-center {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.02) 0%, rgba(118, 75, 162, 0.02) 100%);
+    border: 1px solid rgba(0, 212, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+
+  .control-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Cyber buttons */
+  .cyber-btn {
+    position: relative;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+
+  .cyber-btn.primary {
+    border-color: var(--color-accent);
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  }
+
+  .cyber-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0, 212, 255, 0.3);
+  }
+
+  .cyber-btn.primary:hover {
+    border-color: var(--color-accent);
+    box-shadow: 
+      0 5px 30px rgba(0, 212, 255, 0.4),
+      inset 0 0 30px rgba(0, 212, 255, 0.1);
+  }
+
+  .btn-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--color-accent) 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+
+  .cyber-btn:hover .btn-glow {
+    width: 300px;
+    height: 300px;
+    opacity: 0;
+  }
+
+  .btn-text {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  /* Status bar */
+  .status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    border: 1px solid rgba(0, 212, 255, 0.1);
+  }
+
+  .status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { 
+      opacity: 1;
+      box-shadow: 0 0 10px var(--color-accent);
+    }
+    50% { 
+      opacity: 0.5;
+      box-shadow: 0 0 5px var(--color-accent);
+    }
+  }
+
+  .status-text {
+    color: var(--color-text-secondary);
+  }
+
+  .stats {
+    display: flex;
+    gap: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+  }
+
+  .stat-item {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .stat-separator {
+    opacity: 0.3;
+  }
+
+  /* Success/Error states */
+  .status-indicator.success .status-dot {
+    background: #28ca42;
+    animation: success-pulse 1s;
+  }
+
+  .status-indicator.error .status-dot {
+    background: #ff5f57;
+    animation: error-pulse 1s;
+  }
+
+  @keyframes success-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.5); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes error-pulse {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .control-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .stats {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .stat-separator {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // Webhook Tester and Generator
+  (function() {
+    // DOM elements
+    const input = document.getElementById('input');
+    const output = document.getElementById('output');
+    const status = document.getElementById('status');
+    const statusText = status.querySelector('.status-text');
+    const inputLength = document.getElementById('input-length');
+    const outputLength = document.getElementById('output-length');
+    
+    const processBtn = document.getElementById('process-btn');
+    const clearBtn = document.getElementById('clear-btn');
+    const sampleBtn = document.getElementById('sample-btn');
+    const copyBtn = document.getElementById('copy-btn');
+    const copyOutputBtn = document.getElementById('copy-output-btn');
+    const downloadBtn = document.getElementById('download-btn');
+    const pasteBtn = document.getElementById('paste-btn');
+    const clearInputBtn = document.getElementById('clear-input-btn');
+    
+    function updateStats() {
+      inputLength.textContent = input.value.length;
+      outputLength.textContent = output.textContent.length;
+    }
+    
+    function setStatus(text, type = 'normal') {
+      status.className = 'status-indicator ' + type;
+      statusText.textContent = text;
+      
+      if (type !== 'normal') {
+        setTimeout(() => {
+          status.className = 'status-indicator';
+          statusText.textContent = 'Ready';
+        }, 3000);
+      }
+    }
+    
+    // Webhook Templates
+    const webhookTemplates = {
+      github: {
+        name: 'GitHub Push Event',
+        description: 'GitHub repository push webhook payload',
+        payload: {
+          "ref": "refs/heads/main",
+          "before": "0d1a26e67d8f5eaf1f6ba5c57fc3c7d91ac0fd1c",
+          "after": "95790bf891e76f994c616e293c892b0f3d3e1e1b3",
+          "repository": {
+            "id": 35129377,
+            "name": "public-repo",
+            "full_name": "baxterthehacker/public-repo",
+            "owner": {
+              "name": "baxterthehacker",
+              "email": "baxterthehacker@users.noreply.github.com",
+              "login": "baxterthehacker",
+              "id": 6752317
+            },
+            "private": false,
+            "html_url": "https://github.com/baxterthehacker/public-repo",
+            "description": "",
+            "fork": false,
+            "url": "https://github.com/baxterthehacker/public-repo",
+            "created_at": 1430869212,
+            "updated_at": "2015-05-05T23:40:12Z",
+            "pushed_at": 1430869217,
+            "git_url": "git://github.com/baxterthehacker/public-repo.git",
+            "ssh_url": "git@github.com:baxterthehacker/public-repo.git",
+            "clone_url": "https://github.com/baxterthehacker/public-repo.git",
+            "size": 0,
+            "stargazers_count": 0,
+            "watchers_count": 0,
+            "language": null,
+            "has_issues": true,
+            "has_projects": true,
+            "has_wiki": true,
+            "has_pages": false,
+            "forks_count": 0,
+            "archived": false,
+            "disabled": false,
+            "open_issues_count": 0,
+            "license": null,
+            "forks": 0,
+            "open_issues": 0,
+            "watchers": 0,
+            "default_branch": "main"
+          },
+          "pusher": {
+            "name": "baxterthehacker",
+            "email": "baxterthehacker@users.noreply.github.com"
+          },
+          "sender": {
+            "login": "baxterthehacker",
+            "id": 6752317,
+            "avatar_url": "https://avatars.githubusercontent.com/u/6752317?v=3",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/baxterthehacker",
+            "html_url": "https://github.com/baxterthehacker",
+            "type": "User",
+            "site_admin": false
+          },
+          "commits": [
+            {
+              "id": "95790bf891e76f994c616e293c892b0f3d3e1e1b3",
+              "tree_id": "f9d2a07e9488b91af2641b26b9407fe22a451433",
+              "distinct": true,
+              "message": "Update README.md",
+              "timestamp": "2015-05-05T19:40:15-04:00",
+              "url": "https://github.com/baxterthehacker/public-repo/commit/95790bf891e76f994c616e293c892b0f3d3e1e1b3",
+              "author": {
+                "name": "baxterthehacker",
+                "email": "baxterthehacker@users.noreply.github.com",
+                "username": "baxterthehacker"
+              },
+              "committer": {
+                "name": "baxterthehacker",
+                "email": "baxterthehacker@users.noreply.github.com",
+                "username": "baxterthehacker"
+              },
+              "added": [],
+              "removed": [],
+              "modified": ["README.md"]
+            }
+          ],
+          "head_commit": {
+            "id": "95790bf891e76f994c616e293c892b0f3d3e1e1b3",
+            "tree_id": "f9d2a07e9488b91af2641b26b9407fe22a451433",
+            "distinct": true,
+            "message": "Update README.md",
+            "timestamp": "2015-05-05T19:40:15-04:00",
+            "url": "https://github.com/baxterthehacker/public-repo/commit/95790bf891e76f994c616e293c892b0f3d3e1e1b3",
+            "author": {
+              "name": "baxterthehacker",
+              "email": "baxterthehacker@users.noreply.github.com",
+              "username": "baxterthehacker"
+            },
+            "committer": {
+              "name": "baxterthehacker",
+              "email": "baxterthehacker@users.noreply.github.com",
+              "username": "baxterthehacker"
+            },
+            "added": [],
+            "removed": [],
+            "modified": ["README.md"]
+          }
+        }
+      },
+      stripe: {
+        name: 'Stripe Payment Success',
+        description: 'Stripe successful payment webhook payload',
+        payload: {
+          "id": "evt_1GqIC8Dy5YcKnqbFWJh3aq8G",
+          "object": "event",
+          "api_version": "2020-08-27",
+          "created": new Date().toISOString(),
+          "data": {
+            "object": {
+              "id": "pi_1GqIC7Dy5YcKnqbFWJBQyoYx",
+              "object": "payment_intent",
+              "amount": 2000,
+              "amount_capturable": 0,
+              "amount_received": 2000,
+              "application": null,
+              "application_fee_amount": null,
+              "canceled_at": null,
+              "cancellation_reason": null,
+              "capture_method": "automatic",
+              "charges": {
+                "object": "list",
+                "data": [
+                  {
+                    "id": "ch_1GqIC7Dy5YcKnqbFWJyqyxZ8",
+                    "object": "charge",
+                    "amount": 2000,
+                    "amount_captured": 2000,
+                    "amount_refunded": 0,
+                    "application": null,
+                    "application_fee": null,
+                    "application_fee_amount": null,
+                    "balance_transaction": "txn_1GqIC7Dy5YcKnqbFWJrqyxZ8",
+                    "billing_details": {
+                      "address": {
+                        "city": null,
+                        "country": null,
+                        "line1": null,
+                        "line2": null,
+                        "postal_code": null,
+                        "state": null
+                      },
+                      "email": null,
+                      "name": null,
+                      "phone": null
+                    },
+                    "calculated_statement_descriptor": "DEMO PAYMENT",
+                    "captured": true,
+                    "created": Math.floor(Date.now() / 1000),
+                    "currency": "usd",
+                    "customer": "cus_H7rfyBsS6Rb4vR",
+                    "description": "Payment for order #12345",
+                    "disputed": false,
+                    "failure_code": null,
+                    "failure_message": null,
+                    "fraud_details": {},
+                    "invoice": null,
+                    "livemode": false,
+                    "metadata": {
+                      "order_id": "12345"
+                    },
+                    "outcome": {
+                      "network_status": "approved_by_network",
+                      "reason": null,
+                      "risk_level": "normal",
+                      "risk_score": 28,
+                      "seller_message": "Payment complete.",
+                      "type": "authorized"
+                    },
+                    "paid": true,
+                    "payment_intent": "pi_1GqIC7Dy5YcKnqbFWJBQyoYx",
+                    "payment_method": "pm_1GqIC6Dy5YcKnqbFWJp4uQ5k",
+                    "payment_method_details": {
+                      "card": {
+                        "brand": "visa",
+                        "checks": {
+                          "address_line1_check": null,
+                          "address_postal_code_check": null,
+                          "cvc_check": "pass"
+                        },
+                        "country": "US",
+                        "exp_month": 12,
+                        "exp_year": 2025,
+                        "fingerprint": "EupaJWvJNGrjCF0K",
+                        "funding": "credit",
+                        "installments": null,
+                        "last4": "4242",
+                        "network": "visa",
+                        "three_d_secure": null,
+                        "wallet": null
+                      },
+                      "type": "card"
+                    },
+                    "receipt_email": "customer@example.com",
+                    "receipt_number": null,
+                    "receipt_url": "https://pay.stripe.com/receipts/...",
+                    "refunded": false,
+                    "refunds": {
+                      "object": "list",
+                      "data": [],
+                      "has_more": false,
+                      "total_count": 0,
+                      "url": "/v1/charges/ch_1GqIC7Dy5YcKnqbFWJyqyxZ8/refunds"
+                    },
+                    "review": null,
+                    "shipping": null,
+                    "source": null,
+                    "source_transfer": null,
+                    "statement_descriptor": null,
+                    "statement_descriptor_suffix": null,
+                    "status": "succeeded",
+                    "transfer_data": null,
+                    "transfer_group": null
+                  }
+                ],
+                "has_more": false,
+                "total_count": 1,
+                "url": "/v1/charges?payment_intent=pi_1GqIC7Dy5YcKnqbFWJBQyoYx"
+              },
+              "client_secret": "pi_1GqIC7Dy5YcKnqbFWJBQyoYx_secret_...",
+              "confirmation_method": "automatic",
+              "created": Math.floor(Date.now() / 1000),
+              "currency": "usd",
+              "customer": "cus_H7rfyBsS6Rb4vR",
+              "description": "Payment for order #12345",
+              "invoice": null,
+              "last_payment_error": null,
+              "livemode": false,
+              "metadata": {
+                "order_id": "12345"
+              },
+              "next_action": null,
+              "on_behalf_of": null,
+              "payment_method": "pm_1GqIC6Dy5YcKnqbFWJp4uQ5k",
+              "payment_method_options": {
+                "card": {
+                  "installments": null,
+                  "network": null,
+                  "request_three_d_secure": "automatic"
+                }
+              },
+              "payment_method_types": ["card"],
+              "receipt_email": "customer@example.com",
+              "review": null,
+              "setup_future_usage": null,
+              "shipping": null,
+              "statement_descriptor": null,
+              "statement_descriptor_suffix": null,
+              "status": "succeeded",
+              "transfer_data": null,
+              "transfer_group": null
+            }
+          },
+          "livemode": false,
+          "pending_webhooks": 1,
+          "request": {
+            "id": "req_IFN8W7ZOoKfthA",
+            "idempotency_key": null
+          },
+          "type": "payment_intent.succeeded"
+        }
+      },
+      discord: {
+        name: 'Discord Message',
+        description: 'Discord webhook message payload',
+        payload: {
+          "content": "Hello, world! This is a test message from a webhook.",
+          "username": "Webhook Bot",
+          "avatar_url": "https://via.placeholder.com/128x128/7289da/ffffff?text=Bot",
+          "embeds": [
+            {
+              "title": "Webhook Test",
+              "description": "This is an embedded message sent via webhook.",
+              "color": 7506394,
+              "timestamp": new Date().toISOString(),
+              "footer": {
+                "text": "Webhook Footer",
+                "icon_url": "https://via.placeholder.com/32x32/99aab5/ffffff?text=⚡"
+              },
+              "thumbnail": {
+                "url": "https://via.placeholder.com/128x128/43b581/ffffff?text=✓"
+              },
+              "author": {
+                "name": "Webhook Tester",
+                "url": "https://example.com",
+                "icon_url": "https://via.placeholder.com/32x32/7289da/ffffff?text=🔗"
+              },
+              "fields": [
+                {
+                  "name": "Field 1",
+                  "value": "Some value here",
+                  "inline": true
+                },
+                {
+                  "name": "Field 2",
+                  "value": "Some other value",
+                  "inline": true
+                },
+                {
+                  "name": "Field 3",
+                  "value": "This field is not inline",
+                  "inline": false
+                }
+              ]
+            }
+          ]
+        }
+      },
+      slack: {
+        name: 'Slack Message',
+        description: 'Slack webhook message payload',
+        payload: {
+          "text": "Hello, Slack! This is a webhook message.",
+          "username": "webhookbot",
+          "icon_emoji": ":ghost:",
+          "channel": "#general",
+          "attachments": [
+            {
+              "color": "good",
+              "title": "Webhook Test",
+              "title_link": "https://example.com",
+              "text": "This is an attachment sent via webhook",
+              "fields": [
+                {
+                  "title": "Priority",
+                  "value": "High",
+                  "short": true
+                },
+                {
+                  "title": "Status",
+                  "value": "Active",
+                  "short": true
+                }
+              ],
+              "footer": "Webhook Footer",
+              "footer_icon": "https://via.placeholder.com/16x16/36c5f0/ffffff?text=⚡",
+              "ts": Math.floor(Date.now() / 1000)
+            }
+          ]
+        }
+      },
+      custom: {
+        name: 'Custom Event',
+        description: 'Generic webhook payload structure',
+        payload: {
+          "event": "user.created",
+          "timestamp": new Date().toISOString(),
+          "id": "evt_" + Math.random().toString(36).substr(2, 16),
+          "data": {
+            "user": {
+              "id": 12345,
+              "name": "John Doe",
+              "email": "john@example.com",
+              "created_at": new Date().toISOString(),
+              "metadata": {
+                "source": "signup_form",
+                "campaign": "spring_2024"
+              }
+            }
+          },
+          "version": "1.0",
+          "source": "api.example.com"
+        }
+      }
+    };
+    
+    function processInput() {
+      const text = input.value.trim();
+      if (!text) {
+        setStatus('Please enter input', 'error');
+        return;
+      }
+      
+      setStatus('Processing webhook...', 'working');
+      
+      try {
+        let result;
+        
+        // Check if input is a URL (webhook endpoint to test)
+        if (isValidUrl(text)) {
+          result = generateWebhookTestInfo(text);
+        } else {
+          // Try to parse as JSON (custom payload)
+          try {
+            const payload = JSON.parse(text);
+            result = analyzeWebhookPayload(payload);
+          } catch {
+            // Generate webhook examples
+            result = generateWebhookExamples();
+          }
+        }
+        
+        output.textContent = result;
+        setStatus('Webhook processing complete!', 'success');
+        updateStats();
+        
+      } catch (error) {
+        setStatus('Processing error: ' + error.message, 'error');
+        output.textContent = 'Error: ' + error.message;
+        updateStats();
+      }
+    }
+    
+    function isValidUrl(string) {
+      try {
+        new URL(string);
+        return true;
+      } catch {
+        return false;
+      }
+    }
+    
+    function generateWebhookTestInfo(webhookUrl) {
+      const url = new URL(webhookUrl);
+      
+      let result = '╔════════════════════════════════════════╗\n';
+      result += '║         WEBHOOK ENDPOINT TEST          ║\n';
+      result += '╚════════════════════════════════════════╝\n\n';
+      
+      result += 'ENDPOINT ANALYSIS:\n';
+      result += '─'.repeat(40) + '\n';
+      result += '• URL: ' + webhookUrl + '\n';
+      result += '• Protocol: ' + url.protocol + '\n';
+      result += '• Host: ' + url.hostname + '\n';
+      result += '• Port: ' + (url.port || (url.protocol === 'https:' ? '443' : '80')) + '\n';
+      result += '• Path: ' + url.pathname + '\n';
+      if (url.search) result += '• Query: ' + url.search + '\n';
+      result += '• Security: ' + (url.protocol === 'https:' ? 'Secure (HTTPS) ✅' : 'Insecure (HTTP) ⚠️') + '\n\n';
+      
+      // Generate curl commands for different webhook types
+      result += 'CURL TEST COMMANDS:\n';
+      result += '─'.repeat(40) + '\n';
+      
+      // Basic POST test
+      result += '1. BASIC POST TEST:\n';
+      result += 'curl -X POST "' + webhookUrl + '" \\\n';
+      result += '  -H "Content-Type: application/json" \\\n';
+      result += '  -H "User-Agent: WebhookTester/1.0" \\\n';
+      result += '  -d \'{"test": true, "timestamp": "' + new Date().toISOString() + '", "message": "Hello from webhook tester!"}\'\n\n';
+      
+      // GitHub-style webhook
+      result += '2. GITHUB-STYLE WEBHOOK:\n';
+      result += 'curl -X POST "' + webhookUrl + '" \\\n';
+      result += '  -H "Content-Type: application/json" \\\n';
+      result += '  -H "X-GitHub-Event: push" \\\n';
+      result += '  -H "X-GitHub-Delivery: ' + generateId() + '" \\\n';
+      result += '  -H "User-Agent: GitHub-Hookshot/abc123" \\\n';
+      result += '  -d @github_payload.json\n\n';
+      
+      // Slack-style webhook
+      result += '3. SLACK-STYLE WEBHOOK:\n';
+      result += 'curl -X POST "' + webhookUrl + '" \\\n';
+      result += '  -H "Content-Type: application/json" \\\n';
+      result += '  -d \'{"text": "Hello from Slack webhook!", "username": "webhookbot", "icon_emoji": ":rocket:"}\'\n\n';
+      
+      // Discord-style webhook
+      result += '4. DISCORD-STYLE WEBHOOK:\n';
+      result += 'curl -X POST "' + webhookUrl + '" \\\n';
+      result += '  -H "Content-Type: application/json" \\\n';
+      result += '  -H "User-Agent: DiscordBot (https://discord.com, 1.0)" \\\n';
+      result += '  -d \'{"content": "Hello from Discord webhook!", "username": "Webhook Bot"}\'\n\n';
+      
+      result += 'WEBHOOK TESTING TIPS:\n';
+      result += '─'.repeat(40) + '\n';
+      result += '• Test with different HTTP methods (POST, PUT, PATCH)\n';
+      result += '• Include proper Content-Type headers\n';
+      result += '• Add authentication headers if required\n';
+      result += '• Use webhook.site or ngrok for testing\n';
+      result += '• Verify SSL certificates in production\n';
+      result += '• Implement proper error handling\n';
+      result += '• Add idempotency for critical webhooks\n';
+      result += '• Use proper retry mechanisms with exponential backoff\n\n';
+      
+      result += 'COMMON WEBHOOK HEADERS:\n';
+      result += '─'.repeat(40) + '\n';
+      result += '• X-Webhook-ID: Unique identifier for the webhook\n';
+      result += '• X-Webhook-Timestamp: Unix timestamp\n';
+      result += '• X-Webhook-Signature: HMAC signature for verification\n';
+      result += '• X-Event-Type: Type of event being sent\n';
+      result += '• X-Delivery-ID: Unique delivery attempt ID\n';
+      
+      return result;
+    }
+    
+    function analyzeWebhookPayload(payload) {
+      let result = '╔════════════════════════════════════════╗\n';
+      result += '║         WEBHOOK PAYLOAD ANALYSIS       ║\n';
+      result += '╚════════════════════════════════════════╝\n\n';
+      
+      const jsonString = JSON.stringify(payload, null, 2);
+      
+      result += 'PAYLOAD STRUCTURE:\n';
+      result += '─'.repeat(40) + '\n';
+      result += '• Size: ' + jsonString.length + ' bytes\n';
+      result += '• Type: JSON Object\n';
+      result += '• Keys: ' + Object.keys(payload).length + '\n';
+      result += '• Nested Objects: ' + countNestedObjects(payload) + '\n';
+      result += '• Arrays: ' + countArrays(payload) + '\n\n';
+      
+      result += 'TOP-LEVEL KEYS:\n';
+      result += '─'.repeat(40) + '\n';
+      Object.keys(payload).forEach(key => {
+        const value = payload[key];
+        const type = Array.isArray(value) ? 'array' : typeof value;
+        result += '• ' + key + ' (' + type + ')\n';
+      });
+      result += '\n';
+      
+      result += 'FORMATTED PAYLOAD:\n';
+      result += '─'.repeat(40) + '\n';
+      result += jsonString + '\n\n';
+      
+      result += 'SUGGESTED WEBHOOK HANDLER:\n';
+      result += '─'.repeat(40) + '\n';
+      result += generateWebhookHandler(payload);
+      
+      return result;
+    }
+    
+    function generateWebhookExamples() {
+      let result = '╔════════════════════════════════════════╗\n';
+      result += '║         WEBHOOK PAYLOAD EXAMPLES       ║\n';
+      result += '╚════════════════════════════════════════╝\n\n';
+      
+      Object.entries(webhookTemplates).forEach(([key, template]) => {
+        result += template.name.toUpperCase() + ':\n';
+        result += '─'.repeat(Math.max(20, template.name.length)) + '\n';
+        result += 'Description: ' + template.description + '\n\n';
+        result += 'Payload:\n';
+        result += JSON.stringify(template.payload, null, 2) + '\n\n';
+        result += '─'.repeat(50) + '\n\n';
+      });
+      
+      result += 'WEBHOOK TESTING TOOLS:\n';
+      result += '─'.repeat(40) + '\n';
+      result += '• webhook.site - Test webhook endpoints\n';
+      result += '• ngrok - Expose local servers to internet\n';
+      result += '• Postman - API testing and webhook simulation\n';
+      result += '• curl - Command-line HTTP client\n';
+      result += '• httpie - User-friendly HTTP client\n\n';
+      
+      result += 'WEBHOOK SECURITY BEST PRACTICES:\n';
+      result += '─'.repeat(40) + '\n';
+      result += '• Always validate webhook signatures\n';
+      result += '• Use HTTPS for all webhook endpoints\n';
+      result += '• Implement proper authentication\n';
+      result += '• Validate payload structure and content\n';
+      result += '• Use rate limiting to prevent abuse\n';
+      result += '• Log all webhook attempts for debugging\n';
+      result += '• Implement idempotency to handle duplicates\n';
+      result += '• Use proper error codes in responses\n';
+      
+      return result;
+    }
+    
+    function countNestedObjects(obj, count = 0) {
+      for (const value of Object.values(obj)) {
+        if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+          count++;
+          count = countNestedObjects(value, count);
+        }
+      }
+      return count;
+    }
+    
+    function countArrays(obj, count = 0) {
+      for (const value of Object.values(obj)) {
+        if (Array.isArray(value)) {
+          count++;
+        } else if (typeof value === 'object' && value !== null) {
+          count = countArrays(value, count);
+        }
+      }
+      return count;
+    }
+    
+    function generateWebhookHandler(payload) {
+      const keys = Object.keys(payload);
+      let handler = 'async function handleWebhook(req, res) {\n';
+      handler += '  try {\n';
+      handler += '    const payload = req.body;\n\n';
+      handler += '    // Validate required fields\n';
+      keys.forEach(key => {
+        handler += '    if (!payload.' + key + ') {\n';
+        handler += '      return res.status(400).json({error: "Missing ' + key + '"});\n';
+        handler += '    }\n';
+      });
+      handler += '\n    // Process the webhook\n';
+      handler += '    console.log("Webhook received:", payload);\n\n';
+      handler += '    // Add your business logic here\n';
+      handler += '    // ...\n\n';
+      handler += '    res.status(200).json({success: true});\n';
+      handler += '  } catch (error) {\n';
+      handler += '    console.error("Webhook error:", error);\n';
+      handler += '    res.status(500).json({error: "Internal server error"});\n';
+      handler += '  }\n';
+      handler += '}\n';
+      
+      return handler;
+    }
+    
+    function generateId() {
+      return Math.random().toString(36).substr(2, 16);
+    }
+    
+    function clearAll() {
+      input.value = '';
+      output.textContent = '';
+      updateStats();
+      setStatus('Cleared', 'success');
+    }
+    
+    function clearInput() {
+      input.value = '';
+      updateStats();
+      setStatus('Input cleared', 'success');
+    }
+    
+    async function copyOutput() {
+      const text = output.textContent;
+      if (!text) {
+        setStatus('Nothing to copy', 'error');
+        return;
+      }
+      
+      try {
+        await navigator.clipboard.writeText(text);
+        setStatus('Copied to clipboard', 'success');
+      } catch (error) {
+        setStatus('Copy failed', 'error');
+      }
+    }
+    
+    function downloadOutput() {
+      const text = output.textContent;
+      if (!text) {
+        setStatus('Nothing to download', 'error');
+        return;
+      }
+      
+      const blob = new Blob([text], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'webhook-data.txt';
+      a.click();
+      URL.revokeObjectURL(url);
+      setStatus('Downloaded webhook data', 'success');
+    }
+    
+    async function pasteInput() {
+      try {
+        const text = await navigator.clipboard.readText();
+        input.value = text;
+        updateStats();
+        setStatus('Pasted from clipboard', 'success');
+      } catch (error) {
+        setStatus('Paste failed - check permissions', 'error');
+      }
+    }
+    
+    function loadSample() {
+      const templates = Object.keys(webhookTemplates);
+      const randomTemplate = templates[Math.floor(Math.random() * templates.length)];
+      const template = webhookTemplates[randomTemplate];
+      
+      input.value = JSON.stringify(template.payload, null, 2);
+      processInput();
+    }
+    
+    // Event listeners
+    if (processBtn) processBtn.addEventListener('click', processInput);
+    if (clearBtn) clearBtn.addEventListener('click', clearAll);
+    if (clearInputBtn) clearInputBtn.addEventListener('click', clearInput);
+    if (sampleBtn) sampleBtn.addEventListener('click', loadSample);
+    if (copyBtn) copyBtn.addEventListener('click', copyOutput);
+    if (copyOutputBtn) copyOutputBtn.addEventListener('click', copyOutput);
+    if (downloadBtn) downloadBtn.addEventListener('click', downloadOutput);
+    if (pasteBtn) pasteBtn.addEventListener('click', pasteInput);
+    
+    // Update stats on input
+    input.addEventListener('input', updateStats);
+    
+    // Keyboard shortcuts
+    input.addEventListener('keydown', function(e) {
+      if (e.ctrlKey || e.metaKey) {
+        if (e.key === 'Enter') {
+          processInput();
+        }
+      }
+    });
+    
+    // Initial stats
+    updateStats();
+    setStatus('Ready - Enter webhook URL or JSON payload', 'normal');
+  })();
+</script>
+</script>

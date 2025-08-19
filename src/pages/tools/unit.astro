@@ -1,0 +1,975 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CaiatechToolLayout from '../../components/tools/CaiatechToolLayout.astro';
+import ToolAttribution from '../../components/tools/ToolAttribution.astro';
+import PrivacyBadge from '../../components/tools/PrivacyBadge.astro';
+---
+
+<BaseLayout title="Unit Converter - Caiatech">
+  <CaiatechToolLayout 
+    title="Unit Converter" 
+    description="Convert between units"
+    icon="📏">
+    
+    <div slot="header-actions">
+      <PrivacyBadge />
+    </div>
+    
+    <div class="tool-container">
+      <!-- Terminal-style input section -->
+      <div class="terminal-panel input-terminal">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">INPUT://unit</span>
+          <div class="terminal-actions">
+            <button class="terminal-action" id="clear-input-btn" title="Clear">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6"/>
+              </svg>
+            </button>
+            <button class="terminal-action" id="paste-btn" title="Paste">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/>
+                <rect x="8" y="2" width="8" height="4" rx="1"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-prompt">
+            <span class="prompt-symbol">$</span>
+            <span class="prompt-text">unit</span>
+            <span class="prompt-arrow">→</span>
+          </div>
+          <textarea 
+            id="input" 
+            class="terminal-input"
+            placeholder="Enter conversions like: '100 meters to feet', '32°F to C', '5 kg to pounds', or '1 mile to km'..."
+            spellcheck="false"
+          ></textarea>
+        </div>
+      </div>
+
+      <!-- Control center -->
+      <div class="control-center">
+        <div class="control-grid">
+          <button id="process-btn" class="cyber-btn primary">
+            <span class="btn-glow"></span>
+            <span class="btn-text">🔄 Convert Units</span>
+          </button>
+          <button id="clear-btn" class="cyber-btn secondary">
+            <span class="btn-text">Clear All</span>
+          </button>
+          <button id="sample-btn" class="cyber-btn secondary">
+            <span class="btn-text">Load Sample</span>
+          </button>
+          <button id="copy-btn" class="cyber-btn secondary">
+            <span class="btn-text">Copy Output</span>
+          </button>
+        </div>
+        
+        <!-- Status indicator -->
+        <div class="status-bar">
+          <div class="status-indicator" id="status">
+            <span class="status-dot"></span>
+            <span class="status-text">Ready</span>
+          </div>
+          <div class="stats" id="stats">
+            <span class="stat-item">Input: <span id="input-length">0</span> chars</span>
+            <span class="stat-separator">•</span>
+            <span class="stat-item">Output: <span id="output-length">0</span> chars</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Terminal-style output section -->
+      <div class="terminal-panel output-terminal">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">OUTPUT://unit.result</span>
+          <div class="terminal-actions">
+            <button class="terminal-action" id="copy-output-btn" title="Copy">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2"/>
+                <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+              </svg>
+            </button>
+            <button class="terminal-action" id="download-btn" title="Download">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-prompt">
+            <span class="prompt-symbol">></span>
+            <span class="prompt-text">result</span>
+          </div>
+          <pre id="output" class="terminal-output"></pre>
+        </div>
+      </div>
+    </div>
+    
+    <ToolAttribution toolName="Unit Converter" version="2.0.0" />
+  </CaiatechToolLayout>
+</BaseLayout>
+
+<style>
+  .tool-container {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  /* Terminal panels */
+  .terminal-panel {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 
+      0 10px 40px rgba(0, 0, 0, 0.3),
+      0 0 60px rgba(0, 212, 255, 0.05);
+    transition: all 0.3s ease;
+  }
+
+  .terminal-panel:hover {
+    box-shadow: 
+      0 10px 40px rgba(0, 0, 0, 0.4),
+      0 0 80px rgba(0, 212, 255, 0.1);
+    border-color: rgba(0, 212, 255, 0.3);
+  }
+
+  .terminal-header {
+    background: linear-gradient(90deg, rgba(42, 42, 43, 1) 0%, rgba(26, 26, 27, 1) 100%);
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .terminal-controls {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .control {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    transition: all 0.2s;
+  }
+
+  .control.red { 
+    background: #ff5f57; 
+    box-shadow: 0 0 10px rgba(255, 95, 87, 0.5);
+  }
+  .control.yellow { 
+    background: #ffbd2e; 
+    box-shadow: 0 0 10px rgba(255, 189, 46, 0.5);
+  }
+  .control.green { 
+    background: #28ca42; 
+    box-shadow: 0 0 10px rgba(40, 202, 66, 0.5);
+  }
+
+  .terminal-panel:hover .control {
+    box-shadow: 0 0 15px currentColor;
+  }
+
+  .terminal-title {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-accent);
+    margin-left: auto;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.8;
+  }
+
+  .terminal-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: 1rem;
+  }
+
+  .terminal-action {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--color-text-secondary);
+    padding: 0.25rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .terminal-action:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    background: rgba(0, 212, 255, 0.1);
+  }
+
+  .terminal-body {
+    padding: 1.5rem;
+  }
+
+  .terminal-prompt {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .prompt-symbol {
+    color: var(--color-accent);
+    font-weight: bold;
+  }
+
+  .prompt-text {
+    color: var(--color-text-secondary);
+  }
+
+  .prompt-arrow {
+    color: var(--color-accent);
+    opacity: 0.5;
+  }
+
+  .terminal-input,
+  .terminal-output {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 8px;
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    padding: 1rem;
+    width: 100%;
+    min-height: 200px;
+    resize: vertical;
+    transition: all 0.3s;
+  }
+
+  .terminal-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 
+      0 0 20px rgba(0, 212, 255, 0.2),
+      inset 0 0 20px rgba(0, 212, 255, 0.05);
+  }
+
+  .terminal-output {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.6;
+  }
+
+  /* Control center */
+  .control-center {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.02) 0%, rgba(118, 75, 162, 0.02) 100%);
+    border: 1px solid rgba(0, 212, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+
+  .control-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Cyber buttons */
+  .cyber-btn {
+    position: relative;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+
+  .cyber-btn.primary {
+    border-color: var(--color-accent);
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  }
+
+  .cyber-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0, 212, 255, 0.3);
+  }
+
+  .cyber-btn.primary:hover {
+    border-color: var(--color-accent);
+    box-shadow: 
+      0 5px 30px rgba(0, 212, 255, 0.4),
+      inset 0 0 30px rgba(0, 212, 255, 0.1);
+  }
+
+  .btn-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--color-accent) 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+
+  .cyber-btn:hover .btn-glow {
+    width: 300px;
+    height: 300px;
+    opacity: 0;
+  }
+
+  .btn-text {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  /* Status bar */
+  .status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    border: 1px solid rgba(0, 212, 255, 0.1);
+  }
+
+  .status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { 
+      opacity: 1;
+      box-shadow: 0 0 10px var(--color-accent);
+    }
+    50% { 
+      opacity: 0.5;
+      box-shadow: 0 0 5px var(--color-accent);
+    }
+  }
+
+  .status-text {
+    color: var(--color-text-secondary);
+  }
+
+  .stats {
+    display: flex;
+    gap: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+  }
+
+  .stat-item {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .stat-separator {
+    opacity: 0.3;
+  }
+
+  /* Success/Error states */
+  .status-indicator.success .status-dot {
+    background: #28ca42;
+    animation: success-pulse 1s;
+  }
+
+  .status-indicator.error .status-dot {
+    background: #ff5f57;
+    animation: error-pulse 1s;
+  }
+
+  @keyframes success-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.5); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes error-pulse {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .control-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .stats {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .stat-separator {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // Unit Converter
+  (function() {
+    // DOM elements
+    const input = document.getElementById('input');
+    const output = document.getElementById('output');
+    const status = document.getElementById('status');
+    const statusText = status.querySelector('.status-text');
+    const inputLength = document.getElementById('input-length');
+    const outputLength = document.getElementById('output-length');
+    
+    const processBtn = document.getElementById('process-btn');
+    const clearBtn = document.getElementById('clear-btn');
+    const sampleBtn = document.getElementById('sample-btn');
+    const copyBtn = document.getElementById('copy-btn');
+    const copyOutputBtn = document.getElementById('copy-output-btn');
+    const downloadBtn = document.getElementById('download-btn');
+    const pasteBtn = document.getElementById('paste-btn');
+    const clearInputBtn = document.getElementById('clear-input-btn');
+    
+    function updateStats() {
+      inputLength.textContent = input.value.length;
+      outputLength.textContent = output.textContent.length;
+    }
+    
+    function setStatus(text, type = 'normal') {
+      status.className = 'status-indicator ' + type;
+      statusText.textContent = text;
+      
+      if (type !== 'normal') {
+        setTimeout(() => {
+          status.className = 'status-indicator';
+          statusText.textContent = 'Ready';
+        }, 3000);
+      }
+    }
+    
+    // Unit Conversion Database
+    const units = {
+      length: {
+        base: 'meter',
+        units: {
+          // Metric
+          'mm': { name: 'Millimeter', factor: 0.001, symbol: 'mm' },
+          'millimeter': { name: 'Millimeter', factor: 0.001, symbol: 'mm' },
+          'millimeters': { name: 'Millimeter', factor: 0.001, symbol: 'mm' },
+          'cm': { name: 'Centimeter', factor: 0.01, symbol: 'cm' },
+          'centimeter': { name: 'Centimeter', factor: 0.01, symbol: 'cm' },
+          'centimeters': { name: 'Centimeter', factor: 0.01, symbol: 'cm' },
+          'm': { name: 'Meter', factor: 1, symbol: 'm' },
+          'meter': { name: 'Meter', factor: 1, symbol: 'm' },
+          'meters': { name: 'Meter', factor: 1, symbol: 'm' },
+          'metre': { name: 'Meter', factor: 1, symbol: 'm' },
+          'metres': { name: 'Meter', factor: 1, symbol: 'm' },
+          'km': { name: 'Kilometer', factor: 1000, symbol: 'km' },
+          'kilometer': { name: 'Kilometer', factor: 1000, symbol: 'km' },
+          'kilometers': { name: 'Kilometer', factor: 1000, symbol: 'km' },
+          'kilometre': { name: 'Kilometer', factor: 1000, symbol: 'km' },
+          'kilometres': { name: 'Kilometer', factor: 1000, symbol: 'km' },
+          // Imperial
+          'in': { name: 'Inch', factor: 0.0254, symbol: 'in' },
+          'inch': { name: 'Inch', factor: 0.0254, symbol: 'in' },
+          'inches': { name: 'Inch', factor: 0.0254, symbol: 'in' },
+          'ft': { name: 'Foot', factor: 0.3048, symbol: 'ft' },
+          'foot': { name: 'Foot', factor: 0.3048, symbol: 'ft' },
+          'feet': { name: 'Foot', factor: 0.3048, symbol: 'ft' },
+          'yd': { name: 'Yard', factor: 0.9144, symbol: 'yd' },
+          'yard': { name: 'Yard', factor: 0.9144, symbol: 'yd' },
+          'yards': { name: 'Yard', factor: 0.9144, symbol: 'yd' },
+          'mi': { name: 'Mile', factor: 1609.344, symbol: 'mi' },
+          'mile': { name: 'Mile', factor: 1609.344, symbol: 'mi' },
+          'miles': { name: 'Mile', factor: 1609.344, symbol: 'mi' }
+        }
+      },
+      weight: {
+        base: 'kilogram',
+        units: {
+          // Metric
+          'mg': { name: 'Milligram', factor: 0.000001, symbol: 'mg' },
+          'milligram': { name: 'Milligram', factor: 0.000001, symbol: 'mg' },
+          'milligrams': { name: 'Milligram', factor: 0.000001, symbol: 'mg' },
+          'g': { name: 'Gram', factor: 0.001, symbol: 'g' },
+          'gram': { name: 'Gram', factor: 0.001, symbol: 'g' },
+          'grams': { name: 'Gram', factor: 0.001, symbol: 'g' },
+          'kg': { name: 'Kilogram', factor: 1, symbol: 'kg' },
+          'kilogram': { name: 'Kilogram', factor: 1, symbol: 'kg' },
+          'kilograms': { name: 'Kilogram', factor: 1, symbol: 'kg' },
+          'tonne': { name: 'Tonne', factor: 1000, symbol: 't' },
+          'tonnes': { name: 'Tonne', factor: 1000, symbol: 't' },
+          'ton': { name: 'Metric Ton', factor: 1000, symbol: 't' },
+          'tons': { name: 'Metric Ton', factor: 1000, symbol: 't' },
+          // Imperial
+          'oz': { name: 'Ounce', factor: 0.0283495, symbol: 'oz' },
+          'ounce': { name: 'Ounce', factor: 0.0283495, symbol: 'oz' },
+          'ounces': { name: 'Ounce', factor: 0.0283495, symbol: 'oz' },
+          'lb': { name: 'Pound', factor: 0.453592, symbol: 'lb' },
+          'pound': { name: 'Pound', factor: 0.453592, symbol: 'lb' },
+          'pounds': { name: 'Pound', factor: 0.453592, symbol: 'lb' },
+          'st': { name: 'Stone', factor: 6.35029, symbol: 'st' },
+          'stone': { name: 'Stone', factor: 6.35029, symbol: 'st' },
+          'stones': { name: 'Stone', factor: 6.35029, symbol: 'st' }
+        }
+      },
+      temperature: {
+        base: 'celsius',
+        units: {
+          'c': { name: 'Celsius', symbol: '°C' },
+          'celsius': { name: 'Celsius', symbol: '°C' },
+          'f': { name: 'Fahrenheit', symbol: '°F' },
+          'fahrenheit': { name: 'Fahrenheit', symbol: '°F' },
+          'k': { name: 'Kelvin', symbol: 'K' },
+          'kelvin': { name: 'Kelvin', symbol: 'K' },
+          'r': { name: 'Rankine', symbol: '°R' },
+          'rankine': { name: 'Rankine', symbol: '°R' }
+        }
+      },
+      area: {
+        base: 'square_meter',
+        units: {
+          'mm2': { name: 'Square Millimeter', factor: 0.000001, symbol: 'mm²' },
+          'cm2': { name: 'Square Centimeter', factor: 0.0001, symbol: 'cm²' },
+          'm2': { name: 'Square Meter', factor: 1, symbol: 'm²' },
+          'km2': { name: 'Square Kilometer', factor: 1000000, symbol: 'km²' },
+          'in2': { name: 'Square Inch', factor: 0.00064516, symbol: 'in²' },
+          'ft2': { name: 'Square Foot', factor: 0.092903, symbol: 'ft²' },
+          'yd2': { name: 'Square Yard', factor: 0.836127, symbol: 'yd²' },
+          'acre': { name: 'Acre', factor: 4046.86, symbol: 'acre' },
+          'acres': { name: 'Acre', factor: 4046.86, symbol: 'acre' },
+          'hectare': { name: 'Hectare', factor: 10000, symbol: 'ha' },
+          'hectares': { name: 'Hectare', factor: 10000, symbol: 'ha' }
+        }
+      },
+      volume: {
+        base: 'liter',
+        units: {
+          // Metric
+          'ml': { name: 'Milliliter', factor: 0.001, symbol: 'ml' },
+          'milliliter': { name: 'Milliliter', factor: 0.001, symbol: 'ml' },
+          'milliliters': { name: 'Milliliter', factor: 0.001, symbol: 'ml' },
+          'l': { name: 'Liter', factor: 1, symbol: 'L' },
+          'liter': { name: 'Liter', factor: 1, symbol: 'L' },
+          'liters': { name: 'Liter', factor: 1, symbol: 'L' },
+          'litre': { name: 'Liter', factor: 1, symbol: 'L' },
+          'litres': { name: 'Liter', factor: 1, symbol: 'L' },
+          // Imperial
+          'tsp': { name: 'Teaspoon', factor: 0.00492892, symbol: 'tsp' },
+          'teaspoon': { name: 'Teaspoon', factor: 0.00492892, symbol: 'tsp' },
+          'teaspoons': { name: 'Teaspoon', factor: 0.00492892, symbol: 'tsp' },
+          'tbsp': { name: 'Tablespoon', factor: 0.0147868, symbol: 'tbsp' },
+          'tablespoon': { name: 'Tablespoon', factor: 0.0147868, symbol: 'tbsp' },
+          'tablespoons': { name: 'Tablespoon', factor: 0.0147868, symbol: 'tbsp' },
+          'cup': { name: 'Cup', factor: 0.236588, symbol: 'cup' },
+          'cups': { name: 'Cup', factor: 0.236588, symbol: 'cup' },
+          'pt': { name: 'Pint', factor: 0.473176, symbol: 'pt' },
+          'pint': { name: 'Pint', factor: 0.473176, symbol: 'pt' },
+          'pints': { name: 'Pint', factor: 0.473176, symbol: 'pt' },
+          'qt': { name: 'Quart', factor: 0.946353, symbol: 'qt' },
+          'quart': { name: 'Quart', factor: 0.946353, symbol: 'qt' },
+          'quarts': { name: 'Quart', factor: 0.946353, symbol: 'qt' },
+          'gal': { name: 'Gallon', factor: 3.78541, symbol: 'gal' },
+          'gallon': { name: 'Gallon', factor: 3.78541, symbol: 'gal' },
+          'gallons': { name: 'Gallon', factor: 3.78541, symbol: 'gal' }
+        }
+      },
+      speed: {
+        base: 'meter_per_second',
+        units: {
+          'mps': { name: 'Meters per Second', factor: 1, symbol: 'm/s' },
+          'm/s': { name: 'Meters per Second', factor: 1, symbol: 'm/s' },
+          'kph': { name: 'Kilometers per Hour', factor: 0.277778, symbol: 'km/h' },
+          'kmh': { name: 'Kilometers per Hour', factor: 0.277778, symbol: 'km/h' },
+          'km/h': { name: 'Kilometers per Hour', factor: 0.277778, symbol: 'km/h' },
+          'mph': { name: 'Miles per Hour', factor: 0.44704, symbol: 'mph' },
+          'mi/h': { name: 'Miles per Hour', factor: 0.44704, symbol: 'mph' },
+          'fps': { name: 'Feet per Second', factor: 0.3048, symbol: 'ft/s' },
+          'ft/s': { name: 'Feet per Second', factor: 0.3048, symbol: 'ft/s' },
+          'knot': { name: 'Knot', factor: 0.514444, symbol: 'kn' },
+          'knots': { name: 'Knot', factor: 0.514444, symbol: 'kn' }
+        }
+      }
+    };
+    
+    function processInput() {
+      const text = input.value.trim();
+      if (!text) {
+        setStatus('Please enter a conversion query', 'error');
+        return;
+      }
+      
+      setStatus('Converting units...', 'working');
+      
+      try {
+        const conversions = parseConversions(text);
+        if (conversions.length === 0) {
+          throw new Error('No valid conversions found');
+        }
+        
+        const results = conversions.map(conversion => performConversion(conversion));
+        const output_text = formatResults(results, text);
+        
+        output.textContent = output_text;
+        setStatus('Conversion complete!', 'success');
+        updateStats();
+        
+      } catch (error) {
+        setStatus('Conversion error: ' + error.message, 'error');
+        output.textContent = 'Error: ' + error.message + '\n\nTry formats like:\n• "100 meters to feet"\n• "32°F to C"\n• "5 kg to pounds"\n• "1 mile to km"';
+        updateStats();
+      }
+    }
+    
+    function parseConversions(text) {
+      const conversions = [];
+      
+      // Split by lines for multiple conversions
+      const lines = text.split('\n').map(line => line.trim()).filter(line => line);
+      
+      for (const line of lines) {
+        // Try different parsing patterns
+        const patterns = [
+          // "100 meters to feet" or "100 m to ft"
+          /([0-9]*\.?[0-9]+)\s*([a-zA-Z°\/]+)\s+to\s+([a-zA-Z°\/]+)/i,
+          // "100°F to C" or "32° F to celsius"
+          /([0-9]*\.?[0-9]+)°?\s*([a-zA-Z])\s+to\s+([a-zA-Z]+)/i,
+          // "convert 100 meters to feet"
+          /convert\s+([0-9]*\.?[0-9]+)\s*([a-zA-Z°\/]+)\s+to\s+([a-zA-Z°\/]+)/i
+        ];
+        
+        for (const pattern of patterns) {
+          const match = line.match(pattern);
+          if (match) {
+            conversions.push({
+              value: parseFloat(match[1]),
+              fromUnit: match[2].toLowerCase().replace(/°/g, ''),
+              toUnit: match[3].toLowerCase().replace(/°/g, ''),
+              originalText: line
+            });
+            break;
+          }
+        }
+      }
+      
+      return conversions;
+    }
+    
+    function findUnitCategory(unitName) {
+      for (const [category, categoryData] of Object.entries(units)) {
+        if (categoryData.units[unitName]) {
+          return category;
+        }
+      }
+      return null;
+    }
+    
+    function performConversion(conversion) {
+      const { value, fromUnit, toUnit, originalText } = conversion;
+      
+      // Find which category the units belong to
+      const fromCategory = findUnitCategory(fromUnit);
+      const toCategory = findUnitCategory(toUnit);
+      
+      if (!fromCategory) {
+        throw new Error(`Unknown unit: ${fromUnit}`);
+      }
+      
+      if (!toCategory) {
+        throw new Error(`Unknown unit: ${toUnit}`);
+      }
+      
+      if (fromCategory !== toCategory) {
+        throw new Error(`Cannot convert between ${fromCategory} and ${toCategory}`);
+      }
+      
+      let result;
+      
+      if (fromCategory === 'temperature') {
+        result = convertTemperature(value, fromUnit, toUnit);
+      } else {
+        result = convertStandardUnit(value, fromUnit, toUnit, fromCategory);
+      }
+      
+      return {
+        originalText,
+        value,
+        fromUnit: units[fromCategory].units[fromUnit],
+        toUnit: units[toCategory].units[toUnit],
+        result,
+        category: fromCategory
+      };
+    }
+    
+    function convertStandardUnit(value, fromUnit, toUnit, category) {
+      const categoryData = units[category];
+      const fromFactor = categoryData.units[fromUnit].factor;
+      const toFactor = categoryData.units[toUnit].factor;
+      
+      // Convert to base unit, then to target unit
+      const baseValue = value * fromFactor;
+      const result = baseValue / toFactor;
+      
+      return result;
+    }
+    
+    function convertTemperature(value, fromUnit, toUnit) {
+      // Convert to Celsius first
+      let celsius;
+      
+      switch (fromUnit) {
+        case 'c':
+        case 'celsius':
+          celsius = value;
+          break;
+        case 'f':
+        case 'fahrenheit':
+          celsius = (value - 32) * 5/9;
+          break;
+        case 'k':
+        case 'kelvin':
+          celsius = value - 273.15;
+          break;
+        case 'r':
+        case 'rankine':
+          celsius = (value - 491.67) * 5/9;
+          break;
+        default:
+          throw new Error(`Unknown temperature unit: ${fromUnit}`);
+      }
+      
+      // Convert from Celsius to target unit
+      switch (toUnit) {
+        case 'c':
+        case 'celsius':
+          return celsius;
+        case 'f':
+        case 'fahrenheit':
+          return celsius * 9/5 + 32;
+        case 'k':
+        case 'kelvin':
+          return celsius + 273.15;
+        case 'r':
+        case 'rankine':
+          return (celsius + 273.15) * 9/5;
+        default:
+          throw new Error(`Unknown temperature unit: ${toUnit}`);
+      }
+    }
+    
+    function formatResults(results, originalInput) {
+      let output = '╔════════════════════════════════════════╗\n';
+      output += '║         UNIT CONVERSIONS               ║\n';
+      output += '╚════════════════════════════════════════╝\n\n';
+      
+      output += 'INPUT:\n';
+      output += '─'.repeat(40) + '\n';
+      output += originalInput + '\n\n';
+      
+      output += 'CONVERSIONS:\n';
+      output += '─'.repeat(40) + '\n';
+      
+      results.forEach((result, index) => {
+        const precision = result.result % 1 === 0 ? 0 : Math.max(2, Math.min(6, -Math.floor(Math.log10(Math.abs(result.result % 1)))));
+        const formattedResult = result.result.toFixed(precision).replace(/\.?0+$/, '');
+        
+        output += `${index + 1}. ${result.value} ${result.fromUnit.name} = ${formattedResult} ${result.toUnit.name}\n`;
+        output += `   ${result.value} ${result.fromUnit.symbol} → ${formattedResult} ${result.toUnit.symbol}\n`;
+        output += `   Category: ${result.category.charAt(0).toUpperCase() + result.category.slice(1)}\n\n`;
+      });
+      
+      // Add conversion details
+      output += 'CONVERSION DETAILS:\n';
+      output += '─'.repeat(40) + '\n';
+      results.forEach((result, index) => {
+        output += `${index + 1}. ${result.originalText}\n`;
+        
+        if (result.category === 'temperature') {
+          output += '   Temperature conversion (non-linear)\n';
+        } else {
+          const ratio = result.result / result.value;
+          output += `   Conversion factor: 1 ${result.fromUnit.symbol} = ${ratio.toFixed(6)} ${result.toUnit.symbol}\n`;
+        }
+        output += '\n';
+      });
+      
+      // Add unit information
+      const categories = [...new Set(results.map(r => r.category))];
+      if (categories.length > 0) {
+        output += 'AVAILABLE UNITS:\n';
+        output += '─'.repeat(40) + '\n';
+        
+        categories.forEach(category => {
+          output += `${category.toUpperCase()}:\n`;
+          const categoryUnits = units[category].units;
+          const unitList = Object.entries(categoryUnits)
+            .map(([key, unit]) => `${unit.name} (${unit.symbol})`)
+            .slice(0, 8); // Limit to prevent too long output
+          
+          output += unitList.join(', ');
+          if (Object.keys(categoryUnits).length > 8) {
+            output += ', and more...';
+          }
+          output += '\n\n';
+        });
+      }
+      
+      output += 'USAGE EXAMPLES:\n';
+      output += '─'.repeat(40) + '\n';
+      output += '• "100 meters to feet"\n';
+      output += '• "32°F to C" or "32 fahrenheit to celsius"\n';
+      output += '• "5 kg to pounds"\n';
+      output += '• "1 mile to km"\n';
+      output += '• "2 cups to liters"\n';
+      output += '• "60 mph to km/h"\n';
+      output += '• "1000 mm2 to cm2"\n';
+      
+      return output;
+    }
+    
+    function clearAll() {
+      input.value = '';
+      output.textContent = '';
+      updateStats();
+      setStatus('Cleared', 'success');
+    }
+    
+    function clearInput() {
+      input.value = '';
+      updateStats();
+      setStatus('Input cleared', 'success');
+    }
+    
+    async function copyOutput() {
+      const text = output.textContent;
+      if (!text) {
+        setStatus('Nothing to copy', 'error');
+        return;
+      }
+      
+      try {
+        await navigator.clipboard.writeText(text);
+        setStatus('Copied to clipboard', 'success');
+      } catch (error) {
+        setStatus('Copy failed', 'error');
+      }
+    }
+    
+    function downloadOutput() {
+      const text = output.textContent;
+      if (!text) {
+        setStatus('Nothing to download', 'error');
+        return;
+      }
+      
+      const blob = new Blob([text], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'unit-conversions.txt';
+      a.click();
+      URL.revokeObjectURL(url);
+      setStatus('Downloaded conversions', 'success');
+    }
+    
+    async function pasteInput() {
+      try {
+        const text = await navigator.clipboard.readText();
+        input.value = text;
+        updateStats();
+        setStatus('Pasted from clipboard', 'success');
+      } catch (error) {
+        setStatus('Paste failed - check permissions', 'error');
+      }
+    }
+    
+    function loadSample() {
+      const samples = [
+        '100 meters to feet',
+        '32°F to C',
+        '5 kg to pounds',
+        '1 mile to km',
+        '2 cups to liters',
+        '60 mph to km/h',
+        '1 acre to m2',
+        '100°C to fahrenheit',
+        '1000 ml to gallons',
+        '50 knots to mph'
+      ];
+      
+      const randomSamples = [];
+      for (let i = 0; i < 3; i++) {
+        const randomIndex = Math.floor(Math.random() * samples.length);
+        randomSamples.push(samples[randomIndex]);
+      }
+      
+      input.value = randomSamples.join('\n');
+      processInput();
+    }
+    
+    // Event listeners
+    if (processBtn) processBtn.addEventListener('click', processInput);
+    if (clearBtn) clearBtn.addEventListener('click', clearAll);
+    if (clearInputBtn) clearInputBtn.addEventListener('click', clearInput);
+    if (sampleBtn) sampleBtn.addEventListener('click', loadSample);
+    if (copyBtn) copyBtn.addEventListener('click', copyOutput);
+    if (copyOutputBtn) copyOutputBtn.addEventListener('click', copyOutput);
+    if (downloadBtn) downloadBtn.addEventListener('click', downloadOutput);
+    if (pasteBtn) pasteBtn.addEventListener('click', pasteInput);
+    
+    // Update stats on input
+    input.addEventListener('input', updateStats);
+    
+    // Keyboard shortcuts
+    input.addEventListener('keydown', function(e) {
+      if (e.ctrlKey || e.metaKey) {
+        if (e.key === 'Enter') {
+          processInput();
+        }
+      }
+    });
+    
+    // Initial stats
+    updateStats();
+  })();
+</script>

@@ -1,0 +1,211 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const articles = await getCollection('articles');
+const sortedArticles = articles.sort((a, b) => 
+  b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<BaseLayout 
+  title="Articles - Caia Tech" 
+  description="Technical articles on distributed systems, machine learning, infrastructure automation, and open source AI research."
+  canonical="https://caiatech.com/articles/"
+>
+  <section class="articles-page">
+    <div class="container">
+      <header class="page-header">
+        <h1>
+          <span class="mono">./</span><span class="accent">articles</span>
+        </h1>
+        <p class="subtitle">Deep dives into distributed systems, ML infrastructure, and open source research</p>
+      </header>
+
+      <div class="articles-grid">
+        {sortedArticles.map((article) => (
+          <article class="article-card">
+            <a href={`/articles/${article.slug}/`} class="article-link">
+              <div class="article-header">
+                {article.data.featured && (
+                  <span class="featured-badge">Featured</span>
+                )}
+                <time class="article-date" datetime={article.data.pubDate.toISOString()}>
+                  {article.data.pubDate.toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'short', 
+                    day: 'numeric' 
+                  })}
+                </time>
+              </div>
+              <h2 class="article-title">{article.data.title}</h2>
+              <p class="article-description">{article.data.description}</p>
+              <div class="article-tags">
+                {article.data.tags.map((tag) => (
+                  <span class="tag">{tag}</span>
+                ))}
+              </div>
+              <div class="read-more">
+                <span class="prompt">$</span> cat {article.slug}.md
+              </div>
+            </a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .articles-page {
+    min-height: calc(100vh - 60px);
+    padding: 4rem 0;
+    background: linear-gradient(135deg, var(--color-bg) 0%, #151516 100%);
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .page-header {
+    margin-bottom: 4rem;
+    text-align: center;
+  }
+
+  .page-header h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .mono {
+    font-family: var(--font-mono);
+    color: var(--color-text);
+  }
+
+  .accent {
+    color: var(--color-accent);
+    font-family: var(--font-mono);
+  }
+
+  .subtitle {
+    color: var(--color-text-secondary);
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .articles-grid {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  }
+
+  .article-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .article-card:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.1);
+    transform: translateY(-2px);
+  }
+
+  .article-link {
+    display: block;
+    padding: 2rem;
+    color: inherit;
+    text-decoration: none;
+    height: 100%;
+  }
+
+  .article-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .featured-badge {
+    background: var(--color-accent);
+    color: var(--color-bg);
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  .article-date {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    font-family: var(--font-mono);
+  }
+
+  .article-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+    color: var(--color-text);
+  }
+
+  .article-description {
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .article-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .tag {
+    background: var(--color-border);
+    color: var(--color-text-secondary);
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.25rem;
+    font-size: 0.8rem;
+    font-family: var(--font-mono);
+  }
+
+  .read-more {
+    color: var(--color-accent);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .article-card:hover .read-more {
+    opacity: 1;
+  }
+
+  .prompt {
+    color: var(--color-accent);
+  }
+
+  @media (max-width: 768px) {
+    .articles-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .article-card {
+      max-width: 500px;
+      margin: 0 auto;
+      width: 100%;
+    }
+  }
+</style>

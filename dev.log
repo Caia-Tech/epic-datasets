@@ -1,0 +1,37 @@
+
+> caiatech.com@0.0.1 dev
+> astro dev
+
+14:48:32 [types] Generated 0ms
+14:48:32 [content] Syncing content
+14:48:32 [content] Synced content
+14:48:32 [vite] Port 4321 is in use, trying another one...
+
+ astro  v5.9.1 ready in 213 ms
+
+┃ Local    http://localhost:4322/
+┃ Network  use --host to expose
+
+14:48:32 watching for file changes...
+14:52:52 [glob-loader] Reloaded data from git-temporal-infrastructure-automation.md
+14:54:07 [200] / 11ms
+15:03:30 [glob-loader] Reloaded data from git-temporal-infrastructure-automation.md
+15:04:27 [glob-loader] Reloaded data from git-forensics-ai-deepfakes.md
+15:04:27 [glob-loader] Reloaded data from git-forensics-ai-deepfakes.md
+15:11:35 [glob-loader] Reloaded data from git-temporal-infrastructure-automation.md
+15:11:40 [glob-loader] Reloaded data from git-forensics-ai-deepfakes.md
+15:12:24 [glob-loader] Reloaded data from git-temporal-infrastructure-automation.md
+15:12:28 [glob-loader] Reloaded data from git-forensics-ai-deepfakes.md
+15:18:41 [glob-loader] Reloaded data from afdp-trillion-dollar-ai-lie.md
+15:18:41 [glob-loader] Reloaded data from afdp-trillion-dollar-ai-lie.md
+15:21:28 [glob-loader] Reloaded data from afdp-trillion-dollar-ai-lie.md
+15:22:48 [200] / 8ms
+15:22:50 [200] /articles/ 18ms
+15:23:02 [200] /articles/afdp-trillion-dollar-ai-lie/ 31ms
+15:23:22 [200] / 14ms
+15:23:23 [200] /articles/ 5ms
+15:23:42 [200] / 9ms
+15:24:31 [200] /articles/ 16ms
+15:24:33 [watch] src/pages/index.astro
+15:24:33 [200] /articles/ 3ms
+15:24:33 [200] / 6ms

@@ -1,0 +1,1200 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CaiatechToolLayout from '../../components/tools/CaiatechToolLayout.astro';
+import ToolAttribution from '../../components/tools/ToolAttribution.astro';
+import PrivacyBadge from '../../components/tools/PrivacyBadge.astro';
+---
+
+<BaseLayout title="Lorem Ipsum Generator - Caiatech">
+  <CaiatechToolLayout 
+    title="Lorem Ipsum Generator" 
+    description="Generate placeholder text"
+    icon="Lo">
+    
+    <div slot="header-actions">
+      <PrivacyBadge />
+    </div>
+    
+    <div class="lorem-tool">
+      <!-- Generator Controls Panel -->
+      <div class="terminal-panel controls-panel">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">CONFIG://lorem.generator</span>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-prompt">
+            <span class="prompt-symbol">$</span>
+            <span class="prompt-text">configure</span>
+            <span class="prompt-arrow">→</span>
+          </div>
+          
+          <div class="controls-grid">
+            <div class="control-group">
+              <label for="text-type">Text Type:</label>
+              <select id="text-type" class="cyber-select">
+                <option value="paragraphs">Paragraphs</option>
+                <option value="words">Words</option>
+                <option value="bytes">Bytes</option>
+                <option value="lists">Lists</option>
+              </select>
+            </div>
+            
+            <div class="control-group">
+              <label for="amount">Amount:</label>
+              <input type="number" id="amount" value="3" min="1" max="100" class="cyber-input">
+            </div>
+            
+            <div class="control-group">
+              <label for="start-with">Start with:</label>
+              <select id="start-with" class="cyber-select">
+                <option value="lorem">Lorem ipsum dolor sit amet...</option>
+                <option value="random">Random text</option>
+              </select>
+            </div>
+            
+            <div class="control-group">
+              <label for="language">Language Style:</label>
+              <select id="language" class="cyber-select">
+                <option value="latin">Latin (Classic)</option>
+                <option value="english">English-like</option>
+                <option value="tech">Tech Terms</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="format-options">
+            <h4>Format Options</h4>
+            <div class="checkbox-grid">
+              <label class="checkbox-item">
+                <input type="checkbox" id="add-html"> 
+                <span>HTML Tags (p, strong, em)</span>
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" id="add-links"> 
+                <span>Random Links</span>
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" id="add-headings"> 
+                <span>Headings (h2, h3)</span>
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" id="line-breaks"> 
+                <span>Extra Line Breaks</span>
+              </label>
+            </div>
+          </div>
+          
+          <div class="action-buttons">
+            <button id="generate-btn" class="cyber-btn primary">
+              <span class="btn-glow"></span>
+              <span class="btn-text">Generate Text</span>
+            </button>
+            <button id="copy-btn" class="cyber-btn secondary">
+              <span class="btn-text">Copy All</span>
+            </button>
+            <button id="clear-btn" class="cyber-btn secondary">
+              <span class="btn-text">Clear</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Output Panel -->
+      <div class="terminal-panel output-panel">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">OUTPUT://lorem.text</span>
+          <div class="terminal-actions">
+            <div class="output-stats">
+              <span id="word-count">0 words</span>
+              <span class="separator">•</span>
+              <span id="char-count">0 characters</span>
+              <span class="separator">•</span>
+              <span id="para-count">0 paragraphs</span>
+            </div>
+          </div>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-prompt">
+            <span class="prompt-symbol">></span>
+            <span class="prompt-text">generated</span>
+          </div>
+          <div id="output-text" class="output-text" contenteditable="true" spellcheck="false">
+            Click "Generate Text" to create placeholder content...
+          </div>
+          <div class="output-actions">
+            <button id="select-all-btn" class="btn-small">Select All</button>
+            <button id="download-btn" class="btn-small">Download TXT</button>
+            <button id="download-html-btn" class="btn-small">Download HTML</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Presets Panel -->
+      <div class="terminal-panel presets-panel">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">PRESETS://quick.templates</span>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-prompt">
+            <span class="prompt-symbol">></span>
+            <span class="prompt-text">templates</span>
+          </div>
+          <div class="presets-grid">
+            <button class="preset-btn" data-preset="short-content">
+              <div class="preset-title">Short Content</div>
+              <div class="preset-desc">2 paragraphs, HTML tags</div>
+            </button>
+            <button class="preset-btn" data-preset="blog-post">
+              <div class="preset-title">Blog Post</div>
+              <div class="preset-desc">5 paragraphs, headings, links</div>
+            </button>
+            <button class="preset-btn" data-preset="product-desc">
+              <div class="preset-title">Product Description</div>
+              <div class="preset-desc">3 paragraphs, tech terms</div>
+            </button>
+            <button class="preset-btn" data-preset="long-article">
+              <div class="preset-title">Long Article</div>
+              <div class="preset-desc">8 paragraphs, full formatting</div>
+            </button>
+            <button class="preset-btn" data-preset="word-list">
+              <div class="preset-title">Word List</div>
+              <div class="preset-desc">50 words, comma separated</div>
+            </button>
+            <button class="preset-btn" data-preset="navigation">
+              <div class="preset-title">Navigation Menu</div>
+              <div class="preset-desc">8 words, short phrases</div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <ToolAttribution toolName="Lorem Ipsum Generator" version="2.0.0" />
+  </CaiatechToolLayout>
+</BaseLayout>
+
+<style>
+  .lorem-tool {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .controls-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .control-group label {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+  }
+
+  .cyber-select,
+  .cyber-input {
+    padding: 0.75rem;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 6px;
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    transition: all 0.3s;
+  }
+
+  .cyber-select:focus,
+  .cyber-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+  }
+
+  .format-options {
+    margin-bottom: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(0, 212, 255, 0.2);
+  }
+
+  .format-options h4 {
+    margin: 0 0 1rem 0;
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    padding: 0.75rem;
+    border-radius: 6px;
+    transition: all 0.2s;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+  }
+
+  .checkbox-item:hover {
+    background: rgba(0, 212, 255, 0.05);
+    color: var(--color-text);
+  }
+
+  .checkbox-item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--color-accent);
+    cursor: pointer;
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .output-text {
+    min-height: 300px;
+    max-height: 500px;
+    padding: 1.5rem;
+    overflow-y: auto;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(0, 212, 255, 0.1);
+    border-radius: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--color-text);
+    outline: none;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s;
+  }
+
+  .output-text:focus {
+    border-color: rgba(0, 212, 255, 0.3);
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.2);
+  }
+
+  .output-text:empty:before {
+    content: "Click 'Generate Text' to create placeholder content...";
+    color: var(--color-text-secondary);
+    font-style: italic;
+  }
+
+  .output-stats {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+  }
+
+  .separator {
+    opacity: 0.5;
+  }
+
+  .output-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-small {
+    padding: 0.5rem 1rem;
+    background: rgba(0, 212, 255, 0.1);
+    color: var(--color-accent);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    transition: all 0.2s;
+  }
+
+  .btn-small:hover {
+    background: rgba(0, 212, 255, 0.2);
+    border-color: var(--color-accent);
+    transform: translateY(-1px);
+  }
+
+  .presets-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+
+  .preset-btn {
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.3s;
+    color: var(--color-text);
+  }
+
+  .preset-btn:hover {
+    border-color: var(--color-accent);
+    background: rgba(0, 212, 255, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0, 212, 255, 0.2);
+  }
+
+  .preset-title {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .preset-desc {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    opacity: 0.8;
+  }
+
+  /* HTML formatting in output */
+  .output-text h2,
+  .output-text h3 {
+    color: var(--color-accent);
+    margin: 1.5rem 0 1rem 0;
+    font-family: var(--font-mono);
+  }
+
+  .output-text h2 {
+    font-size: 1.3rem;
+    border-bottom: 1px solid rgba(0, 212, 255, 0.3);
+    padding-bottom: 0.5rem;
+  }
+
+  .output-text h3 {
+    font-size: 1.1rem;
+  }
+
+  .output-text p {
+    margin: 1rem 0;
+  }
+
+  .output-text strong {
+    color: var(--color-accent);
+    font-weight: 600;
+  }
+
+  .output-text em {
+    color: #ffbd2e;
+    font-style: italic;
+  }
+
+  .output-text a {
+    color: var(--color-accent);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: all 0.2s;
+  }
+
+  .output-text a:hover {
+    border-bottom-color: var(--color-accent);
+    text-shadow: 0 0 5px var(--color-accent);
+  }
+
+  .output-text ul,
+  .output-text ol {
+    margin: 1rem 0;
+    padding-left: 2rem;
+  }
+
+  .output-text li {
+    margin: 0.5rem 0;
+    color: var(--color-text-secondary);
+  }
+
+  /* Terminal panels */
+  .terminal-panel {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 
+      0 10px 40px rgba(0, 0, 0, 0.3),
+      0 0 60px rgba(0, 212, 255, 0.05);
+    transition: all 0.3s ease;
+  }
+
+  .terminal-panel:hover {
+    box-shadow: 
+      0 10px 40px rgba(0, 0, 0, 0.4),
+      0 0 80px rgba(0, 212, 255, 0.1);
+    border-color: rgba(0, 212, 255, 0.3);
+  }
+
+  .terminal-header {
+    background: linear-gradient(90deg, rgba(42, 42, 43, 1) 0%, rgba(26, 26, 27, 1) 100%);
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .terminal-controls {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .control {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    transition: all 0.2s;
+  }
+
+  .control.red { 
+    background: #ff5f57; 
+    box-shadow: 0 0 10px rgba(255, 95, 87, 0.5);
+  }
+  .control.yellow { 
+    background: #ffbd2e; 
+    box-shadow: 0 0 10px rgba(255, 189, 46, 0.5);
+  }
+  .control.green { 
+    background: #28ca42; 
+    box-shadow: 0 0 10px rgba(40, 202, 66, 0.5);
+  }
+
+  .terminal-panel:hover .control {
+    box-shadow: 0 0 15px currentColor;
+  }
+
+  .terminal-title {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-accent);
+    margin-left: auto;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.8;
+  }
+
+  .terminal-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: 1rem;
+  }
+
+  .terminal-action {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--color-text-secondary);
+    padding: 0.25rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .terminal-action:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    background: rgba(0, 212, 255, 0.1);
+  }
+
+  .terminal-body {
+    padding: 1.5rem;
+  }
+
+  .terminal-prompt {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .prompt-symbol {
+    color: var(--color-accent);
+    font-weight: bold;
+  }
+
+  .prompt-text {
+    color: var(--color-text-secondary);
+  }
+
+  .prompt-arrow {
+    color: var(--color-accent);
+    opacity: 0.5;
+  }
+
+  .terminal-input,
+  .terminal-output {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 8px;
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    padding: 1rem;
+    width: 100%;
+    min-height: 200px;
+    resize: vertical;
+    transition: all 0.3s;
+  }
+
+  .terminal-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 
+      0 0 20px rgba(0, 212, 255, 0.2),
+      inset 0 0 20px rgba(0, 212, 255, 0.05);
+  }
+
+  .terminal-output {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.6;
+  }
+
+  /* Control center */
+  .control-center {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.02) 0%, rgba(118, 75, 162, 0.02) 100%);
+    border: 1px solid rgba(0, 212, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+
+  .control-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Cyber buttons */
+  .cyber-btn {
+    position: relative;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+
+  .cyber-btn.primary {
+    border-color: var(--color-accent);
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  }
+
+  .cyber-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0, 212, 255, 0.3);
+  }
+
+  .cyber-btn.primary:hover {
+    border-color: var(--color-accent);
+    box-shadow: 
+      0 5px 30px rgba(0, 212, 255, 0.4),
+      inset 0 0 30px rgba(0, 212, 255, 0.1);
+  }
+
+  .btn-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--color-accent) 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+
+  .cyber-btn:hover .btn-glow {
+    width: 300px;
+    height: 300px;
+    opacity: 0;
+  }
+
+  .btn-text {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  /* Status bar */
+  .status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    border: 1px solid rgba(0, 212, 255, 0.1);
+  }
+
+  .status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { 
+      opacity: 1;
+      box-shadow: 0 0 10px var(--color-accent);
+    }
+    50% { 
+      opacity: 0.5;
+      box-shadow: 0 0 5px var(--color-accent);
+    }
+  }
+
+  .status-text {
+    color: var(--color-text-secondary);
+  }
+
+  .stats {
+    display: flex;
+    gap: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+  }
+
+  .stat-item {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .stat-separator {
+    opacity: 0.3;
+  }
+
+  /* Success/Error states */
+  .status-indicator.success .status-dot {
+    background: #28ca42;
+    animation: success-pulse 1s;
+  }
+
+  .status-indicator.error .status-dot {
+    background: #ff5f57;
+    animation: error-pulse 1s;
+  }
+
+  @keyframes success-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.5); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes error-pulse {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .controls-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .checkbox-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .presets-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .action-buttons,
+    .output-actions {
+      flex-direction: column;
+    }
+
+    .output-stats {
+      flex-direction: column;
+      gap: 0.25rem;
+      text-align: center;
+    }
+
+    .separator {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // Lorem Ipsum Generator - JavaScript Implementation
+  const textType = document.getElementById('text-type');
+  const amount = document.getElementById('amount');
+  const startWith = document.getElementById('start-with');
+  const language = document.getElementById('language');
+  const addHtml = document.getElementById('add-html');
+  const addLinks = document.getElementById('add-links');
+  const addHeadings = document.getElementById('add-headings');
+  const lineBreaks = document.getElementById('line-breaks');
+  const outputText = document.getElementById('output-text');
+  const wordCount = document.getElementById('word-count');
+  const charCount = document.getElementById('char-count');
+  const paraCount = document.getElementById('para-count');
+
+  // Lorem ipsum word banks
+  const latinWords = [
+    'lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipiscing', 'elit',
+    'sed', 'do', 'eiusmod', 'tempor', 'incididunt', 'ut', 'labore', 'et', 'dolore',
+    'magna', 'aliqua', 'enim', 'ad', 'minim', 'veniam', 'quis', 'nostrud',
+    'exercitation', 'ullamco', 'laboris', 'nisi', 'aliquip', 'ex', 'ea', 'commodo',
+    'consequat', 'duis', 'aute', 'irure', 'in', 'reprehenderit', 'voluptate',
+    'velit', 'esse', 'cillum', 'fugiat', 'nulla', 'pariatur', 'excepteur', 'sint',
+    'occaecat', 'cupidatat', 'non', 'proident', 'sunt', 'culpa', 'qui', 'officia',
+    'deserunt', 'mollit', 'anim', 'id', 'est', 'laborum', 'at', 'vero', 'eos',
+    'accusamus', 'iusto', 'odio', 'dignissimos', 'ducimus', 'blanditiis',
+    'praesentium', 'voluptatum', 'deleniti', 'atque', 'corrupti', 'quos', 'quas',
+    'molestias', 'excepturi', 'obcaecati', 'similique', 'eleifend', 'tellus',
+    'integer', 'feugiat', 'scelerisque', 'varius', 'morbi', 'enim', 'nunc'
+  ];
+
+  const englishWords = [
+    'the', 'quick', 'brown', 'fox', 'jumps', 'over', 'lazy', 'dog', 'and', 'runs',
+    'through', 'forest', 'with', 'great', 'speed', 'while', 'birds', 'sing',
+    'beautiful', 'songs', 'trees', 'sway', 'gentle', 'breeze', 'flowers', 'bloom',
+    'spring', 'sunshine', 'creates', 'perfect', 'atmosphere', 'peaceful', 'walk',
+    'nature', 'provides', 'endless', 'inspiration', 'creative', 'minds', 'seek',
+    'adventure', 'explore', 'unknown', 'territories', 'discover', 'hidden',
+    'treasures', 'learn', 'valuable', 'lessons', 'experience', 'teaches',
+    'wisdom', 'knowledge', 'grows', 'every', 'single', 'moment', 'life',
+    'offers', 'opportunities', 'embrace', 'change', 'welcome', 'challenges'
+  ];
+
+  const techWords = [
+    'algorithm', 'database', 'framework', 'interface', 'protocol', 'server',
+    'client', 'application', 'system', 'network', 'security', 'encryption',
+    'authentication', 'authorization', 'deployment', 'scaling', 'performance',
+    'optimization', 'integration', 'architecture', 'microservices', 'container',
+    'orchestration', 'automation', 'continuous', 'delivery', 'monitoring',
+    'analytics', 'machine', 'learning', 'artificial', 'intelligence', 'cloud',
+    'computing', 'storage', 'processing', 'bandwidth', 'latency', 'throughput',
+    'redundancy', 'failover', 'backup', 'recovery', 'synchronization',
+    'replication', 'caching', 'indexing', 'querying', 'transaction'
+  ];
+
+  const loremStart = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
+
+  function getRandomWord(wordBank) {
+    return wordBank[Math.floor(Math.random() * wordBank.length)];
+  }
+
+  function getWordBank() {
+    switch (language.value) {
+      case 'english': return englishWords;
+      case 'tech': return techWords;
+      default: return latinWords;
+    }
+  }
+
+  function generateWords(count) {
+    const wordBank = getWordBank();
+    const words = [];
+    
+    for (let i = 0; i < count; i++) {
+      words.push(getRandomWord(wordBank));
+    }
+    
+    return words.join(textType.value === 'lists' ? ', ' : ' ');
+  }
+
+  function generateSentence(minWords = 8, maxWords = 20) {
+    const wordBank = getWordBank();
+    const wordCount = Math.floor(Math.random() * (maxWords - minWords + 1)) + minWords;
+    const words = [];
+    
+    for (let i = 0; i < wordCount; i++) {
+      words.push(getRandomWord(wordBank));
+    }
+    
+    // Capitalize first word
+    if (words.length > 0) {
+      words[0] = words[0].charAt(0).toUpperCase() + words[0].slice(1);
+    }
+    
+    return words.join(' ') + '.';
+  }
+
+  function generateParagraph() {
+    const sentenceCount = Math.floor(Math.random() * 5) + 3; // 3-7 sentences
+    const sentences = [];
+    
+    for (let i = 0; i < sentenceCount; i++) {
+      sentences.push(generateSentence());
+    }
+    
+    return sentences.join(' ');
+  }
+
+  function addHtmlFormatting(text) {
+    const sentences = text.split('. ');
+    let formatted = '';
+    
+    sentences.forEach((sentence, index) => {
+      if (sentence.trim()) {
+        const rand = Math.random();
+        
+        // Add occasional strong/em tags
+        if (rand < 0.1) {
+          const words = sentence.split(' ');
+          const wordIndex = Math.floor(Math.random() * words.length);
+          words[wordIndex] = `<strong>${words[wordIndex]}</strong>`;
+          sentence = words.join(' ');
+        } else if (rand < 0.15) {
+          const words = sentence.split(' ');
+          const wordIndex = Math.floor(Math.random() * words.length);
+          words[wordIndex] = `<em>${words[wordIndex]}</em>`;
+          sentence = words.join(' ');
+        }
+        
+        formatted += sentence + (sentence.endsWith('.') ? '' : '.') + ' ';
+      }
+    });
+    
+    return formatted.trim();
+  }
+
+  function addRandomLinks(text) {
+    const words = text.split(' ');
+    const linkCount = Math.floor(words.length / 20); // Roughly 1 link per 20 words
+    
+    for (let i = 0; i < linkCount; i++) {
+      const randomIndex = Math.floor(Math.random() * words.length);
+      const word = words[randomIndex];
+      if (word && !word.includes('<')) {
+        words[randomIndex] = `<a href="#">${word}</a>`;
+      }
+    }
+    
+    return words.join(' ');
+  }
+
+  function generateContent() {
+    const amountValue = parseInt(amount.value) || 1;
+    const type = textType.value;
+    const useLoremStart = startWith.value === 'lorem';
+    
+    let content = '';
+    
+    switch (type) {
+      case 'words':
+        if (useLoremStart) {
+          const loremWords = loremStart.split(' ');
+          const additionalWords = Math.max(0, amountValue - loremWords.length);
+          content = loremStart;
+          if (additionalWords > 0) {
+            content += ' ' + generateWords(additionalWords);
+          }
+        } else {
+          content = generateWords(amountValue);
+        }
+        break;
+        
+      case 'bytes':
+        if (useLoremStart) {
+          content = loremStart;
+          while (content.length < amountValue) {
+            content += ' ' + generateWords(10);
+          }
+          content = content.substring(0, amountValue);
+        } else {
+          content = generateWords(Math.ceil(amountValue / 6)); // Rough estimate
+          content = content.substring(0, amountValue);
+        }
+        break;
+        
+      case 'lists':
+        content = generateWords(amountValue);
+        break;
+        
+      default: // paragraphs
+        const paragraphs = [];
+        
+        for (let i = 0; i < amountValue; i++) {
+          let paragraph = '';
+          
+          if (i === 0 && useLoremStart) {
+            paragraph = loremStart + ' ' + generateParagraph().substring(loremStart.length);
+          } else {
+            paragraph = generateParagraph();
+          }
+          
+          // Add HTML formatting
+          if (addHtml.checked) {
+            paragraph = addHtmlFormatting(paragraph);
+          }
+          
+          // Add random links
+          if (addLinks.checked) {
+            paragraph = addRandomLinks(paragraph);
+          }
+          
+          paragraphs.push(paragraph);
+        }
+        
+        content = paragraphs.join(lineBreaks.checked ? '\n\n' : '\n');
+        break;
+    }
+    
+    // Add headings for paragraph content
+    if (type === 'paragraphs' && addHeadings.checked && amountValue > 2) {
+      const headings = ['Introduction', 'Overview', 'Key Features', 'Implementation', 'Benefits', 'Conclusion', 'Summary', 'Details'];
+      const paragraphArray = content.split('\n');
+      const newContent = [];
+      
+      paragraphArray.forEach((para, index) => {
+        if (index > 0 && index % 3 === 0 && headings.length > 0) {
+          const headingLevel = Math.random() > 0.5 ? 'h2' : 'h3';
+          const heading = headings.shift();
+          newContent.push(`<${headingLevel}>${heading}</${headingLevel}>`);
+        }
+        newContent.push(para);
+      });
+      
+      content = newContent.join('\n');
+    }
+    
+    return content;
+  }
+
+  function displayContent(content) {
+    if (addHtml.checked || addLinks.checked || addHeadings.checked) {
+      outputText.innerHTML = content.replace(/\n/g, '<br>');
+    } else {
+      outputText.textContent = content;
+    }
+    
+    updateStats(content);
+  }
+
+  function updateStats(content) {
+    // Remove HTML tags for accurate counting
+    const plainText = content.replace(/<[^>]*>/g, '');
+    const words = plainText.trim() ? plainText.trim().split(/\s+/).length : 0;
+    const chars = plainText.length;
+    const paras = content.split(/\n\s*\n/).length;
+    
+    wordCount.textContent = `${words} word${words === 1 ? '' : 's'}`;
+    charCount.textContent = `${chars} character${chars === 1 ? '' : 's'}`;
+    paraCount.textContent = `${paras} paragraph${paras === 1 ? '' : 's'}`;
+  }
+
+  function applyPreset(presetName) {
+    switch (presetName) {
+      case 'short-content':
+        textType.value = 'paragraphs';
+        amount.value = '2';
+        startWith.value = 'lorem';
+        language.value = 'latin';
+        addHtml.checked = true;
+        addLinks.checked = false;
+        addHeadings.checked = false;
+        lineBreaks.checked = false;
+        break;
+        
+      case 'blog-post':
+        textType.value = 'paragraphs';
+        amount.value = '5';
+        startWith.value = 'lorem';
+        language.value = 'english';
+        addHtml.checked = true;
+        addLinks.checked = true;
+        addHeadings.checked = true;
+        lineBreaks.checked = true;
+        break;
+        
+      case 'product-desc':
+        textType.value = 'paragraphs';
+        amount.value = '3';
+        startWith.value = 'random';
+        language.value = 'tech';
+        addHtml.checked = true;
+        addLinks.checked = false;
+        addHeadings.checked = false;
+        lineBreaks.checked = false;
+        break;
+        
+      case 'long-article':
+        textType.value = 'paragraphs';
+        amount.value = '8';
+        startWith.value = 'lorem';
+        language.value = 'english';
+        addHtml.checked = true;
+        addLinks.checked = true;
+        addHeadings.checked = true;
+        lineBreaks.checked = true;
+        break;
+        
+      case 'word-list':
+        textType.value = 'words';
+        amount.value = '50';
+        startWith.value = 'random';
+        language.value = 'latin';
+        addHtml.checked = false;
+        addLinks.checked = false;
+        addHeadings.checked = false;
+        lineBreaks.checked = false;
+        break;
+        
+      case 'navigation':
+        textType.value = 'words';
+        amount.value = '8';
+        startWith.value = 'random';
+        language.value = 'english';
+        addHtml.checked = false;
+        addLinks.checked = false;
+        addHeadings.checked = false;
+        lineBreaks.checked = false;
+        break;
+    }
+  }
+
+  // Event listeners
+  document.getElementById('generate-btn')?.addEventListener('click', () => {
+    const content = generateContent();
+    displayContent(content);
+  });
+
+  document.getElementById('copy-btn')?.addEventListener('click', async () => {
+    const content = outputText.textContent || outputText.innerText;
+    try {
+      await navigator.clipboard.writeText(content);
+      const btn = document.getElementById('copy-btn');
+      const originalText = btn.textContent;
+      btn.textContent = 'Copied!';
+      setTimeout(() => {
+        btn.textContent = originalText;
+      }, 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  });
+
+  document.getElementById('clear-btn')?.addEventListener('click', () => {
+    outputText.innerHTML = '';
+    updateStats('');
+  });
+
+  document.getElementById('select-all-btn')?.addEventListener('click', () => {
+    const range = document.createRange();
+    range.selectNodeContents(outputText);
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+  });
+
+  document.getElementById('download-btn')?.addEventListener('click', () => {
+    const content = outputText.textContent || outputText.innerText;
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'lorem-ipsum.txt';
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  document.getElementById('download-html-btn')?.addEventListener('click', () => {
+    const content = outputText.innerHTML;
+    const html = `<!DOCTYPE html>
+<html>
+<head>
+    <title>Lorem Ipsum Content</title>
+    <meta charset="utf-8">
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 800px; margin: 2rem auto; padding: 2rem; line-height: 1.6; }
+        h2, h3 { color: #333; margin: 1.5rem 0 1rem 0; }
+        p { margin: 1rem 0; }
+    </style>
+</head>
+<body>
+${content}
+<hr>
+<p><em>Generated by <a href="https://caiatech.com/tools/lorem">Caiatech Lorem Ipsum Generator</a></em></p>
+</body>
+</html>`;
+    
+    const blob = new Blob([html], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'lorem-ipsum.html';
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  // Preset buttons
+  document.querySelectorAll('.preset-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const preset = e.currentTarget.getAttribute('data-preset');
+      applyPreset(preset);
+      const content = generateContent();
+      displayContent(content);
+    });
+  });
+
+  // Auto-generate on page load
+  const content = generateContent();
+  displayContent(content);
+</script>

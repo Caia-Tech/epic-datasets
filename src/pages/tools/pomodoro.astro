@@ -1,0 +1,951 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CaiatechToolLayout from '../../components/tools/CaiatechToolLayout.astro';
+import ToolAttribution from '../../components/tools/ToolAttribution.astro';
+import PrivacyBadge from '../../components/tools/PrivacyBadge.astro';
+---
+
+<BaseLayout title="Pomodoro Timer - Caiatech">
+  <CaiatechToolLayout 
+    title="Pomodoro Timer" 
+    description="Productivity timer using Pomodoro technique"
+    icon="🍅">
+    
+    <div slot="header-actions">
+      <PrivacyBadge />
+    </div>
+    
+    <div class="tool-container">
+      <!-- Timer Display -->
+      <div class="terminal-panel timer-display">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">TIMER://pomodoro.display</span>
+          <div class="terminal-actions">
+            <button class="terminal-action" id="settings-btn" title="Settings">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M12 1v6m0 6v6m4.22-13.22l4.24 4.24M1.54 1.54l4.24 4.24M21 12h-6m-6 0H3m13.22 4.22l4.24 4.24M1.54 20.46l4.24-4.24"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="terminal-body">
+          <div class="timer-content">
+            <div class="session-type" id="session-type">WORK SESSION</div>
+            <div class="timer-digits" id="timer-display">25:00</div>
+            <div class="timer-progress">
+              <div class="progress-bar" id="progress-bar"></div>
+            </div>
+            <div class="session-counter">
+              Session <span id="session-count">1</span> of <span id="total-sessions">4</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Control center -->
+      <div class="control-center">
+        <div class="control-grid">
+          <button id="start-btn" class="cyber-btn primary">
+            <span class="btn-glow"></span>
+            <span class="btn-text">▶️ Start</span>
+          </button>
+          <button id="pause-btn" class="cyber-btn primary" style="display: none;">
+            <span class="btn-glow"></span>
+            <span class="btn-text">⏸️ Pause</span>
+          </button>
+          <button id="reset-btn" class="cyber-btn secondary">
+            <span class="btn-text">🔄 Reset</span>
+          </button>
+          <button id="skip-btn" class="cyber-btn secondary">
+            <span class="btn-text">⏭️ Skip</span>
+          </button>
+        </div>
+        
+        <!-- Timer Settings -->
+        <div class="settings-panel" id="settings-panel" style="display: none;">
+          <h3 class="settings-title">Timer Settings</h3>
+          <div class="settings-grid">
+            <div class="setting-item">
+              <label for="work-time">Work Time (min):</label>
+              <input type="number" id="work-time" min="1" max="60" value="25" class="setting-input">
+            </div>
+            <div class="setting-item">
+              <label for="short-break">Short Break (min):</label>
+              <input type="number" id="short-break" min="1" max="30" value="5" class="setting-input">
+            </div>
+            <div class="setting-item">
+              <label for="long-break">Long Break (min):</label>
+              <input type="number" id="long-break" min="1" max="60" value="15" class="setting-input">
+            </div>
+            <div class="setting-item">
+              <label for="auto-start">Auto-start:</label>
+              <input type="checkbox" id="auto-start" class="setting-checkbox">
+            </div>
+            <div class="setting-item">
+              <label for="sound-enabled">Sound:</label>
+              <input type="checkbox" id="sound-enabled" class="setting-checkbox" checked>
+            </div>
+          </div>
+          <button id="save-settings" class="cyber-btn secondary">
+            <span class="btn-text">💾 Save Settings</span>
+          </button>
+        </div>
+        
+        <!-- Status indicator -->
+        <div class="status-bar">
+          <div class="status-indicator" id="status">
+            <span class="status-dot"></span>
+            <span class="status-text">Ready</span>
+          </div>
+          <div class="stats" id="stats">
+            <span class="stat-item">Today: <span id="completed-today">0</span> 🍅</span>
+            <span class="stat-separator">•</span>
+            <span class="stat-item">Total: <span id="total-time">00:00</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Terminal-style output section -->
+      <div class="terminal-panel output-terminal">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">OUTPUT://pomodoro.log</span>
+          <div class="terminal-actions">
+            <button class="terminal-action" id="clear-log-btn" title="Clear Log">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6"/>
+              </svg>
+            </button>
+            <button class="terminal-action" id="download-btn" title="Download">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-prompt">
+            <span class="prompt-symbol">></span>
+            <span class="prompt-text">session.log</span>
+          </div>
+          <pre id="output" class="terminal-output">🍅 Pomodoro Timer initialized
+Ready to start your first work session...</pre>
+        </div>
+      </div>
+    </div>
+    
+    <ToolAttribution toolName="Pomodoro Timer" version="2.0.0" />
+  </CaiatechToolLayout>
+</BaseLayout>
+
+<style>
+  .tool-container {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  /* Terminal panels */
+  .terminal-panel {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 
+      0 10px 40px rgba(0, 0, 0, 0.3),
+      0 0 60px rgba(0, 212, 255, 0.05);
+    transition: all 0.3s ease;
+  }
+
+  .terminal-panel:hover {
+    box-shadow: 
+      0 10px 40px rgba(0, 0, 0, 0.4),
+      0 0 80px rgba(0, 212, 255, 0.1);
+    border-color: rgba(0, 212, 255, 0.3);
+  }
+
+  .terminal-header {
+    background: linear-gradient(90deg, rgba(42, 42, 43, 1) 0%, rgba(26, 26, 27, 1) 100%);
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .terminal-controls {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .control {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    transition: all 0.2s;
+  }
+
+  .control.red { 
+    background: #ff5f57; 
+    box-shadow: 0 0 10px rgba(255, 95, 87, 0.5);
+  }
+  .control.yellow { 
+    background: #ffbd2e; 
+    box-shadow: 0 0 10px rgba(255, 189, 46, 0.5);
+  }
+  .control.green { 
+    background: #28ca42; 
+    box-shadow: 0 0 10px rgba(40, 202, 66, 0.5);
+  }
+
+  .terminal-panel:hover .control {
+    box-shadow: 0 0 15px currentColor;
+  }
+
+  .terminal-title {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-accent);
+    margin-left: auto;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.8;
+  }
+
+  .terminal-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: 1rem;
+  }
+
+  .terminal-action {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--color-text-secondary);
+    padding: 0.25rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .terminal-action:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    background: rgba(0, 212, 255, 0.1);
+  }
+
+  .terminal-body {
+    padding: 1.5rem;
+  }
+
+  .terminal-prompt {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .prompt-symbol {
+    color: var(--color-accent);
+    font-weight: bold;
+  }
+
+  .prompt-text {
+    color: var(--color-text-secondary);
+  }
+
+  .prompt-arrow {
+    color: var(--color-accent);
+    opacity: 0.5;
+  }
+
+  .terminal-output {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 8px;
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    padding: 1rem;
+    width: 100%;
+    min-height: 150px;
+    max-height: 300px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    line-height: 1.6;
+    transition: all 0.3s;
+  }
+
+  /* Timer Display */
+  .timer-content {
+    text-align: center;
+    padding: 2rem 1rem;
+  }
+
+  .session-type {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+    opacity: 0.8;
+  }
+
+  .timer-digits {
+    font-family: var(--font-mono);
+    font-size: 4rem;
+    font-weight: bold;
+    color: var(--color-text);
+    text-shadow: 
+      0 0 20px rgba(0, 212, 255, 0.5),
+      0 0 40px rgba(0, 212, 255, 0.3);
+    margin: 1rem 0;
+    letter-spacing: 0.2em;
+  }
+
+  .timer-progress {
+    width: 100%;
+    max-width: 400px;
+    height: 8px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+    margin: 2rem auto;
+    overflow: hidden;
+    border: 1px solid rgba(0, 212, 255, 0.2);
+  }
+
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--color-accent), rgba(118, 75, 162, 0.8));
+    width: 0%;
+    transition: width 1s linear;
+    box-shadow: 0 0 10px var(--color-accent);
+  }
+
+  .session-counter {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    margin-top: 1rem;
+  }
+
+  /* Control center */
+  .control-center {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.02) 0%, rgba(118, 75, 162, 0.02) 100%);
+    border: 1px solid rgba(0, 212, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+
+  .control-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Settings Panel */
+  .settings-panel {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .settings-title {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    color: var(--color-accent);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .settings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .setting-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .setting-item label {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    flex: 1;
+  }
+
+  .setting-input {
+    width: 60px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 4px;
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    padding: 0.25rem 0.5rem;
+    transition: all 0.3s;
+  }
+
+  .setting-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.2);
+  }
+
+  .setting-checkbox {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--color-accent);
+  }
+
+  /* Cyber buttons */
+  .cyber-btn {
+    position: relative;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+
+  .cyber-btn.primary {
+    border-color: var(--color-accent);
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  }
+
+  .cyber-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0, 212, 255, 0.3);
+  }
+
+  .cyber-btn.primary:hover {
+    border-color: var(--color-accent);
+    box-shadow: 
+      0 5px 30px rgba(0, 212, 255, 0.4),
+      inset 0 0 30px rgba(0, 212, 255, 0.1);
+  }
+
+  .btn-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--color-accent) 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+
+  .cyber-btn:hover .btn-glow {
+    width: 300px;
+    height: 300px;
+    opacity: 0;
+  }
+
+  .btn-text {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  /* Status bar */
+  .status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    border: 1px solid rgba(0, 212, 255, 0.1);
+  }
+
+  .status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { 
+      opacity: 1;
+      box-shadow: 0 0 10px var(--color-accent);
+    }
+    50% { 
+      opacity: 0.5;
+      box-shadow: 0 0 5px var(--color-accent);
+    }
+  }
+
+  .status-text {
+    color: var(--color-text-secondary);
+  }
+
+  .stats {
+    display: flex;
+    gap: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+  }
+
+  .stat-item {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .stat-separator {
+    opacity: 0.3;
+  }
+
+  /* Success/Error states */
+  .status-indicator.success .status-dot {
+    background: #28ca42;
+    animation: success-pulse 1s;
+  }
+
+  .status-indicator.error .status-dot {
+    background: #ff5f57;
+    animation: error-pulse 1s;
+  }
+
+  .status-indicator.working .status-dot {
+    background: #ffbd2e;
+    animation: working-pulse 1s infinite;
+  }
+
+  @keyframes success-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.5); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes error-pulse {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+  }
+
+  @keyframes working-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* Timer states */
+  .timer-display.working {
+    border-color: rgba(255, 189, 46, 0.3);
+  }
+
+  .timer-display.break {
+    border-color: rgba(40, 202, 66, 0.3);
+  }
+
+  .timer-display.break .session-type {
+    color: #28ca42;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .timer-digits {
+      font-size: 3rem;
+    }
+
+    .control-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .stats {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .stat-separator {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // Pomodoro Timer Implementation
+  (function() {
+    // Timer configuration
+    let config = {
+      workTime: 25 * 60, // 25 minutes in seconds
+      shortBreak: 5 * 60, // 5 minutes
+      longBreak: 15 * 60, // 15 minutes
+      autoStart: false,
+      soundEnabled: true
+    };
+    
+    // Timer state
+    let currentTime = config.workTime;
+    let totalTime = config.workTime;
+    let isRunning = false;
+    let sessionType = 'work'; // 'work', 'shortBreak', 'longBreak'
+    let sessionCount = 1;
+    let completedToday = 0;
+    let totalTimeToday = 0;
+    let timerInterval = null;
+    
+    // DOM elements
+    const timerDisplay = document.getElementById('timer-display');
+    const sessionTypeDisplay = document.getElementById('session-type');
+    const progressBar = document.getElementById('progress-bar');
+    const sessionCountDisplay = document.getElementById('session-count');
+    const totalSessionsDisplay = document.getElementById('total-sessions');
+    const completedTodayDisplay = document.getElementById('completed-today');
+    const totalTimeDisplay = document.getElementById('total-time');
+    const output = document.getElementById('output');
+    const status = document.getElementById('status');
+    const statusText = status.querySelector('.status-text');
+    const timerPanel = document.querySelector('.timer-display');
+    
+    // Buttons
+    const startBtn = document.getElementById('start-btn');
+    const pauseBtn = document.getElementById('pause-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const skipBtn = document.getElementById('skip-btn');
+    const settingsBtn = document.getElementById('settings-btn');
+    const saveSettingsBtn = document.getElementById('save-settings');
+    const clearLogBtn = document.getElementById('clear-log-btn');
+    const downloadBtn = document.getElementById('download-btn');
+    
+    // Settings panel
+    const settingsPanel = document.getElementById('settings-panel');
+    const workTimeInput = document.getElementById('work-time');
+    const shortBreakInput = document.getElementById('short-break');
+    const longBreakInput = document.getElementById('long-break');
+    const autoStartInput = document.getElementById('auto-start');
+    const soundEnabledInput = document.getElementById('sound-enabled');
+    
+    function updateDisplay() {
+      const minutes = Math.floor(currentTime / 60);
+      const seconds = currentTime % 60;
+      timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      
+      const progress = ((totalTime - currentTime) / totalTime) * 100;
+      progressBar.style.width = progress + '%';
+    }
+    
+    function setStatus(text, type = 'normal') {
+      status.className = 'status-indicator ' + type;
+      statusText.textContent = text;
+    }
+    
+    function logMessage(message) {
+      const timestamp = new Date().toLocaleTimeString();
+      output.textContent += `\n[${timestamp}] ${message}`;
+      output.scrollTop = output.scrollHeight;
+    }
+    
+    function playSound() {
+      if (!config.soundEnabled) return;
+      
+      // Create a simple beep sound using Web Audio API
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.value = 800;
+      oscillator.type = 'sine';
+      
+      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.5);
+    }
+    
+    function startTimer() {
+      if (isRunning) return;
+      
+      isRunning = true;
+      startBtn.style.display = 'none';
+      pauseBtn.style.display = 'block';
+      
+      setStatus('Timer running', 'working');
+      logMessage(`🚀 ${sessionType === 'work' ? 'Work session' : sessionType === 'shortBreak' ? 'Short break' : 'Long break'} started`);
+      
+      timerInterval = setInterval(() => {
+        if (currentTime > 0) {
+          currentTime--;
+          updateDisplay();
+          
+          if (sessionType === 'work') {
+            totalTimeToday++;
+            updateTotalTime();
+          }
+        } else {
+          completeSession();
+        }
+      }, 1000);
+    }
+    
+    function pauseTimer() {
+      if (!isRunning) return;
+      
+      isRunning = false;
+      clearInterval(timerInterval);
+      
+      startBtn.style.display = 'block';
+      pauseBtn.style.display = 'none';
+      
+      setStatus('Timer paused', 'normal');
+      logMessage('⏸️ Timer paused');
+    }
+    
+    function resetTimer() {
+      pauseTimer();
+      
+      switch (sessionType) {
+        case 'work':
+          currentTime = config.workTime;
+          totalTime = config.workTime;
+          break;
+        case 'shortBreak':
+          currentTime = config.shortBreak;
+          totalTime = config.shortBreak;
+          break;
+        case 'longBreak':
+          currentTime = config.longBreak;
+          totalTime = config.longBreak;
+          break;
+      }
+      
+      updateDisplay();
+      setStatus('Timer reset', 'normal');
+      logMessage('🔄 Timer reset');
+    }
+    
+    function skipSession() {
+      pauseTimer();
+      nextSession();
+    }
+    
+    function completeSession() {
+      pauseTimer();
+      playSound();
+      
+      if (sessionType === 'work') {
+        completedToday++;
+        completedTodayDisplay.textContent = completedToday;
+        logMessage(`✅ Work session ${sessionCount} completed! Total: ${completedToday} 🍅`);
+        
+        // Send browser notification if permitted
+        if (Notification.permission === 'granted') {
+          new Notification('Pomodoro Complete!', {
+            body: `Work session ${sessionCount} finished. Time for a break!`,
+            icon: '🍅'
+          });
+        }
+      } else {
+        logMessage(`✅ Break completed! Ready for next session`);
+        
+        if (Notification.permission === 'granted') {
+          new Notification('Break Complete!', {
+            body: 'Break time is over. Ready to work?',
+            icon: '☕'
+          });
+        }
+      }
+      
+      nextSession();
+    }
+    
+    function nextSession() {
+      if (sessionType === 'work') {
+        // After work, take a break
+        if (sessionCount % 4 === 0) {
+          // Long break after 4 work sessions
+          sessionType = 'longBreak';
+          currentTime = config.longBreak;
+          totalTime = config.longBreak;
+          sessionTypeDisplay.textContent = 'LONG BREAK';
+          timerPanel.classList.add('break');
+          logMessage('☕ Starting long break (15 min)');
+        } else {
+          // Short break
+          sessionType = 'shortBreak';
+          currentTime = config.shortBreak;
+          totalTime = config.shortBreak;
+          sessionTypeDisplay.textContent = 'SHORT BREAK';
+          timerPanel.classList.add('break');
+          logMessage('☕ Starting short break (5 min)');
+        }
+      } else {
+        // After break, back to work
+        sessionType = 'work';
+        currentTime = config.workTime;
+        totalTime = config.workTime;
+        
+        if (sessionCount % 4 === 0) {
+          sessionCount = 1; // Reset to 1 after completing a full cycle
+        } else {
+          sessionCount++;
+        }
+        
+        sessionCountDisplay.textContent = sessionCount;
+        sessionTypeDisplay.textContent = 'WORK SESSION';
+        timerPanel.classList.remove('break');
+        logMessage(`🍅 Starting work session ${sessionCount}`);
+      }
+      
+      updateDisplay();
+      setStatus('Ready for next session', 'success');
+      
+      if (config.autoStart) {
+        setTimeout(startTimer, 2000);
+      }
+    }
+    
+    function updateTotalTime() {
+      const hours = Math.floor(totalTimeToday / 3600);
+      const minutes = Math.floor((totalTimeToday % 3600) / 60);
+      totalTimeDisplay.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+    }
+    
+    function toggleSettings() {
+      if (settingsPanel.style.display === 'none') {
+        settingsPanel.style.display = 'block';
+        logMessage('⚙️ Settings panel opened');
+      } else {
+        settingsPanel.style.display = 'none';
+        logMessage('⚙️ Settings panel closed');
+      }
+    }
+    
+    function saveSettings() {
+      config.workTime = parseInt(workTimeInput.value) * 60;
+      config.shortBreak = parseInt(shortBreakInput.value) * 60;
+      config.longBreak = parseInt(longBreakInput.value) * 60;
+      config.autoStart = autoStartInput.checked;
+      config.soundEnabled = soundEnabledInput.checked;
+      
+      // Reset timer with new settings if not running
+      if (!isRunning) {
+        resetTimer();
+      }
+      
+      settingsPanel.style.display = 'none';
+      setStatus('Settings saved', 'success');
+      logMessage('💾 Settings updated');
+      
+      // Save to localStorage
+      localStorage.setItem('pomodoroConfig', JSON.stringify(config));
+    }
+    
+    function loadSettings() {
+      const saved = localStorage.getItem('pomodoroConfig');
+      if (saved) {
+        config = JSON.parse(saved);
+        workTimeInput.value = config.workTime / 60;
+        shortBreakInput.value = config.shortBreak / 60;
+        longBreakInput.value = config.longBreak / 60;
+        autoStartInput.checked = config.autoStart;
+        soundEnabledInput.checked = config.soundEnabled;
+      }
+    }
+    
+    function clearLog() {
+      output.textContent = '🍅 Pomodoro Timer initialized\nReady to start your first work session...';
+      setStatus('Log cleared', 'success');
+    }
+    
+    function downloadLog() {
+      const text = output.textContent;
+      const date = new Date().toISOString().split('T')[0];
+      const blob = new Blob([text], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `pomodoro-log-${date}.txt`;
+      a.click();
+      URL.revokeObjectURL(url);
+      setStatus('Log downloaded', 'success');
+    }
+    
+    // Event listeners
+    startBtn.addEventListener('click', startTimer);
+    pauseBtn.addEventListener('click', pauseTimer);
+    resetBtn.addEventListener('click', resetTimer);
+    skipBtn.addEventListener('click', skipSession);
+    settingsBtn.addEventListener('click', toggleSettings);
+    saveSettingsBtn.addEventListener('click', saveSettings);
+    clearLogBtn.addEventListener('click', clearLog);
+    downloadBtn.addEventListener('click', downloadLog);
+    
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      if (e.code === 'Space' && e.target.tagName !== 'INPUT') {
+        e.preventDefault();
+        if (isRunning) {
+          pauseTimer();
+        } else {
+          startTimer();
+        }
+      } else if (e.key === 'r' && e.ctrlKey) {
+        e.preventDefault();
+        resetTimer();
+      } else if (e.key === 's' && e.ctrlKey) {
+        e.preventDefault();
+        skipSession();
+      }
+    });
+    
+    // Request notification permission
+    if ('Notification' in window && Notification.permission === 'default') {
+      Notification.requestPermission();
+    }
+    
+    // Initialize
+    loadSettings();
+    updateDisplay();
+    updateTotalTime();
+    logMessage('🎯 Press Start to begin your first Pomodoro session');
+    logMessage('💡 Tip: Use spacebar to start/pause, Ctrl+R to reset');
+  })();
+</script>

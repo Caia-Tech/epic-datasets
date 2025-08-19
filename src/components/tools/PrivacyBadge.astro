@@ -1,0 +1,177 @@
+---
+/**
+ * @fileoverview Privacy Badge Component - Caiatech Developer Tools
+ * @author Caiatech (https://caiatech.com)
+ * @copyright 2024 Caiatech. All rights reserved.
+ * @description Privacy-first badge showing local-only processing guarantee
+ */
+
+export interface Props {
+  detailed?: boolean;
+}
+
+const { detailed = false } = Astro.props;
+---
+
+<div class="privacy-badge">
+  <div class="badge-header">
+    <svg class="shield-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      <path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <div class="badge-content">
+      <h3>🔒 100% Private & Secure</h3>
+      <p class="badge-subtitle">No Data Collection • No Tracking • No Servers</p>
+    </div>
+  </div>
+  
+  {detailed && (
+    <div class="privacy-details">
+      <div class="privacy-guarantee">
+        <h4>Your Privacy is Guaranteed</h4>
+        <ul>
+          <li>
+            <svg viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+            </svg>
+            <span><strong>100% Browser-Based:</strong> All processing happens locally in your browser</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+            </svg>
+            <span><strong>Zero Data Transmission:</strong> Nothing is sent to any server, ever</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+            </svg>
+            <span><strong>No Cookies or Tracking:</strong> We don't track, monitor, or store your data</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+            </svg>
+            <span><strong>No Analytics:</strong> No Google Analytics, no third-party scripts</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+            </svg>
+            <span><strong>Works Offline:</strong> Once loaded, tools work without internet</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+            </svg>
+            <span><strong>Open Source Friendly:</strong> Transparent, auditable code</span>
+          </li>
+        </ul>
+      </div>
+      
+      <div class="security-notice">
+        <p><strong>How it works:</strong> When you use any Caiatech tool, your data never leaves your device. All computations, conversions, and processing happen entirely within your web browser using JavaScript. This is like having a desktop application that runs in your browser - completely private and secure.</p>
+      </div>
+    </div>
+  )}
+</div>
+
+<style>
+  .privacy-badge {
+    background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+    border: 2px solid #4caf50;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .badge-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .shield-icon {
+    width: 48px;
+    height: 48px;
+    color: #2e7d32;
+    flex-shrink: 0;
+  }
+
+  .badge-content h3 {
+    margin: 0;
+    color: #1b5e20;
+    font-size: 1.3rem;
+    font-weight: 700;
+  }
+
+  .badge-subtitle {
+    margin: 0.25rem 0 0 0;
+    color: #2e7d32;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  .privacy-details {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #a5d6a7;
+  }
+
+  .privacy-guarantee h4 {
+    color: #1b5e20;
+    margin: 0 0 1rem 0;
+    font-size: 1.1rem;
+  }
+
+  .privacy-guarantee ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .privacy-guarantee li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+    color: #2e7d32;
+  }
+
+  .privacy-guarantee li svg {
+    width: 20px;
+    height: 20px;
+    color: #4caf50;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .privacy-guarantee li span {
+    line-height: 1.5;
+  }
+
+  .security-notice {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 8px;
+  }
+
+  .security-notice p {
+    margin: 0;
+    color: #1b5e20;
+    line-height: 1.6;
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 640px) {
+    .badge-header {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .privacy-guarantee li {
+      font-size: 0.9rem;
+    }
+  }
+</style>

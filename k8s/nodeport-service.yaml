@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: caiatech-website-service
+  namespace: default
+spec:
+  selector:
+    app: caiatech-website
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30080
+  type: NodePort
