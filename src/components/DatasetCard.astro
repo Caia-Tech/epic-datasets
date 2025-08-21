@@ -1,0 +1,457 @@
+---
+import type { DatasetInfo, DatasetFile } from '../types/dataset';
+
+export interface Props {
+  dataset: DatasetInfo;
+}
+
+const { dataset } = Astro.props;
+
+function getFileIcon(filename: string): string {
+  const ext = filename.split('.').pop()?.toLowerCase();
+  switch (ext) {
+    case 'json': return '{ }';
+    case 'jsonl': return '{ }';
+    case 'parquet': return '⊞';
+    case 'csv': return '≡';
+    case 'txt': return '📄';
+    default: return '📁';
+  }
+}
+
+function getFileDescription(filename: string): string {
+  const ext = filename.split('.').pop()?.toLowerCase();
+  switch (ext) {
+    case 'json': return 'Structured data';
+    case 'jsonl': return 'Line-delimited';
+    case 'parquet': return 'Columnar format';
+    case 'csv': return 'Comma-separated';
+    case 'txt': return 'Plain text';
+    default: return 'Data file';
+  }
+}
+
+function formatFileSize(size: number): string {
+  if (size === 0) return '0 B';
+  const k = 1024;
+  const sizes = ['B', 'KB', 'MB', 'GB'];
+  const i = Math.floor(Math.log(size) / Math.log(k));
+  return parseFloat((size / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+}
+
+// Group files by type for display
+const filesByType = dataset.files.reduce((acc, file) => {
+  const ext = file.name.split('.').pop()?.toLowerCase() || 'other';
+  if (!acc[ext]) acc[ext] = [];
+  acc[ext].push(file);
+  return acc;
+}, {} as Record<string, DatasetFile[]>);
+
+// Calculate display sizes
+const displaySizes = Object.entries(filesByType).map(([ext, files]) => {
+  const totalSize = files.reduce((sum, file) => sum + file.size, 0);
+  return {
+    ext: ext.toUpperCase(),
+    size: formatFileSize(totalSize)
+  };
+});
+---
+
+<article class="dataset-card">
+  <div class="dataset-header">
+    {dataset.badge && <span class="dataset-badge">{dataset.badge}</span>}
+    <div class="dataset-sizes">
+      {displaySizes.map((item, index) => (
+        <>
+          <span class="size-item">{item.ext}: {item.size}</span>
+          {index < displaySizes.length - 1 && <span class="size-separator">•</span>}
+        </>
+      ))}
+    </div>
+  </div>
+  
+  <h2 class="dataset-title">{dataset.title}</h2>
+  
+  <div class="dataset-description">
+    {dataset.description.split('\n\n').map(paragraph => (
+      <p>{paragraph}</p>
+    ))}
+  </div>
+
+  <div class="download-section">
+    <h3 class="download-title">Available Formats</h3>
+    <div class="download-buttons">
+      {dataset.files.map(file => (
+        <a 
+          href={file.download_url} 
+          class="download-btn" 
+          download
+          data-format={file.name.split('.').pop()?.toUpperCase()}
+        >
+          <span class="format-icon">{getFileIcon(file.name)}</span>
+          <div class="format-details">
+            <span class="format-name">{file.name.split('.').pop()?.toUpperCase()}</span>
+            <span class="format-desc">{getFileDescription(file.name)}</span>
+            <span class="format-size">{formatFileSize(file.size)}</span>
+          </div>
+          <span class="download-icon">↓</span>
+        </a>
+      ))}
+    </div>
+  </div>
+
+  <div class="dataset-meta">
+    <div class="meta-item">
+      <span class="meta-label">License:</span>
+      <span class="meta-value">{dataset.metadata.license}</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Last Updated:</span>
+      <span class="meta-value">{dataset.metadata.lastUpdated}</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Version:</span>
+      <span class="meta-value">{dataset.metadata.version}</span>
+    </div>
+    {dataset.metadata.downloads && (
+      <div class="meta-item">
+        <span class="meta-label">Downloads:</span>
+        <span class="meta-value">{dataset.metadata.downloads.toLocaleString()}</span>
+      </div>
+    )}
+    {dataset.metadata.likes && (
+      <div class="meta-item">
+        <span class="meta-label">Likes:</span>
+        <span class="meta-value">{dataset.metadata.likes.toLocaleString()}</span>
+      </div>
+    )}
+  </div>
+
+  {dataset.metadata.tags.length > 0 && (
+    <div class="dataset-tags">
+      {dataset.metadata.tags.map(tag => (
+        <span class="tag">{tag}</span>
+      ))}
+    </div>
+  )}
+
+  <div class="external-links">
+    <a 
+      href={dataset.links.github} 
+      target="_blank" 
+      rel="noopener noreferrer" 
+      class="external-link github-link"
+    >
+      <svg class="link-icon" viewBox="0 0 16 16" width="20" height="20" fill="currentColor">
+        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+      </svg>
+      <span>GitHub Repository</span>
+    </a>
+    
+    {dataset.links.huggingface && (
+      <a 
+        href={dataset.links.huggingface} 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        class="external-link huggingface-link"
+      >
+        <svg class="link-icon" viewBox="0 0 95 88" width="20" height="20" fill="none">
+          <path d="M47.5 76.5C66.5538 76.5 82 61.0538 82 42C82 22.9462 66.5538 7.5 47.5 7.5C28.4462 7.5 13 22.9462 13 42C13 61.0538 28.4462 76.5 47.5 76.5Z" fill="currentColor"/>
+          <path d="M35 32C35 30.8954 35.8954 30 37 30C38.1046 30 39 30.8954 39 32V36C39 37.1046 38.1046 38 37 38C35.8954 38 35 37.1046 35 36V32Z" fill="var(--color-bg)"/>
+          <path d="M56 32C56 30.8954 56.8954 30 58 30C59.1046 30 60 30.8954 60 32V36C60 37.1046 59.1046 38 58 38C56.8954 38 56 37.1046 56 36V32Z" fill="var(--color-bg)"/>
+          <path d="M35 50.5C35 50.5 39.5 55 47.5 55C55.5 55 60 50.5 60 50.5" stroke="var(--color-bg)" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <span>Hugging Face Dataset</span>
+      </a>
+    )}
+  </div>
+</article>
+
+<style>
+  .dataset-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 2rem;
+    transition: all 0.3s ease;
+  }
+
+  .dataset-card:hover {
+    background: rgba(255, 255, 255, 0.03);
+    border-color: var(--color-accent-dim);
+    transform: translateY(-2px);
+  }
+
+  .dataset-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .dataset-badge {
+    background: var(--color-accent);
+    color: var(--color-bg);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .dataset-sizes {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-text-secondary);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    flex-wrap: wrap;
+  }
+
+  .size-item {
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+  }
+
+  .size-separator {
+    color: var(--color-border);
+    opacity: 0.5;
+  }
+
+  .dataset-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+
+  .dataset-description {
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+    margin-bottom: 2rem;
+  }
+
+  .dataset-description p {
+    margin-bottom: 1rem;
+  }
+
+  .dataset-description p:last-child {
+    margin-bottom: 0;
+  }
+
+  .download-section {
+    margin: 2rem 0;
+    padding: 2rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    border: 1px solid var(--color-border);
+  }
+
+  .download-title {
+    font-size: 1.2rem;
+    color: var(--color-text);
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+  }
+
+  .download-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+
+  .download-btn {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .download-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--color-accent);
+    transform: translateY(-2px);
+  }
+
+  .download-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, var(--color-accent-dim), transparent);
+    transition: width 0.3s ease;
+  }
+
+  .download-btn:hover::before {
+    width: 100%;
+  }
+
+  .format-icon {
+    font-family: var(--font-mono);
+    font-size: 1.5rem;
+    color: var(--color-accent);
+    position: relative;
+    z-index: 1;
+    min-width: 24px;
+    text-align: center;
+  }
+
+  .format-details {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    position: relative;
+    z-index: 1;
+  }
+
+  .format-name {
+    color: var(--color-text);
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
+  .format-desc {
+    color: var(--color-text-secondary);
+    font-size: 0.85rem;
+  }
+
+  .format-size {
+    color: var(--color-text-secondary);
+    font-size: 0.8rem;
+    font-family: var(--font-mono);
+  }
+
+  .download-icon {
+    color: var(--color-accent);
+    font-size: 1.25rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .dataset-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .meta-item {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .meta-label {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+  }
+
+  .meta-value {
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+  }
+
+  .dataset-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .tag {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--color-text-secondary);
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    border: 1px solid var(--color-border);
+  }
+
+  .external-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .external-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.25rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--color-text-secondary);
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+  }
+
+  .external-link:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--color-accent);
+    color: var(--color-text);
+    transform: translateY(-2px);
+  }
+
+  .link-icon {
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+  }
+
+  .github-link:hover .link-icon {
+    color: var(--color-accent);
+  }
+
+  .huggingface-link:hover .link-icon {
+    color: var(--color-accent);
+  }
+
+  @media (max-width: 768px) {
+    .dataset-card {
+      padding: 1.5rem;
+    }
+
+    .dataset-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .dataset-title {
+      font-size: 1.5rem;
+    }
+
+    .download-buttons {
+      grid-template-columns: 1fr;
+    }
+
+    .dataset-meta {
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .external-links {
+      flex-direction: column;
+    }
+  }
+</style>

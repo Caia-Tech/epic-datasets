@@ -1,5 +1,35 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import DatasetCard from '../../components/DatasetCard.astro';
+import type { DatasetInfo } from '../../types/dataset';
+
+// Import the generated dataset data
+let datasets: DatasetInfo[] = [];
+let error: string | null = null;
+
+try {
+  const datasetData = await import('../../data/datasets.json');
+  datasets = datasetData.default || [];
+} catch (e) {
+  console.error('Failed to load datasets:', e);
+  error = 'Failed to load dataset information. Please try again later.';
+  
+  // Fallback to empty array to prevent build failures
+  datasets = [];
+}
+
+// Sort datasets: New/Popular first, then alphabetically
+datasets.sort((a, b) => {
+  // Priority badges first
+  if (a.badge && !b.badge) return -1;
+  if (!a.badge && b.badge) return 1;
+  
+  // Then by name
+  return a.title.localeCompare(b.title);
+});
+
+const totalDatasets = datasets.length;
+const totalFiles = datasets.reduce((sum, dataset) => sum + dataset.files.length, 0);
 ---
 
 <BaseLayout 
@@ -14,133 +44,77 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
           <span class="mono">./</span><span class="accent">datasets</span>
         </h1>
         <p class="subtitle">Open-source datasets for AI/ML research and development</p>
+        
+        {totalDatasets > 0 && (
+          <div class="stats">
+            <div class="stat-item">
+              <span class="stat-number">{totalDatasets}</span>
+              <span class="stat-label">Dataset{totalDatasets !== 1 ? 's' : ''}</span>
+            </div>
+            <div class="stat-separator">•</div>
+            <div class="stat-item">
+              <span class="stat-number">{totalFiles}</span>
+              <span class="stat-label">File{totalFiles !== 1 ? 's' : ''}</span>
+            </div>
+            <div class="stat-separator">•</div>
+            <div class="stat-item">
+              <span class="stat-number">CC0</span>
+              <span class="stat-label">License</span>
+            </div>
+          </div>
+        )}
       </header>
 
-      <div class="datasets-grid">
-        <article class="dataset-card">
-          <div class="dataset-header">
-            <span class="dataset-badge">New</span>
-            <div class="dataset-sizes">
-              <span class="size-item">JSON: 3.2MB</span>
-              <span class="size-separator">•</span>
-              <span class="size-item">JSONL: 3.2MB</span>
-              <span class="size-separator">•</span>
-              <span class="size-item">Parquet: 1.4MB</span>
-            </div>
+      {error && (
+        <div class="error-message">
+          <div class="error-icon">⚠️</div>
+          <div class="error-content">
+            <h3>Dataset Loading Error</h3>
+            <p>{error}</p>
+            <p>Please check back later or contact us if the problem persists.</p>
           </div>
-          
-          <h2 class="dataset-title">GO-EPIC Dataset</h2>
-          
-          <p class="dataset-description">
-            A comprehensive Go programming dataset containing examples from basic syntax to distributed systems and
-            algorithms. Each entry includes working code with explanations covering why specific patterns are used and
-            how they apply to real development.
-          </p>
-          
-          <p class="dataset-description">
-            The dataset spans goroutines and channels, HTTP servers, database patterns, Kubernetes operators, gRPC
-            services, and distributed systems architecture. It includes algorithm problems with multiple solution
-            approaches and performance analysis.
-          </p>
-          
-          <p class="dataset-description">
-            Uses a minimal JSONL format with three fields per entry: instruction, output, and topic. Each example
-            combines explanation and code in a single integrated teaching unit.
-          </p>
-          
-          <p class="dataset-description">
-            Released under CC0 1.0 Universal license. Available on GitHub, Hugging Face, and caiatech.com.
-          </p>
+        </div>
+      )}
 
-          <div class="download-section">
-            <h3 class="download-title">Available Formats</h3>
-            <div class="download-buttons">
-              <a href="/epic-datasets/go-epic/go-epic-dataset.json" 
-                 class="download-btn" 
-                 download
-                 data-format="JSON">
-                <span class="format-icon">{ }</span>
-                <div class="format-details">
-                  <span class="format-name">JSON</span>
-                  <span class="format-desc">Structured data</span>
-                </div>
-                <span class="download-icon">↓</span>
-              </a>
-              
-              <a href="/epic-datasets/go-epic/go-epic-dataset.jsonl" 
-                 class="download-btn" 
-                 download
-                 data-format="JSONL">
-                <span class="format-icon">{ }</span>
-                <div class="format-details">
-                  <span class="format-name">JSONL</span>
-                  <span class="format-desc">Line-delimited</span>
-                </div>
-                <span class="download-icon">↓</span>
-              </a>
-              
-              <a href="/epic-datasets/go-epic/go-epic-dataset.parquet" 
-                 class="download-btn" 
-                 download
-                 data-format="Parquet">
-                <span class="format-icon">⊞</span>
-                <div class="format-details">
-                  <span class="format-name">Parquet</span>
-                  <span class="format-desc">Columnar format</span>
-                </div>
-                <span class="download-icon">↓</span>
-              </a>
+      {datasets.length > 0 && (
+        <div class="datasets-grid">
+          {datasets.map(dataset => (
+            <DatasetCard dataset={dataset} />
+          ))}
+          
+          <article class="dataset-card coming-soon">
+            <div class="coming-soon-content">
+              <span class="coming-soon-icon">+</span>
+              <h3>More Datasets Coming Soon</h3>
+              <p>We're preparing additional high-quality datasets for computer vision, NLP, and reinforcement learning tasks.</p>
             </div>
-          </div>
+          </article>
+        </div>
+      )}
 
-          <div class="dataset-meta">
-            <div class="meta-item">
-              <span class="meta-label">License:</span>
-              <span class="meta-value">CC0 1.0 Universal</span>
-            </div>
-            <div class="meta-item">
-              <span class="meta-label">Last Updated:</span>
-              <span class="meta-value">August 19, 2025</span>
-            </div>
-            <div class="meta-item">
-              <span class="meta-label">Version:</span>
-              <span class="meta-value">1.0.0</span>
-            </div>
-          </div>
+      {datasets.length === 0 && !error && (
+        <div class="empty-state">
+          <div class="empty-icon">📊</div>
+          <h3>No Datasets Available</h3>
+          <p>We're currently preparing our dataset collection. Check back soon!</p>
+        </div>
+      )}
 
-          <div class="external-links">
-            <a href="https://github.com/Caia-Tech/epic-datasets" 
-               target="_blank" 
-               rel="noopener noreferrer" 
-               class="external-link github-link">
-              <svg class="link-icon" viewBox="0 0 16 16" width="20" height="20" fill="currentColor">
-                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
-              </svg>
-              <span>GitHub Repository</span>
-            </a>
-            
-            <a href="https://huggingface.co/datasets/CaiaTech/go-epic" 
-               target="_blank" 
-               rel="noopener noreferrer" 
-               class="external-link huggingface-link">
-              <svg class="link-icon" viewBox="0 0 95 88" width="20" height="20" fill="none">
-                <path d="M47.5 76.5C66.5538 76.5 82 61.0538 82 42C82 22.9462 66.5538 7.5 47.5 7.5C28.4462 7.5 13 22.9462 13 42C13 61.0538 28.4462 76.5 47.5 76.5Z" fill="currentColor"/>
-                <path d="M35 32C35 30.8954 35.8954 30 37 30C38.1046 30 39 30.8954 39 32V36C39 37.1046 38.1046 38 37 38C35.8954 38 35 37.1046 35 36V32Z" fill="var(--color-bg)"/>
-                <path d="M56 32C56 30.8954 56.8954 30 58 30C59.1046 30 60 30.8954 60 32V36C60 37.1046 59.1046 38 58 38C56.8954 38 56 37.1046 56 36V32Z" fill="var(--color-bg)"/>
-                <path d="M35 50.5C35 50.5 39.5 55 47.5 55C55.5 55 60 50.5 60 50.5" stroke="var(--color-bg)" stroke-width="3" stroke-linecap="round"/>
-              </svg>
-              <span>Hugging Face Dataset</span>
-            </a>
+      <div class="info-section">
+        <div class="info-grid">
+          <div class="info-card">
+            <h3>Open Source</h3>
+            <p>All datasets are released under permissive licenses, making them free to use for research and commercial applications.</p>
           </div>
-        </article>
-
-        <article class="dataset-card coming-soon">
-          <div class="coming-soon-content">
-            <span class="coming-soon-icon">+</span>
-            <h3>More Datasets Coming Soon</h3>
-            <p>We're preparing additional high-quality datasets for computer vision, NLP, and reinforcement learning tasks.</p>
+          <div class="info-card">
+            <h3>High Quality</h3>
+            <p>Each dataset is carefully curated and validated to ensure accuracy, completeness, and practical utility for AI/ML tasks.</p>
           </div>
-        </article>
+          <div class="info-card">
+            <h3>Multiple Formats</h3>
+            <p>Datasets are available in JSON, JSONL, and Parquet formats to support different workflows and tools.</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -184,7 +158,43 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     color: var(--color-text-secondary);
     font-size: 1.1rem;
     max-width: 600px;
-    margin: 0 auto;
+    margin: 0 auto 2rem;
+  }
+
+  .stats {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .stat-number {
+    font-family: var(--font-mono);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-accent);
+  }
+
+  .stat-label {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .stat-separator {
+    color: var(--color-border);
+    opacity: 0.5;
+    font-size: 1.2rem;
   }
 
   .datasets-grid {
@@ -193,208 +203,60 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     margin-bottom: 4rem;
   }
 
-  .dataset-card {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid var(--color-border);
-    border-radius: 12px;
+  .error-message {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
     padding: 2rem;
-    transition: all 0.3s ease;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 8px;
+    margin-bottom: 2rem;
   }
 
-  .dataset-card:hover {
-    background: rgba(255, 255, 255, 0.03);
-    border-color: var(--color-accent-dim);
-    transform: translateY(-2px);
+  .error-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
   }
 
-  .dataset-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-  }
-
-  .dataset-badge {
-    background: var(--color-accent);
-    color: var(--color-bg);
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    text-transform: uppercase;
-  }
-
-  .dataset-sizes {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--color-text-secondary);
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
-  }
-
-  .size-item {
-    color: var(--color-text-secondary);
-  }
-
-  .size-separator {
-    color: var(--color-border);
-    opacity: 0.5;
-  }
-
-  .dataset-title {
-    font-size: 2rem;
-    font-weight: 700;
+  .error-content h3 {
     color: var(--color-text);
+    margin-bottom: 0.5rem;
+  }
+
+  .error-content p {
+    color: var(--color-text-secondary);
+    margin-bottom: 0.5rem;
+  }
+
+  .error-content p:last-child {
+    margin-bottom: 0;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: rgba(255, 255, 255, 0.01);
+    border: 1px dashed var(--color-border);
+    border-radius: 12px;
+    margin-bottom: 4rem;
+  }
+
+  .empty-icon {
+    font-size: 3rem;
     margin-bottom: 1rem;
   }
 
-  .dataset-description {
-    color: var(--color-text-secondary);
-    line-height: 1.7;
-    margin-bottom: 2rem;
-  }
-
-  .dataset-features {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
-    margin-bottom: 2rem;
-  }
-
-  .feature {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem;
-    background: rgba(255, 255, 255, 0.02);
-    border-radius: 8px;
-    border: 1px solid var(--color-border);
-  }
-
-  .feature-icon {
-    font-size: 1.25rem;
-  }
-
-  .feature-text {
-    color: var(--color-text-secondary);
-    font-size: 0.95rem;
-  }
-
-  .download-section {
-    margin: 2rem 0;
-    padding: 2rem;
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 8px;
-    border: 1px solid var(--color-border);
-  }
-
-  .download-title {
-    font-size: 1.2rem;
+  .empty-state h3 {
     color: var(--color-text);
-    margin-bottom: 1.5rem;
-    font-weight: 600;
-  }
-
-  .download-buttons {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 1rem;
-  }
-
-  .download-btn {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem;
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .download-btn:hover {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: var(--color-accent);
-    transform: translateY(-2px);
-  }
-
-  .download-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, var(--color-accent-dim), transparent);
-    transition: width 0.3s ease;
-  }
-
-  .download-btn:hover::before {
-    width: 100%;
-  }
-
-  .format-icon {
-    font-family: var(--font-mono);
     font-size: 1.5rem;
-    color: var(--color-accent);
-    position: relative;
-    z-index: 1;
+    margin-bottom: 1rem;
   }
 
-  .format-details {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    position: relative;
-    z-index: 1;
-  }
-
-  .format-name {
-    color: var(--color-text);
-    font-weight: 600;
-    font-size: 1rem;
-  }
-
-  .format-desc {
+  .empty-state p {
     color: var(--color-text-secondary);
-    font-size: 0.85rem;
-  }
-
-  .download-icon {
-    color: var(--color-accent);
-    font-size: 1.25rem;
-    position: relative;
-    z-index: 1;
-  }
-
-  .dataset-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    margin-top: 2rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--color-border);
-  }
-
-  .meta-item {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-  }
-
-  .meta-label {
-    color: var(--color-text-secondary);
-    font-size: 0.9rem;
-  }
-
-  .meta-value {
-    color: var(--color-text);
-    font-family: var(--font-mono);
-    font-size: 0.9rem;
+    max-width: 400px;
+    margin: 0 auto;
   }
 
   .coming-soon {
@@ -415,6 +277,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     font-size: 3rem;
     display: block;
     margin-bottom: 1rem;
+    color: var(--color-accent);
   }
 
   .coming-soon h3 {
@@ -429,65 +292,70 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     margin: 0 auto;
   }
 
-  .external-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-top: 2rem;
-    padding-top: 2rem;
+  .info-section {
+    margin-top: 4rem;
+    padding-top: 4rem;
     border-top: 1px solid var(--color-border);
   }
 
-  .external-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem 1.25rem;
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+  }
+
+  .info-card {
+    padding: 2rem;
     background: rgba(255, 255, 255, 0.02);
     border: 1px solid var(--color-border);
     border-radius: 8px;
-    text-decoration: none;
+    text-align: center;
+  }
+
+  .info-card h3 {
+    color: var(--color-accent);
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+
+  .info-card p {
     color: var(--color-text-secondary);
-    font-size: 0.95rem;
-    transition: all 0.3s ease;
-  }
-
-  .external-link:hover {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: var(--color-accent);
-    color: var(--color-text);
-    transform: translateY(-2px);
-  }
-
-  .link-icon {
-    flex-shrink: 0;
-    transition: all 0.3s ease;
-  }
-
-  .github-link:hover .link-icon {
-    color: var(--color-accent);
-  }
-
-  .huggingface-link:hover .link-icon {
-    color: var(--color-accent);
+    line-height: 1.6;
   }
 
   @media (max-width: 768px) {
-    .datasets-grid {
-      grid-template-columns: 1fr;
+    .datasets-page {
+      padding: 2rem 0;
     }
 
-    .dataset-features {
-      grid-template-columns: 1fr;
+    .container {
+      padding: 0 1rem;
     }
 
-    .download-buttons {
-      grid-template-columns: 1fr;
+    .page-header {
+      margin-bottom: 2rem;
     }
 
-    .dataset-meta {
+    .stats {
       flex-direction: column;
       gap: 1rem;
+    }
+
+    .stats .stat-separator {
+      display: none;
+    }
+
+    .datasets-grid {
+      margin-bottom: 2rem;
+    }
+
+    .info-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .info-section {
+      margin-top: 2rem;
+      padding-top: 2rem;
     }
   }
 </style>

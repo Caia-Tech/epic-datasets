@@ -1,0 +1,44 @@
+[
+  {
+    "id": "go-epic",
+    "name": "go-epic",
+    "title": "Go Epic Dataset",
+    "description": "A comprehensive Go programming dataset containing examples from basic syntax to distributed systems and algorithms. Each entry includes working code with explanations covering why specific patterns are used and how they apply to real development.\n\nThe dataset spans goroutines and channels, HTTP servers, database patterns, Kubernetes operators, gRPC services, and distributed systems architecture. It includes algorithm problems with multiple solution approaches and performance analysis.\n\nUses a minimal JSONL format with three fields per entry: instruction, output, and topic. Each example combines explanation and code in a single integrated teaching unit.\n\nReleased under CC0 1.0 Universal license. Available on GitHub, Hugging Face, and caiatech.com.",
+    "files": [
+      {
+        "name": "go-epic-dataset.json",
+        "path": "epic-datasets/go-epic/go-epic-dataset.json",
+        "size": 3320598,
+        "download_url": "https://raw.githubusercontent.com/Caia-Tech/epic-datasets/master/epic-datasets/go-epic/go-epic-dataset.json"
+      },
+      {
+        "name": "go-epic-dataset.jsonl",
+        "path": "epic-datasets/go-epic/go-epic-dataset.jsonl",
+        "size": 3327456,
+        "download_url": "https://raw.githubusercontent.com/Caia-Tech/epic-datasets/master/epic-datasets/go-epic/go-epic-dataset.jsonl"
+      },
+      {
+        "name": "go-epic-dataset.parquet",
+        "path": "epic-datasets/go-epic/go-epic-dataset.parquet",
+        "size": 1462401,
+        "download_url": "https://raw.githubusercontent.com/Caia-Tech/epic-datasets/master/epic-datasets/go-epic/go-epic-dataset.parquet"
+      }
+    ],
+    "size": {
+      "json": "3.2 MB",
+      "jsonl": "3.2 MB",
+      "parquet": "1.4 MB",
+      "total": "7.7 MB"
+    },
+    "metadata": {
+      "license": "CC0 1.0 Universal",
+      "lastUpdated": "August 21, 2025",
+      "version": "1.0.0",
+      "tags": []
+    },
+    "links": {
+      "github": "https://github.com/Caia-Tech/epic-datasets"
+    },
+    "badge": "New"
+  }
+]
