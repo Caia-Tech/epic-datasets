@@ -1,0 +1,76 @@
+name: Sync to Hugging Face
+
+on:
+  push:
+    branches: [master, main]
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dataset: [go-epic, caia-math, caia-system-design, cicd-epic, python-epic, rust-epic]
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          lfs: true
+      
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      
+      - name: Install huggingface-hub
+        run: pip install huggingface-hub
+      
+      - name: Create HF repository - ${{ matrix.dataset }}
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          python -c "
+          from huggingface_hub import HfApi
+          api = HfApi()
+          try:
+              api.create_repo(
+                  repo_id='CaiaTech/${{ matrix.dataset }}',
+                  token='$HF_TOKEN',
+                  repo_type='dataset',
+                  exist_ok=True
+              )
+              print('Repository created or already exists')
+          except Exception as e:
+              print(f'Error: {e}')
+          "
+      
+      - name: Push to Hugging Face - ${{ matrix.dataset }}
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          # Create a temporary directory for the HF dataset
+          mkdir -p /tmp/hf-dataset
+          
+          # Copy dataset folder contents (exclude unwanted files)
+          find ${{ matrix.dataset }} -name "*.jsonl" -exec cp {} /tmp/hf-dataset/ \;
+          cp LICENSE /tmp/hf-dataset/
+          
+          # Initialize git in the temp directory
+          cd /tmp/hf-dataset
+          git init -b main
+          git config user.name "GitHub Action"
+          git config user.email "action@github.com"
+          
+          # Install and configure Git LFS
+          git lfs install
+          git lfs track "*.parquet"
+          git lfs track "*.jsonl"
+          git add .gitattributes
+          
+          # Add and commit the files
+          git add .
+          git commit -m "Sync from GitHub: ${{ github.sha }}"
+          
+          # Push to Hugging Face
+          git remote add hf https://CaiaTech:$HF_TOKEN@huggingface.co/datasets/CaiaTech/${{ matrix.dataset }}
+          git push hf main --force
