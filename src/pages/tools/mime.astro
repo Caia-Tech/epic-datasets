@@ -1,0 +1,890 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CaiatechToolLayout from '../../components/tools/CaiatechToolLayout.astro';
+import ToolAttribution from '../../components/tools/ToolAttribution.astro';
+import PrivacyBadge from '../../components/tools/PrivacyBadge.astro';
+---
+
+<BaseLayout title="MIME Type Lookup - Caiatech">
+  <CaiatechToolLayout 
+    title="MIME Type Lookup" 
+    description="Find MIME types for file extensions"
+    icon="MIME">
+    
+    <div slot="header-actions">
+      <PrivacyBadge />
+    </div>
+    
+    <div class="tool-container">
+      <!-- Terminal-style input section -->
+      <div class="terminal-panel input-terminal">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">INPUT://mime</span>
+          <div class="terminal-actions">
+            <button class="terminal-action" id="clear-input-btn" title="Clear">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6"/>
+              </svg>
+            </button>
+            <button class="terminal-action" id="paste-btn" title="Paste">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/>
+                <rect x="8" y="2" width="8" height="4" rx="1"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-prompt">
+            <span class="prompt-symbol">$</span>
+            <span class="prompt-text">mime</span>
+            <span class="prompt-arrow">→</span>
+          </div>
+          <textarea 
+            id="input" 
+            class="terminal-input"
+            placeholder="Enter file extensions or filenames to detect MIME types...
+
+Examples:
+• .jpg
+• document.pdf
+• script.js
+• image.png
+• video.mp4
+
+Multiple files (one per line):
+• photo.jpeg
+• styles.css
+• data.json"
+            spellcheck="false"
+          ></textarea>
+        </div>
+      </div>
+
+      <!-- Control center -->
+      <div class="control-center">
+        <div class="control-grid">
+          <button id="detect-btn" class="cyber-btn primary">
+            <span class="btn-glow"></span>
+            <span class="btn-text">🔍 Detect MIME</span>
+          </button>
+          <button id="browse-btn" class="cyber-btn secondary">
+            <span class="btn-text">📂 Browse Types</span>
+          </button>
+          <button id="clear-btn" class="cyber-btn secondary">
+            <span class="btn-text">Clear All</span>
+          </button>
+          <button id="sample-btn" class="cyber-btn secondary">
+            <span class="btn-text">Load Sample</span>
+          </button>
+          <button id="copy-btn" class="cyber-btn secondary">
+            <span class="btn-text">Copy Output</span>
+          </button>
+        </div>
+        
+        <!-- Status indicator -->
+        <div class="status-bar">
+          <div class="status-indicator" id="status">
+            <span class="status-dot"></span>
+            <span class="status-text">Ready</span>
+          </div>
+          <div class="stats" id="stats">
+            <span class="stat-item">Files: <span id="file-count">0</span></span>
+            <span class="stat-separator">•</span>
+            <span class="stat-item">Output: <span id="output-length">0</span> chars</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Terminal-style output section -->
+      <div class="terminal-panel output-terminal">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">OUTPUT://mime.result</span>
+          <div class="terminal-actions">
+            <button class="terminal-action" id="copy-output-btn" title="Copy">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2"/>
+                <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+              </svg>
+            </button>
+            <button class="terminal-action" id="download-btn" title="Download">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-prompt">
+            <span class="prompt-symbol">></span>
+            <span class="prompt-text">result</span>
+          </div>
+          <pre id="output" class="terminal-output"></pre>
+        </div>
+      </div>
+    </div>
+    
+    <ToolAttribution toolName="MIME Type Lookup" version="2.0.0" />
+  </CaiatechToolLayout>
+</BaseLayout>
+
+<style>
+  .tool-container {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  /* Terminal panels */
+  .terminal-panel {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 
+      0 10px 40px rgba(0, 0, 0, 0.3),
+      0 0 60px rgba(0, 212, 255, 0.05);
+    transition: all 0.3s ease;
+  }
+
+  .terminal-panel:hover {
+    box-shadow: 
+      0 10px 40px rgba(0, 0, 0, 0.4),
+      0 0 80px rgba(0, 212, 255, 0.1);
+    border-color: rgba(0, 212, 255, 0.3);
+  }
+
+  .terminal-header {
+    background: linear-gradient(90deg, rgba(42, 42, 43, 1) 0%, rgba(26, 26, 27, 1) 100%);
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .terminal-controls {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .control {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    transition: all 0.2s;
+  }
+
+  .control.red { 
+    background: #ff5f57; 
+    box-shadow: 0 0 10px rgba(255, 95, 87, 0.5);
+  }
+  .control.yellow { 
+    background: #ffbd2e; 
+    box-shadow: 0 0 10px rgba(255, 189, 46, 0.5);
+  }
+  .control.green { 
+    background: #28ca42; 
+    box-shadow: 0 0 10px rgba(40, 202, 66, 0.5);
+  }
+
+  .terminal-panel:hover .control {
+    box-shadow: 0 0 15px currentColor;
+  }
+
+  .terminal-title {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-accent);
+    margin-left: auto;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.8;
+  }
+
+  .terminal-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: 1rem;
+  }
+
+  .terminal-action {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--color-text-secondary);
+    padding: 0.25rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .terminal-action:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    background: rgba(0, 212, 255, 0.1);
+  }
+
+  .terminal-body {
+    padding: 1.5rem;
+  }
+
+  .terminal-prompt {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .prompt-symbol {
+    color: var(--color-accent);
+    font-weight: bold;
+  }
+
+  .prompt-text {
+    color: var(--color-text-secondary);
+  }
+
+  .prompt-arrow {
+    color: var(--color-accent);
+    opacity: 0.5;
+  }
+
+  .terminal-input,
+  .terminal-output {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 8px;
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    padding: 1rem;
+    width: 100%;
+    min-height: 200px;
+    resize: vertical;
+    transition: all 0.3s;
+  }
+
+  .terminal-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 
+      0 0 20px rgba(0, 212, 255, 0.2),
+      inset 0 0 20px rgba(0, 212, 255, 0.05);
+  }
+
+  .terminal-output {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.6;
+  }
+
+  /* Control center */
+  .control-center {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.02) 0%, rgba(118, 75, 162, 0.02) 100%);
+    border: 1px solid rgba(0, 212, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+
+  .control-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Cyber buttons */
+  .cyber-btn {
+    position: relative;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+
+  .cyber-btn.primary {
+    border-color: var(--color-accent);
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  }
+
+  .cyber-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0, 212, 255, 0.3);
+  }
+
+  .cyber-btn.primary:hover {
+    border-color: var(--color-accent);
+    box-shadow: 
+      0 5px 30px rgba(0, 212, 255, 0.4),
+      inset 0 0 30px rgba(0, 212, 255, 0.1);
+  }
+
+  .btn-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--color-accent) 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+
+  .cyber-btn:hover .btn-glow {
+    width: 300px;
+    height: 300px;
+    opacity: 0;
+  }
+
+  .btn-text {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  /* Status bar */
+  .status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    border: 1px solid rgba(0, 212, 255, 0.1);
+  }
+
+  .status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { 
+      opacity: 1;
+      box-shadow: 0 0 10px var(--color-accent);
+    }
+    50% { 
+      opacity: 0.5;
+      box-shadow: 0 0 5px var(--color-accent);
+    }
+  }
+
+  .status-text {
+    color: var(--color-text-secondary);
+  }
+
+  .stats {
+    display: flex;
+    gap: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+  }
+
+  .stat-item {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .stat-separator {
+    opacity: 0.3;
+  }
+
+  /* Success/Error states */
+  .status-indicator.success .status-dot {
+    background: #28ca42;
+    animation: success-pulse 1s;
+  }
+
+  .status-indicator.error .status-dot {
+    background: #ff5f57;
+    animation: error-pulse 1s;
+  }
+
+  @keyframes success-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.5); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes error-pulse {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .control-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .stats {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .stat-separator {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // MIME Type Detector Tool
+  (function() {
+    const input = document.getElementById('input');
+    const output = document.getElementById('output');
+    const status = document.getElementById('status');
+    const statusText = status.querySelector('.status-text');
+    const fileCount = document.getElementById('file-count');
+    const outputLength = document.getElementById('output-length');
+    
+    const detectBtn = document.getElementById('detect-btn');
+    const browseBtn = document.getElementById('browse-btn');
+    const clearBtn = document.getElementById('clear-btn');
+    const sampleBtn = document.getElementById('sample-btn');
+    const copyBtn = document.getElementById('copy-btn');
+    const copyOutputBtn = document.getElementById('copy-output-btn');
+    const downloadBtn = document.getElementById('download-btn');
+    const pasteBtn = document.getElementById('paste-btn');
+    const clearInputBtn = document.getElementById('clear-input-btn');
+    
+    // Comprehensive MIME type database
+    const mimeTypes = {
+      // Text files
+      'txt': 'text/plain',
+      'html': 'text/html',
+      'htm': 'text/html',
+      'css': 'text/css',
+      'js': 'application/javascript',
+      'json': 'application/json',
+      'xml': 'application/xml',
+      'csv': 'text/csv',
+      'md': 'text/markdown',
+      'yaml': 'application/x-yaml',
+      'yml': 'application/x-yaml',
+      
+      // Images
+      'jpg': 'image/jpeg',
+      'jpeg': 'image/jpeg',
+      'png': 'image/png',
+      'gif': 'image/gif',
+      'bmp': 'image/bmp',
+      'webp': 'image/webp',
+      'svg': 'image/svg+xml',
+      'ico': 'image/x-icon',
+      'tiff': 'image/tiff',
+      'tif': 'image/tiff',
+      
+      // Audio
+      'mp3': 'audio/mpeg',
+      'wav': 'audio/wav',
+      'ogg': 'audio/ogg',
+      'aac': 'audio/aac',
+      'flac': 'audio/flac',
+      'wma': 'audio/x-ms-wma',
+      'm4a': 'audio/mp4',
+      
+      // Video
+      'mp4': 'video/mp4',
+      'avi': 'video/x-msvideo',
+      'mov': 'video/quicktime',
+      'wmv': 'video/x-ms-wmv',
+      'flv': 'video/x-flv',
+      'webm': 'video/webm',
+      'mkv': 'video/x-matroska',
+      '3gp': 'video/3gpp',
+      
+      // Documents
+      'pdf': 'application/pdf',
+      'doc': 'application/msword',
+      'docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'xls': 'application/vnd.ms-excel',
+      'xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'ppt': 'application/vnd.ms-powerpoint',
+      'pptx': 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+      'odt': 'application/vnd.oasis.opendocument.text',
+      'ods': 'application/vnd.oasis.opendocument.spreadsheet',
+      'odp': 'application/vnd.oasis.opendocument.presentation',
+      
+      // Archives
+      'zip': 'application/zip',
+      'rar': 'application/vnd.rar',
+      'tar': 'application/x-tar',
+      'gz': 'application/gzip',
+      '7z': 'application/x-7z-compressed',
+      'bz2': 'application/x-bzip2',
+      
+      // Programming
+      'py': 'text/x-python',
+      'java': 'text/x-java-source',
+      'c': 'text/x-c',
+      'cpp': 'text/x-c++',
+      'h': 'text/x-c',
+      'php': 'application/x-httpd-php',
+      'rb': 'text/x-ruby',
+      'go': 'text/x-go',
+      'rs': 'text/x-rust',
+      'swift': 'text/x-swift',
+      'kt': 'text/x-kotlin',
+      'ts': 'application/typescript',
+      'jsx': 'text/jsx',
+      'tsx': 'text/tsx',
+      'vue': 'text/x-vue',
+      'scss': 'text/x-scss',
+      'sass': 'text/x-sass',
+      'less': 'text/x-less',
+      
+      // Fonts
+      'ttf': 'font/ttf',
+      'otf': 'font/otf',
+      'woff': 'font/woff',
+      'woff2': 'font/woff2',
+      'eot': 'application/vnd.ms-fontobject',
+      
+      // Other
+      'exe': 'application/octet-stream',
+      'dmg': 'application/x-apple-diskimage',
+      'iso': 'application/x-iso9660-image',
+      'deb': 'application/vnd.debian.binary-package',
+      'rpm': 'application/x-rpm',
+      'apk': 'application/vnd.android.package-archive'
+    };
+    
+    function updateStats() {
+      const text = input.value.trim();
+      const lines = text ? text.split('\\n').filter(line => line.trim()) : [];
+      fileCount.textContent = lines.length;
+      outputLength.textContent = output.textContent.length;
+    }
+    
+    function setStatus(text, type = 'normal') {
+      status.className = 'status-indicator ' + type;
+      statusText.textContent = text;
+      
+      if (type !== 'normal') {
+        setTimeout(() => {
+          status.className = 'status-indicator';
+          statusText.textContent = 'Ready';
+        }, 3000);
+      }
+    }
+    
+    function detectMIME() {
+      const text = input.value.trim();
+      if (!text) {
+        setStatus('Please enter file extensions or filenames', 'error');
+        return;
+      }
+      
+      try {
+        const lines = text.split('\\n').filter(line => line.trim());
+        const results = [];
+        
+        lines.forEach(line => {
+          const filename = line.trim();
+          const extension = getFileExtension(filename);
+          const mimeType = getMimeType(extension);
+          const category = getMimeCategory(mimeType);
+          
+          results.push({
+            filename,
+            extension,
+            mimeType,
+            category
+          });
+        });
+        
+        const result = generateMimeResult('MIME TYPE DETECTION', results);
+        output.textContent = result;
+        setStatus('Detected MIME types for ' + results.length + ' files!', 'success');
+        updateStats();
+      } catch (error) {
+        setStatus('Detection failed: ' + error.message, 'error');
+      }
+    }
+    
+    function browseMimeTypes() {
+      const result = generateBrowseResult();
+      output.textContent = result;
+      setStatus('MIME type browser loaded!', 'success');
+      updateStats();
+    }
+    
+    function getFileExtension(filename) {
+      const lastDot = filename.lastIndexOf('.');
+      if (lastDot === -1 || lastDot === filename.length - 1) {
+        return '';
+      }
+      return filename.substring(lastDot + 1).toLowerCase();
+    }
+    
+    function getMimeType(extension) {
+      return mimeTypes[extension] || 'application/octet-stream';
+    }
+    
+    function getMimeCategory(mimeType) {
+      const [primary] = mimeType.split('/');
+      const categoryMap = {
+        'text': 'Text',
+        'image': 'Image',
+        'audio': 'Audio',
+        'video': 'Video',
+        'application': 'Application',
+        'font': 'Font'
+      };
+      return categoryMap[primary] || 'Other';
+    }
+    
+    function generateMimeResult(title, results) {
+      let result = '';
+      result += '┌─── ' + title + ' RESULTS ───┐\\n';
+      result += '│                                      │\\n';
+      result += '│ Files Processed: ' + results.length.toString().padEnd(17) + '│\\n';
+      result += '│ Unique Extensions: ' + new Set(results.map(r => r.extension).filter(e => e)).size.toString().padEnd(15) + '│\\n';
+      result += '│ Categories Found: ' + new Set(results.map(r => r.category)).size.toString().padEnd(16) + '│\\n';
+      result += '│                                      │\\n';
+      result += '└──────────────────────────────────────┘\\n\\n';
+      
+      result += 'MIME TYPE DETECTION RESULTS:\\n';
+      result += '─'.repeat(60) + '\\n';
+      
+      results.forEach((item, index) => {
+        result += (index + 1).toString().padStart(2) + '. ' + item.filename + '\\n';
+        result += '    Extension: ' + (item.extension || 'none') + '\\n';
+        result += '    MIME Type: ' + item.mimeType + '\\n';
+        result += '    Category:  ' + item.category + '\\n';
+        result += '\\n';
+      });
+      
+      // Category summary
+      const categoryCount = {};
+      results.forEach(item => {
+        categoryCount[item.category] = (categoryCount[item.category] || 0) + 1;
+      });
+      
+      result += 'CATEGORY SUMMARY:\\n';
+      result += '─'.repeat(30) + '\\n';
+      Object.entries(categoryCount)
+        .sort(([,a], [,b]) => b - a)
+        .forEach(([category, count]) => {
+          result += '• ' + category + ': ' + count + ' files\\n';
+        });
+      
+      result += '\\nCOMMON USE CASES:\\n';
+      result += '─'.repeat(30) + '\\n';
+      result += '• Web servers: Content-Type headers\\n';
+      result += '• File uploads: Validation and processing\\n';
+      result += '• APIs: Response format specification\\n';
+      result += '• Email: Attachment type identification\\n';
+      result += '• CDN: Caching and compression rules\\n';
+      
+      return result;
+    }
+    
+    function generateBrowseResult() {
+      let result = '';
+      result += '┌─── MIME TYPE BROWSER ───┐\\n';
+      result += '│                         │\\n';
+      result += '└─────────────────────────┘\\n\\n';
+      
+      // Group by category
+      const categories = {
+        'Text': [],
+        'Image': [],
+        'Audio': [],
+        'Video': [],
+        'Document': [],
+        'Archive': [],
+        'Programming': [],
+        'Font': [],
+        'Other': []
+      };
+      
+      Object.entries(mimeTypes).forEach(([ext, mime]) => {
+        const category = getMimeCategory(mime);
+        const categoryKey = category === 'Application' ? 'Other' : category;
+        
+        // Special categorization
+        if (['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'odt', 'ods', 'odp'].includes(ext)) {
+          categories['Document'].push({ ext, mime });
+        } else if (['zip', 'rar', 'tar', 'gz', '7z', 'bz2'].includes(ext)) {
+          categories['Archive'].push({ ext, mime });
+        } else if (['py', 'java', 'c', 'cpp', 'js', 'ts', 'php', 'rb', 'go', 'rs', 'swift', 'kt', 'jsx', 'tsx', 'vue', 'scss', 'sass', 'less'].includes(ext)) {
+          categories['Programming'].push({ ext, mime });
+        } else {
+          categories[categoryKey].push({ ext, mime });
+        }
+      });
+      
+      Object.entries(categories).forEach(([category, items]) => {
+        if (items.length === 0) return;
+        
+        result += category.toUpperCase() + ' FILES:\\n';
+        result += '─'.repeat(40) + '\\n';
+        
+        items.sort((a, b) => a.ext.localeCompare(b.ext)).forEach(item => {
+          result += '.' + item.ext.padEnd(8) + ' → ' + item.mime + '\\n';
+        });
+        result += '\\n';
+      });
+      
+      result += 'MIME TYPE STANDARDS:\\n';
+      result += '─'.repeat(30) + '\\n';
+      result += '• RFC 2045: Internet Message Bodies\\n';
+      result += '• RFC 2046: Media Types\\n';
+      result += '• RFC 4288: Media Type Specifications\\n';
+      result += '• IANA Media Types Registry\\n\\n';
+      
+      result += 'USAGE EXAMPLES:\\n';
+      result += '─'.repeat(30) + '\\n';
+      result += 'HTTP Response Header:\\n';
+      result += 'Content-Type: application/json\\n\\n';
+      result += 'HTML Meta Tag:\\n';
+      result += '<meta http-equiv="Content-Type" \\n';
+      result += '      content="text/html; charset=UTF-8">\\n\\n';
+      result += 'JavaScript Blob:\\n';
+      result += 'new Blob([data], {type: "image/png"})';
+      
+      return result;
+    }
+    
+    function clearAll() {
+      input.value = '';
+      output.textContent = '';
+      updateStats();
+      setStatus('Cleared', 'success');
+    }
+    
+    function clearInput() {
+      input.value = '';
+      updateStats();
+      setStatus('Input cleared', 'success');
+    }
+    
+    async function copyOutput() {
+      const text = output.textContent;
+      if (!text) {
+        setStatus('Nothing to copy', 'error');
+        return;
+      }
+      
+      try {
+        await navigator.clipboard.writeText(text);
+        setStatus('Copied to clipboard', 'success');
+      } catch (error) {
+        setStatus('Copy failed', 'error');
+      }
+    }
+    
+    function downloadOutput() {
+      const text = output.textContent;
+      if (!text) {
+        setStatus('Nothing to download', 'error');
+        return;
+      }
+      
+      const blob = new Blob([text], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'mime-types.txt';
+      a.click();
+      URL.revokeObjectURL(url);
+      setStatus('Downloaded', 'success');
+    }
+    
+    async function pasteInput() {
+      try {
+        const text = await navigator.clipboard.readText();
+        input.value = text;
+        updateStats();
+        setStatus('Pasted from clipboard', 'success');
+      } catch (error) {
+        setStatus('Paste failed - check permissions', 'error');
+      }
+    }
+    
+    function loadSample() {
+      const sampleFiles = [
+        'document.pdf',
+        'photo.jpg',
+        'script.js',
+        'styles.css',
+        'data.json',
+        'video.mp4',
+        'music.mp3',
+        'archive.zip',
+        'presentation.pptx',
+        'image.png',
+        'font.woff2',
+        'code.py'
+      ].join('\\n');
+      
+      input.value = sampleFiles;
+      detectMIME();
+    }
+    
+    // Event listeners
+    if (detectBtn) detectBtn.addEventListener('click', detectMIME);
+    if (browseBtn) browseBtn.addEventListener('click', browseMimeTypes);
+    if (clearBtn) clearBtn.addEventListener('click', clearAll);
+    if (clearInputBtn) clearInputBtn.addEventListener('click', clearInput);
+    if (sampleBtn) sampleBtn.addEventListener('click', loadSample);
+    if (copyBtn) copyBtn.addEventListener('click', copyOutput);
+    if (copyOutputBtn) copyOutputBtn.addEventListener('click', copyOutput);
+    if (downloadBtn) downloadBtn.addEventListener('click', downloadOutput);
+    if (pasteBtn) pasteBtn.addEventListener('click', pasteInput);
+    
+    // Update stats on input
+    input.addEventListener('input', updateStats);
+    
+    // Keyboard shortcuts
+    input.addEventListener('keydown', function(e) {
+      if (e.ctrlKey || e.metaKey) {
+        if (e.key === 'Enter') {
+          detectMIME();
+        }
+      }
+    });
+    
+    // Initial stats
+    updateStats();
+  })();
+</script>

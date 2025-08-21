@@ -1,0 +1,935 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CaiatechToolLayout from '../../components/tools/CaiatechToolLayout.astro';
+import ToolAttribution from '../../components/tools/ToolAttribution.astro';
+import PrivacyBadge from '../../components/tools/PrivacyBadge.astro';
+---
+
+<BaseLayout title="String Escape/Unescape - Caiatech">
+  <CaiatechToolLayout 
+    title="String Escape/Unescape" 
+    description="Escape and unescape strings"
+    icon="\\">
+    
+    <div slot="header-actions">
+      <PrivacyBadge />
+    </div>
+    
+    <div class="tool-container">
+      <!-- Mode Selector -->
+      <div class="mode-selector">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">MODE://escape.type</span>
+        </div>
+        <div class="mode-container">
+          <h3 class="mode-title">🔧 ESCAPE MODE</h3>
+          <div class="mode-options">
+            <label class="radio-option">
+              <input type="radio" name="mode" value="auto" checked>
+              <span class="radio-custom"></span>
+              <span class="radio-label">Auto Detect</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="mode" value="escape">
+              <span class="radio-custom"></span>
+              <span class="radio-label">Escape Only</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="mode" value="unescape">
+              <span class="radio-custom"></span>
+              <span class="radio-label">Unescape Only</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Escape Type Selector -->
+      <div class="escape-types">
+        <h3 class="types-title">🎯 ESCAPE FORMAT</h3>
+        <div class="type-grid">
+          <label class="type-option">
+            <input type="radio" name="escape-type" value="javascript" checked>
+            <span class="type-label">JavaScript</span>
+          </label>
+          <label class="type-option">
+            <input type="radio" name="escape-type" value="json">
+            <span class="type-label">JSON</span>
+          </label>
+          <label class="type-option">
+            <input type="radio" name="escape-type" value="html">
+            <span class="type-label">HTML</span>
+          </label>
+          <label class="type-option">
+            <input type="radio" name="escape-type" value="xml">
+            <span class="type-label">XML</span>
+          </label>
+          <label class="type-option">
+            <input type="radio" name="escape-type" value="sql">
+            <span class="type-label">SQL</span>
+          </label>
+          <label class="type-option">
+            <input type="radio" name="escape-type" value="csv">
+            <span class="type-label">CSV</span>
+          </label>
+          <label class="type-option">
+            <input type="radio" name="escape-type" value="url">
+            <span class="type-label">URL</span>
+          </label>
+          <label class="type-option">
+            <input type="radio" name="escape-type" value="regex">
+            <span class="type-label">RegEx</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Input Section -->
+      <div class="terminal-panel input-terminal">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">INPUT://string</span>
+          <div class="terminal-actions">
+            <button class="terminal-action" id="clear-input-btn" title="Clear">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6"/>
+              </svg>
+            </button>
+            <button class="terminal-action" id="paste-btn" title="Paste">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/>
+                <rect x="8" y="2" width="8" height="4" rx="1"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="terminal-body">
+          <textarea 
+            id="input" 
+            class="terminal-input"
+            placeholder='Enter text to escape/unescape...\nExample: "Hello World"\nNew line\tTab'
+            spellcheck="false"
+            rows="8"
+          ></textarea>
+          <div class="input-stats">
+            <span>Chars: <span id="input-chars">0</span></span>
+            <span class="stat-separator">•</span>
+            <span>Lines: <span id="input-lines">0</span></span>
+            <span class="stat-separator">•</span>
+            <span>Escapes: <span id="input-escapes">0</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Process Button -->
+      <div class="process-section">
+        <button id="process-btn" class="process-button">
+          <span class="btn-glow"></span>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+          <span id="process-text">AUTO PROCESS</span>
+        </button>
+        <div class="process-actions">
+          <button id="swap-btn" class="cyber-btn secondary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M7 16V4M7 4L3 8M7 4l4 4M17 8v12M17 20l4-4M17 20l-4-4"/>
+            </svg>
+            Swap
+          </button>
+          <button id="clear-btn" class="cyber-btn secondary">Clear</button>
+          <button id="sample-btn" class="cyber-btn secondary">Sample</button>
+        </div>
+      </div>
+
+      <!-- Output Section -->
+      <div class="terminal-panel output-terminal">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title" id="output-title">OUTPUT://escaped</span>
+          <div class="terminal-actions">
+            <button class="terminal-action" id="copy-output-btn" title="Copy">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2"/>
+                <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+              </svg>
+            </button>
+            <button class="terminal-action" id="download-btn" title="Download">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="terminal-body">
+          <textarea 
+            id="output" 
+            class="terminal-output"
+            placeholder="Processed text will appear here..."
+            readonly
+            rows="8"
+          ></textarea>
+          <div class="output-stats">
+            <span>Chars: <span id="output-chars">0</span></span>
+            <span class="stat-separator">•</span>
+            <span>Lines: <span id="output-lines">0</span></span>
+            <span class="stat-separator">•</span>
+            <span>Status: <span id="output-status">Ready</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reference Section -->
+      <div class="reference-section">
+        <h3 class="reference-title">📖 ESCAPE SEQUENCES REFERENCE</h3>
+        <div class="reference-grid">
+          <div class="reference-card">
+            <h4>JavaScript/JSON</h4>
+            <div class="escape-list">
+              <div class="escape-item">
+                <code>\n</code><span>Newline</span>
+              </div>
+              <div class="escape-item">
+                <code>\t</code><span>Tab</span>
+              </div>
+              <div class="escape-item">
+                <code>\r</code><span>Carriage return</span>
+              </div>
+              <div class="escape-item">
+                <code>\"</code><span>Double quote</span>
+              </div>
+              <div class="escape-item">
+                <code>\'</code><span>Single quote</span>
+              </div>
+              <div class="escape-item">
+                <code>\\</code><span>Backslash</span>
+              </div>
+            </div>
+          </div>
+          <div class="reference-card">
+            <h4>HTML/XML</h4>
+            <div class="escape-list">
+              <div class="escape-item">
+                <code>&lt;</code><span>Less than</span>
+              </div>
+              <div class="escape-item">
+                <code>&gt;</code><span>Greater than</span>
+              </div>
+              <div class="escape-item">
+                <code>&amp;</code><span>Ampersand</span>
+              </div>
+              <div class="escape-item">
+                <code>&quot;</code><span>Quote</span>
+              </div>
+              <div class="escape-item">
+                <code>&apos;</code><span>Apostrophe</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <ToolAttribution toolName="String Escape/Unescape" version="2.0.0" />
+  </CaiatechToolLayout>
+</BaseLayout>
+
+<style>
+  .tool-container {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  /* Terminal panels */
+  .terminal-panel {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 
+      0 10px 40px rgba(0, 0, 0, 0.3),
+      0 0 60px rgba(0, 212, 255, 0.05);
+    transition: all 0.3s ease;
+  }
+
+  .terminal-panel:hover {
+    box-shadow: 
+      0 10px 40px rgba(0, 0, 0, 0.4),
+      0 0 80px rgba(0, 212, 255, 0.1);
+    border-color: rgba(0, 212, 255, 0.3);
+  }
+
+  .terminal-header {
+    background: linear-gradient(90deg, rgba(42, 42, 43, 1) 0%, rgba(26, 26, 27, 1) 100%);
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .terminal-controls {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .control {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    transition: all 0.2s;
+  }
+
+  .control.red { 
+    background: #ff5f57; 
+    box-shadow: 0 0 10px rgba(255, 95, 87, 0.5);
+  }
+  .control.yellow { 
+    background: #ffbd2e; 
+    box-shadow: 0 0 10px rgba(255, 189, 46, 0.5);
+  }
+  .control.green { 
+    background: #28ca42; 
+    box-shadow: 0 0 10px rgba(40, 202, 66, 0.5);
+  }
+
+  .terminal-panel:hover .control {
+    box-shadow: 0 0 15px currentColor;
+  }
+
+  .terminal-title {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-accent);
+    margin-left: auto;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.8;
+  }
+
+  .terminal-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: 1rem;
+  }
+
+  .terminal-action {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--color-text-secondary);
+    padding: 0.25rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .terminal-action:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    background: rgba(0, 212, 255, 0.1);
+  }
+
+  .terminal-body {
+    padding: 1.5rem;
+  }
+
+  .terminal-prompt {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .prompt-symbol {
+    color: var(--color-accent);
+    font-weight: bold;
+  }
+
+  .prompt-text {
+    color: var(--color-text-secondary);
+  }
+
+  .prompt-arrow {
+    color: var(--color-accent);
+    opacity: 0.5;
+  }
+
+  .terminal-input,
+  .terminal-output {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 8px;
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    padding: 1rem;
+    width: 100%;
+    min-height: 200px;
+    resize: vertical;
+    transition: all 0.3s;
+  }
+
+  .terminal-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 
+      0 0 20px rgba(0, 212, 255, 0.2),
+      inset 0 0 20px rgba(0, 212, 255, 0.05);
+  }
+
+  .terminal-output {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.6;
+  }
+
+  /* Control center */
+  .control-center {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.02) 0%, rgba(118, 75, 162, 0.02) 100%);
+    border: 1px solid rgba(0, 212, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+
+  .control-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Cyber buttons */
+  .cyber-btn {
+    position: relative;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+
+  .cyber-btn.primary {
+    border-color: var(--color-accent);
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  }
+
+  .cyber-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0, 212, 255, 0.3);
+  }
+
+  .cyber-btn.primary:hover {
+    border-color: var(--color-accent);
+    box-shadow: 
+      0 5px 30px rgba(0, 212, 255, 0.4),
+      inset 0 0 30px rgba(0, 212, 255, 0.1);
+  }
+
+  .btn-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--color-accent) 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+
+  .cyber-btn:hover .btn-glow {
+    width: 300px;
+    height: 300px;
+    opacity: 0;
+  }
+
+  .btn-text {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  /* Status bar */
+  .status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    border: 1px solid rgba(0, 212, 255, 0.1);
+  }
+
+  .status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { 
+      opacity: 1;
+      box-shadow: 0 0 10px var(--color-accent);
+    }
+    50% { 
+      opacity: 0.5;
+      box-shadow: 0 0 5px var(--color-accent);
+    }
+  }
+
+  .status-text {
+    color: var(--color-text-secondary);
+  }
+
+  .stats {
+    display: flex;
+    gap: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+  }
+
+  .stat-item {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .stat-separator {
+    opacity: 0.3;
+  }
+
+  /* Success/Error states */
+  .status-indicator.success .status-dot {
+    background: #28ca42;
+    animation: success-pulse 1s;
+  }
+
+  .status-indicator.error .status-dot {
+    background: #ff5f57;
+    animation: error-pulse 1s;
+  }
+
+  @keyframes success-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.5); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes error-pulse {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .control-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .stats {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .stat-separator {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // String Escape/Unescape Tool - Complete Implementation
+  (function() {
+    const input = document.getElementById('input');
+    const output = document.getElementById('output');
+    const processBtn = document.getElementById('process-btn');
+    const processText = document.getElementById('process-text');
+    const outputTitle = document.getElementById('output-title');
+    const clearBtn = document.getElementById('clear-btn');
+    const swapBtn = document.getElementById('swap-btn');
+    const sampleBtn = document.getElementById('sample-btn');
+    const copyOutputBtn = document.getElementById('copy-output-btn');
+    const downloadBtn = document.getElementById('download-btn');
+    const pasteBtn = document.getElementById('paste-btn');
+    const clearInputBtn = document.getElementById('clear-input-btn');
+    
+    // Stats elements
+    const inputChars = document.getElementById('input-chars');
+    const inputLines = document.getElementById('input-lines');
+    const inputEscapes = document.getElementById('input-escapes');
+    const outputChars = document.getElementById('output-chars');
+    const outputLines = document.getElementById('output-lines');
+    const outputStatus = document.getElementById('output-status');
+    
+    // Escape functions for different formats
+    const escapeFunctions = {
+      javascript: {
+        escape: (str) => {
+          return str
+            .replace(/\\/g, '\\\\')
+            .replace(/\n/g, '\\n')
+            .replace(/\r/g, '\\r')
+            .replace(/\t/g, '\\t')
+            .replace(/\f/g, '\\f')
+            .replace(/\v/g, '\\v')
+            .replace(/\0/g, '\\0')
+            .replace(/'/g, "\\'") 
+            .replace(/"/g, '\\"');
+        },
+        unescape: (str) => {
+          return str
+            .replace(/\\n/g, '\n')
+            .replace(/\\r/g, '\r')
+            .replace(/\\t/g, '\t')
+            .replace(/\\f/g, '\f')
+            .replace(/\\v/g, '\v')
+            .replace(/\\0/g, '\0')
+            .replace(/\\'/g, "'")
+            .replace(/\\"/g, '"')
+            .replace(/\\\\/g, '\\');
+        }
+      },
+      json: {
+        escape: (str) => {
+          return JSON.stringify(str).slice(1, -1);
+        },
+        unescape: (str) => {
+          try {
+            return JSON.parse('"' + str + '"');
+          } catch (e) {
+            throw new Error('Invalid JSON escape sequence');
+          }
+        }
+      },
+      html: {
+        escape: (str) => {
+          return str
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;')
+            .replace(/\//g, '&#x2F;');
+        },
+        unescape: (str) => {
+          const textarea = document.createElement('textarea');
+          textarea.innerHTML = str;
+          return textarea.value;
+        }
+      },
+      xml: {
+        escape: (str) => {
+          return str
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&apos;');
+        },
+        unescape: (str) => {
+          return str
+            .replace(/&lt;/g, '<')
+            .replace(/&gt;/g, '>')
+            .replace(/&quot;/g, '"')
+            .replace(/&apos;/g, "'")
+            .replace(/&amp;/g, '&');
+        }
+      },
+      sql: {
+        escape: (str) => {
+          return str.replace(/'/g, "''");
+        },
+        unescape: (str) => {
+          return str.replace(/''/g, "'");
+        }
+      },
+      csv: {
+        escape: (str) => {
+          if (str.includes(',') || str.includes('"') || str.includes('\n')) {
+            return '"' + str.replace(/"/g, '""') + '"';
+          }
+          return str;
+        },
+        unescape: (str) => {
+          if (str.startsWith('"') && str.endsWith('"')) {
+            return str.slice(1, -1).replace(/""/g, '"');
+          }
+          return str;
+        }
+      },
+      url: {
+        escape: (str) => {
+          return encodeURIComponent(str);
+        },
+        unescape: (str) => {
+          try {
+            return decodeURIComponent(str);
+          } catch (e) {
+            throw new Error('Invalid URL encoding');
+          }
+        }
+      },
+      regex: {
+        escape: (str) => {
+          return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        },
+        unescape: (str) => {
+          return str.replace(/\\([.*+?^${}()|[\]\\])/g, '$1');
+        }
+      }
+    };
+    
+    // Auto-detect if string needs escaping or unescaping
+    function detectOperation(str, type) {
+      const patterns = {
+        javascript: /\\[nrt'"\\]/,
+        json: /\\["\\\/bfnrtu]/,
+        html: /&[a-z]+;|&#[0-9]+;|&#x[0-9a-f]+;/i,
+        xml: /&[a-z]+;/,
+        sql: /''/,
+        csv: /^".*"$/,
+        url: /%[0-9a-f]{2}/i,
+        regex: /\\[.*+?^${}()|[\]\\]/
+      };
+      
+      return patterns[type] && patterns[type].test(str) ? 'unescape' : 'escape';
+    }
+    
+    function updateStats() {
+      const inputText = input.value;
+      const outputText = output.value;
+      
+      // Input stats
+      inputChars.textContent = inputText.length;
+      inputLines.textContent = inputText ? inputText.split('\n').length : 0;
+      
+      // Count escape sequences in input
+      const escapeCount = (inputText.match(/\\./g) || []).length + 
+                         (inputText.match(/&[^;]+;/g) || []).length +
+                         (inputText.match(/%[0-9a-f]{2}/gi) || []).length;
+      inputEscapes.textContent = escapeCount;
+      
+      // Output stats
+      outputChars.textContent = outputText.length;
+      outputLines.textContent = outputText ? outputText.split('\n').length : 0;
+    }
+    
+    function processString() {
+      const text = input.value;
+      if (!text) {
+        output.value = '';
+        outputStatus.textContent = 'Ready';
+        updateStats();
+        return;
+      }
+      
+      const mode = document.querySelector('input[name="mode"]:checked').value;
+      const type = document.querySelector('input[name="escape-type"]:checked').value;
+      
+      try {
+        let result;
+        let operation;
+        
+        if (mode === 'auto') {
+          operation = detectOperation(text, type);
+        } else {
+          operation = mode;
+        }
+        
+        if (operation === 'escape') {
+          result = escapeFunctions[type].escape(text);
+          outputTitle.textContent = 'OUTPUT://escaped';
+          outputStatus.textContent = 'Escaped';
+          outputStatus.style.color = '#28ca42';
+        } else {
+          result = escapeFunctions[type].unescape(text);
+          outputTitle.textContent = 'OUTPUT://unescaped';
+          outputStatus.textContent = 'Unescaped';
+          outputStatus.style.color = '#28ca42';
+        }
+        
+        output.value = result;
+        
+        // Update process button text
+        if (mode === 'auto') {
+          processText.textContent = operation.toUpperCase();
+        } else {
+          processText.textContent = mode.toUpperCase();
+        }
+        
+      } catch (error) {
+        outputStatus.textContent = 'Error: ' + error.message;
+        outputStatus.style.color = '#ff5f57';
+        output.value = '';
+      }
+      
+      updateStats();
+    }
+    
+    function swapContent() {
+      const temp = input.value;
+      input.value = output.value;
+      output.value = temp;
+      updateStats();
+    }
+    
+    function clearAll() {
+      input.value = '';
+      output.value = '';
+      outputStatus.textContent = 'Ready';
+      outputStatus.style.color = '';
+      updateStats();
+    }
+    
+    function clearInput() {
+      input.value = '';
+      updateStats();
+      processString();
+    }
+    
+    function loadSample() {
+      const samples = {
+        javascript: 'Hello "World"!\nNew line\tTab\\Backslash',
+        json: '{"message": "Hello\\nWorld", "path": "C:\\\\Users\\\\file.txt"}',
+        html: '<div class="container">Hello & "World"</div>',
+        xml: '<node attr="value">Data & <nested>Content</nested></node>',
+        sql: "SELECT * FROM users WHERE name = 'O''Brien'",
+        csv: 'Name,"Smith, John","Quote: \"Hello\""',
+        url: 'Hello World! Special chars: @#$%^&*()',
+        regex: 'Match any of these: . * + ? ^ $ { } ( ) | [ ] \\'
+      };
+      
+      const type = document.querySelector('input[name="escape-type"]:checked').value;
+      input.value = samples[type];
+      processString();
+    }
+    
+    async function copyOutput() {
+      const text = output.value;
+      if (!text) {
+        outputStatus.textContent = 'Nothing to copy';
+        outputStatus.style.color = '#ff5f57';
+        return;
+      }
+      
+      try {
+        await navigator.clipboard.writeText(text);
+        outputStatus.textContent = 'Copied!';
+        outputStatus.style.color = '#28ca42';
+        setTimeout(() => {
+          outputStatus.textContent = 'Ready';
+          outputStatus.style.color = '';
+        }, 2000);
+      } catch (error) {
+        outputStatus.textContent = 'Copy failed';
+        outputStatus.style.color = '#ff5f57';
+      }
+    }
+    
+    function downloadOutput() {
+      const text = output.value;
+      if (!text) {
+        outputStatus.textContent = 'Nothing to download';
+        outputStatus.style.color = '#ff5f57';
+        return;
+      }
+      
+      const type = document.querySelector('input[name="escape-type"]:checked').value;
+      const mode = document.querySelector('input[name="mode"]:checked').value;
+      const filename = `${type}-${mode === 'escape' ? 'escaped' : 'unescaped'}.txt`;
+      
+      const blob = new Blob([text], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+      
+      outputStatus.textContent = 'Downloaded';
+      outputStatus.style.color = '#28ca42';
+    }
+    
+    async function pasteInput() {
+      try {
+        const text = await navigator.clipboard.readText();
+        input.value = text;
+        processString();
+      } catch (error) {
+        outputStatus.textContent = 'Paste failed';
+        outputStatus.style.color = '#ff5f57';
+      }
+    }
+    
+    // Event listeners
+    processBtn.addEventListener('click', processString);
+    swapBtn.addEventListener('click', swapContent);
+    clearBtn.addEventListener('click', clearAll);
+    sampleBtn.addEventListener('click', loadSample);
+    copyOutputBtn.addEventListener('click', copyOutput);
+    downloadBtn.addEventListener('click', downloadOutput);
+    pasteBtn.addEventListener('click', pasteInput);
+    clearInputBtn.addEventListener('click', clearInput);
+    
+    // Process on input change
+    input.addEventListener('input', () => {
+      processString();
+    });
+    
+    // Update when mode or type changes
+    document.querySelectorAll('input[name="mode"], input[name="escape-type"]').forEach(radio => {
+      radio.addEventListener('change', () => {
+        processString();
+      });
+    });
+    
+    // Keyboard shortcuts
+    input.addEventListener('keydown', function(e) {
+      if (e.ctrlKey || e.metaKey) {
+        if (e.key === 'Enter') {
+          processString();
+        }
+      }
+    });
+    
+    // Initialize
+    updateStats();
+    outputStatus.textContent = 'Ready';
+  })();
+</script>

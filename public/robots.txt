@@ -1,0 +1,57 @@
+# Caiatech Robots.txt
+# Professional Developer Tools & Solutions
+# Company: Caiatech (https://caiatech.com)
+# Copyright 2025 Caiatech. All rights reserved.
+
+User-agent: *
+Allow: /
+Allow: /tools/
+Allow: /tools/*
+Disallow: /api/
+Disallow: /admin/
+Disallow: /.well-known/
+
+# Caiatech Developer Tools - Free Online Utilities
+# JSON Formatter: https://caiatech.com/tools/json
+# Base64 Encoder: https://caiatech.com/tools/base64
+# UUID Generator: https://caiatech.com/tools/uuid
+# URL Encoder: https://caiatech.com/tools/url
+# Hash Generator: https://caiatech.com/tools/hash
+
+# Search Engine Optimization
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Slurp
+Allow: /
+Crawl-delay: 0
+
+User-agent: DuckDuckBot
+Allow: /
+Crawl-delay: 0
+
+# AI/ML Research Crawlers
+User-agent: Applebot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+# Sitemap Location
+Sitemap: https://caiatech.com/sitemap-index.xml
+Sitemap: https://caiatech.com/sitemap-0.xml
+Sitemap: https://caiatech.com/tools-sitemap.xml
+
+# Host
+Host: https://caiatech.com

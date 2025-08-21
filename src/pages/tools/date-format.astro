@@ -1,0 +1,795 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CaiatechToolLayout from '../../components/tools/CaiatechToolLayout.astro';
+import ToolAttribution from '../../components/tools/ToolAttribution.astro';
+import PrivacyBadge from '../../components/tools/PrivacyBadge.astro';
+---
+
+<BaseLayout title="Date Formatter - Caiatech">
+  <CaiatechToolLayout 
+    title="Date Formatter" 
+    description="Format dates in various formats"
+    icon="📅">
+    
+    <div slot="header-actions">
+      <PrivacyBadge />
+    </div>
+    
+    <div class="tool-container">
+      <!-- Terminal-style input section -->
+      <div class="terminal-panel input-terminal">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">INPUT://date-format</span>
+          <div class="terminal-actions">
+            <button class="terminal-action" id="clear-input-btn" title="Clear">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6"/>
+              </svg>
+            </button>
+            <button class="terminal-action" id="paste-btn" title="Paste">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/>
+                <rect x="8" y="2" width="8" height="4" rx="1"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-prompt">
+            <span class="prompt-symbol">$</span>
+            <span class="prompt-text">date-format</span>
+            <span class="prompt-arrow">→</span>
+          </div>
+          <input 
+            id="input" 
+            class="terminal-input date-input"
+            placeholder="Enter date: 2024-01-15, Jan 15 2024, 1705276800, now"
+            spellcheck="false"
+          />
+        </div>
+      </div>
+
+      <!-- Control center -->
+      <div class="control-center">
+        <div class="control-grid">
+          <button id="process-btn" class="cyber-btn primary">
+            <span class="btn-glow"></span>
+            <span class="btn-text">📅 Format Date</span>
+          </button>
+          <button id="clear-btn" class="cyber-btn secondary">
+            <span class="btn-text">Clear All</span>
+          </button>
+          <button id="sample-btn" class="cyber-btn secondary">
+            <span class="btn-text">Current Time</span>
+          </button>
+          <button id="unix-btn" class="cyber-btn secondary">
+            <span class="btn-text">Unix Now</span>
+          </button>
+          <button id="copy-btn" class="cyber-btn secondary">
+            <span class="btn-text">Copy Output</span>
+          </button>
+        </div>
+        
+        <!-- Status indicator -->
+        <div class="status-bar">
+          <div class="status-indicator" id="status">
+            <span class="status-dot"></span>
+            <span class="status-text">Ready</span>
+          </div>
+          <div class="stats" id="stats">
+            <span class="stat-item">Input: <span id="input-length">0</span> chars</span>
+            <span class="stat-separator">•</span>
+            <span class="stat-item">Output: <span id="output-length">0</span> chars</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Terminal-style output section -->
+      <div class="terminal-panel output-terminal">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">OUTPUT://date-format.result</span>
+          <div class="terminal-actions">
+            <button class="terminal-action" id="copy-output-btn" title="Copy">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2"/>
+                <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+              </svg>
+            </button>
+            <button class="terminal-action" id="download-btn" title="Download">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-prompt">
+            <span class="prompt-symbol">></span>
+            <span class="prompt-text">result</span>
+          </div>
+          <pre id="output" class="terminal-output"></pre>
+        </div>
+      </div>
+    </div>
+    
+    <ToolAttribution toolName="Date Formatter" version="2.0.0" />
+  </CaiatechToolLayout>
+</BaseLayout>
+
+<style>
+  .tool-container {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  /* Terminal panels */
+  .terminal-panel {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 
+      0 10px 40px rgba(0, 0, 0, 0.3),
+      0 0 60px rgba(0, 212, 255, 0.05);
+    transition: all 0.3s ease;
+  }
+
+  .terminal-panel:hover {
+    box-shadow: 
+      0 10px 40px rgba(0, 0, 0, 0.4),
+      0 0 80px rgba(0, 212, 255, 0.1);
+    border-color: rgba(0, 212, 255, 0.3);
+  }
+
+  .terminal-header {
+    background: linear-gradient(90deg, rgba(42, 42, 43, 1) 0%, rgba(26, 26, 27, 1) 100%);
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .terminal-controls {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .control {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    transition: all 0.2s;
+  }
+
+  .control.red { 
+    background: #ff5f57; 
+    box-shadow: 0 0 10px rgba(255, 95, 87, 0.5);
+  }
+  .control.yellow { 
+    background: #ffbd2e; 
+    box-shadow: 0 0 10px rgba(255, 189, 46, 0.5);
+  }
+  .control.green { 
+    background: #28ca42; 
+    box-shadow: 0 0 10px rgba(40, 202, 66, 0.5);
+  }
+
+  .terminal-panel:hover .control {
+    box-shadow: 0 0 15px currentColor;
+  }
+
+  .terminal-title {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-accent);
+    margin-left: auto;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.8;
+  }
+
+  .terminal-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: 1rem;
+  }
+
+  .terminal-action {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--color-text-secondary);
+    padding: 0.25rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .terminal-action:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    background: rgba(0, 212, 255, 0.1);
+  }
+
+  .terminal-body {
+    padding: 1.5rem;
+  }
+
+  .terminal-prompt {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .prompt-symbol {
+    color: var(--color-accent);
+    font-weight: bold;
+  }
+
+  .prompt-text {
+    color: var(--color-text-secondary);
+  }
+
+  .prompt-arrow {
+    color: var(--color-accent);
+    opacity: 0.5;
+  }
+
+  .terminal-input,
+  .terminal-output {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 8px;
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    padding: 1rem;
+    width: 100%;
+    min-height: 200px;
+    resize: vertical;
+    transition: all 0.3s;
+  }
+
+  .date-input {
+    min-height: auto;
+    height: auto;
+    font-size: 1.1rem;
+    text-align: center;
+  }
+
+  .terminal-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 
+      0 0 20px rgba(0, 212, 255, 0.2),
+      inset 0 0 20px rgba(0, 212, 255, 0.05);
+  }
+
+  .terminal-output {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.6;
+  }
+
+  /* Control center */
+  .control-center {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.02) 0%, rgba(118, 75, 162, 0.02) 100%);
+    border: 1px solid rgba(0, 212, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+
+  .control-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Cyber buttons */
+  .cyber-btn {
+    position: relative;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+
+  .cyber-btn.primary {
+    border-color: var(--color-accent);
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  }
+
+  .cyber-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0, 212, 255, 0.3);
+  }
+
+  .cyber-btn.primary:hover {
+    border-color: var(--color-accent);
+    box-shadow: 
+      0 5px 30px rgba(0, 212, 255, 0.4),
+      inset 0 0 30px rgba(0, 212, 255, 0.1);
+  }
+
+  .btn-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--color-accent) 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+
+  .cyber-btn:hover .btn-glow {
+    width: 300px;
+    height: 300px;
+    opacity: 0;
+  }
+
+  .btn-text {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  /* Status bar */
+  .status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    border: 1px solid rgba(0, 212, 255, 0.1);
+  }
+
+  .status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { 
+      opacity: 1;
+      box-shadow: 0 0 10px var(--color-accent);
+    }
+    50% { 
+      opacity: 0.5;
+      box-shadow: 0 0 5px var(--color-accent);
+    }
+  }
+
+  .status-text {
+    color: var(--color-text-secondary);
+  }
+
+  .stats {
+    display: flex;
+    gap: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+  }
+
+  .stat-item {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .stat-separator {
+    opacity: 0.3;
+  }
+
+  /* Success/Error states */
+  .status-indicator.success .status-dot {
+    background: #28ca42;
+    animation: success-pulse 1s;
+  }
+
+  .status-indicator.error .status-dot {
+    background: #ff5f57;
+    animation: error-pulse 1s;
+  }
+
+  @keyframes success-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.5); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes error-pulse {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .control-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .stats {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .stat-separator {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // Basic tool functionality
+  (function() {
+    const input = document.getElementById('input');
+    const output = document.getElementById('output');
+    const status = document.getElementById('status');
+    const statusText = status.querySelector('.status-text');
+    const inputLength = document.getElementById('input-length');
+    const outputLength = document.getElementById('output-length');
+    
+    const processBtn = document.getElementById('process-btn');
+    const clearBtn = document.getElementById('clear-btn');
+    const sampleBtn = document.getElementById('sample-btn');
+    const copyBtn = document.getElementById('copy-btn');
+    const copyOutputBtn = document.getElementById('copy-output-btn');
+    const downloadBtn = document.getElementById('download-btn');
+    const pasteBtn = document.getElementById('paste-btn');
+    const clearInputBtn = document.getElementById('clear-input-btn');
+    
+    function updateStats() {
+      inputLength.textContent = input.value.length;
+      outputLength.textContent = output.textContent.length;
+    }
+    
+    function setStatus(text, type = 'normal') {
+      status.className = 'status-indicator ' + type;
+      statusText.textContent = text;
+      
+      if (type !== 'normal') {
+        setTimeout(() => {
+          status.className = 'status-indicator';
+          statusText.textContent = 'Ready';
+        }, 3000);
+      }
+    }
+    
+    function processInput() {
+      const dateInput = input.value.trim();
+      if (!dateInput) {
+        setStatus('Please enter a date to format', 'error');
+        return;
+      }
+      
+      try {
+        const parsedDate = parseDate(dateInput);
+        if (!parsedDate) {
+          setStatus('Invalid date format', 'error');
+          return;
+        }
+        
+        const formatted = formatDateInAllFormats(parsedDate);
+        output.textContent = formatted;
+        setStatus('Date formatted successfully', 'success');
+        updateStats();
+      } catch (error) {
+        setStatus('Error parsing date: ' + error.message, 'error');
+      }
+    }
+    
+    function parseDate(input) {
+      let date;
+      
+      // Handle "now" keyword
+      if (input.toLowerCase() === 'now') {
+        return new Date();
+      }
+      
+      // Try to parse as Unix timestamp (10 or 13 digits)
+      if (/^\d{10}$/.test(input)) {
+        date = new Date(parseInt(input) * 1000);
+      } else if (/^\d{13}$/.test(input)) {
+        date = new Date(parseInt(input));
+      } else {
+        // Try to parse as regular date string
+        date = new Date(input);
+      }
+      
+      // Check if date is valid
+      if (isNaN(date.getTime())) {
+        return null;
+      }
+      
+      return date;
+    }
+    
+    function formatDateInAllFormats(date) {
+      const pad = (n) => n.toString().padStart(2, '0');
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+      const hours = date.getHours();
+      const minutes = date.getMinutes();
+      const seconds = date.getSeconds();
+      
+      const monthNames = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+      ];
+      
+      const monthNamesShort = [
+        'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+      ];
+      
+      const dayNames = [
+        'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
+      ];
+      
+      const dayNamesShort = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      
+      let result = '';
+      result += '\u250c\u2500\u2500\u2500 DATE FORMATTING RESULTS \u2500\u2500\u2500\u2510\n';
+      result += '\u2502                                        \u2502\n';
+      
+      // ISO Formats
+      result += '\u2502 \u250c\u2500 ISO FORMATS \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510 \u2502\n';
+      result += `\u2502 \u2502 ISO 8601: ${date.toISOString().padEnd(22)}\u2502 \u2502\n`;
+      result += `\u2502 \u2502 ISO Date: ${date.toISOString().split('T')[0].padEnd(22)}\u2502 \u2502\n`;
+      result += `\u2502 \u2502 ISO Time: ${date.toISOString().split('T')[1].padEnd(22)}\u2502 \u2502\n`;
+      result += '\u2502 \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518 \u2502\n';
+      result += '\u2502                                        \u2502\n';
+      
+      // US Formats  
+      result += '\u2502 \u250c\u2500 US FORMATS \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510 \u2502\n';
+      result += `\u2502 \u2502 US Date: ${pad(month)}/${pad(day)}/${year}`.padEnd(38) + '\u2502 \u2502\n';
+      result += `\u2502 \u2502 US Long: ${monthNames[month-1]} ${day}, ${year}`.padEnd(38) + '\u2502 \u2502\n';
+      result += `\u2502 \u2502 US Short: ${monthNamesShort[month-1]} ${day}, ${year}`.padEnd(38) + '\u2502 \u2502\n';
+      result += '\u2502 \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518 \u2502\n';
+      result += '\u2502                                        \u2502\n';
+      
+      // European Formats
+      result += '\u2502 \u250c\u2500 EUROPEAN FORMATS \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510 \u2502\n';
+      result += `\u2502 \u2502 EU Date: ${pad(day)}/${pad(month)}/${year}`.padEnd(38) + '\u2502 \u2502\n';
+      result += `\u2502 \u2502 EU Long: ${day} ${monthNames[month-1]} ${year}`.padEnd(38) + '\u2502 \u2502\n';
+      result += `\u2502 \u2502 EU Short: ${day} ${monthNamesShort[month-1]} ${year}`.padEnd(38) + '\u2502 \u2502\n';
+      result += '\u2502 \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518 \u2502\n';
+      result += '\u2502                                        \u2502\n';
+      
+      // Time Formats
+      result += '\u2502 \u250c\u2500 TIME FORMATS \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510 \u2502\n';
+      result += `\u2502 \u2502 24 Hour: ${pad(hours)}:${pad(minutes)}:${pad(seconds)}`.padEnd(38) + '\u2502 \u2502\n';
+      const hour12 = hours === 0 ? 12 : hours > 12 ? hours - 12 : hours;
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      result += `\u2502 \u2502 12 Hour: ${hour12}:${pad(minutes)}:${pad(seconds)} ${ampm}`.padEnd(38) + '\u2502 \u2502\n';
+      result += `\u2502 \u2502 Time Only: ${pad(hours)}:${pad(minutes)}`.padEnd(38) + '\u2502 \u2502\n';
+      result += '\u2502 \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518 \u2502\n';
+      result += '\u2502                                        \u2502\n';
+      
+      // Unix & Timestamps
+      result += '\u2502 \u250c\u2500 UNIX & TIMESTAMPS \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510 \u2502\n';
+      result += `\u2502 \u2502 Unix (sec): ${Math.floor(date.getTime() / 1000)}`.padEnd(38) + '\u2502 \u2502\n';
+      result += `\u2502 \u2502 Unix (ms): ${date.getTime()}`.padEnd(38) + '\u2502 \u2502\n';
+      result += `\u2502 \u2502 Timestamp: ${date.getTime()}`.padEnd(38) + '\u2502 \u2502\n';
+      result += '\u2502 \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518 \u2502\n';
+      result += '\u2502                                        \u2502\n';
+      
+      // Additional Info
+      result += '\u2502 \u250c\u2500 ADDITIONAL INFO \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510 \u2502\n';
+      result += `\u2502 \u2502 Day of Week: ${dayNames[date.getDay()]}`.padEnd(38) + '\u2502 \u2502\n';
+      result += `\u2502 \u2502 Day Short: ${dayNamesShort[date.getDay()]}`.padEnd(38) + '\u2502 \u2502\n';
+      result += `\u2502 \u2502 Day of Year: ${getDayOfYear(date)}`.padEnd(38) + '\u2502 \u2502\n';
+      result += `\u2502 \u2502 Week of Year: ${getWeekOfYear(date)}`.padEnd(38) + '\u2502 \u2502\n';
+      result += `\u2502 \u2502 UTC Offset: ${getTimezoneOffset(date)}`.padEnd(38) + '\u2502 \u2502\n';
+      result += '\u2502 \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518 \u2502\n';
+      result += '\u2502                                        \u2502\n';
+      result += '\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n\n';
+      
+      // Add relative time information
+      result += 'RELATIVE TIME:\n';
+      result += '\u2500'.repeat(40) + '\n';
+      result += getRelativeTime(date);
+      
+      return result;
+    }
+    
+    function getDayOfYear(date) {
+      const start = new Date(date.getFullYear(), 0, 0);
+      const diff = date - start;
+      const oneDay = 1000 * 60 * 60 * 24;
+      return Math.floor(diff / oneDay);
+    }
+    
+    function getWeekOfYear(date) {
+      const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+      const dayNum = d.getUTCDay() || 7;
+      d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+      const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+      return Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
+    }
+    
+    function getTimezoneOffset(date) {
+      const offset = -date.getTimezoneOffset();
+      const sign = offset >= 0 ? '+' : '-';
+      const absOffset = Math.abs(offset);
+      const hours = Math.floor(absOffset / 60);
+      const minutes = absOffset % 60;
+      return `${sign}${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+    }
+    
+    function getRelativeTime(date) {
+      const now = new Date();
+      const diffMs = now - date;
+      const diffSec = Math.floor(diffMs / 1000);
+      const diffMin = Math.floor(diffSec / 60);
+      const diffHour = Math.floor(diffMin / 60);
+      const diffDay = Math.floor(diffHour / 24);
+      const diffWeek = Math.floor(diffDay / 7);
+      const diffMonth = Math.floor(diffDay / 30);
+      const diffYear = Math.floor(diffDay / 365);
+      
+      let relative = '';
+      
+      if (Math.abs(diffSec) < 60) {
+        relative = diffSec > 0 ? 'Just now' : 'In a few seconds';
+      } else if (Math.abs(diffMin) < 60) {
+        relative = diffMin > 0 ? `${diffMin} minute${diffMin !== 1 ? 's' : ''} ago` : `In ${Math.abs(diffMin)} minute${Math.abs(diffMin) !== 1 ? 's' : ''}`;
+      } else if (Math.abs(diffHour) < 24) {
+        relative = diffHour > 0 ? `${diffHour} hour${diffHour !== 1 ? 's' : ''} ago` : `In ${Math.abs(diffHour)} hour${Math.abs(diffHour) !== 1 ? 's' : ''}`;
+      } else if (Math.abs(diffDay) < 7) {
+        relative = diffDay > 0 ? `${diffDay} day${diffDay !== 1 ? 's' : ''} ago` : `In ${Math.abs(diffDay)} day${Math.abs(diffDay) !== 1 ? 's' : ''}`;
+      } else if (Math.abs(diffWeek) < 4) {
+        relative = diffWeek > 0 ? `${diffWeek} week${diffWeek !== 1 ? 's' : ''} ago` : `In ${Math.abs(diffWeek)} week${Math.abs(diffWeek) !== 1 ? 's' : ''}`;
+      } else if (Math.abs(diffMonth) < 12) {
+        relative = diffMonth > 0 ? `${diffMonth} month${diffMonth !== 1 ? 's' : ''} ago` : `In ${Math.abs(diffMonth)} month${Math.abs(diffMonth) !== 1 ? 's' : ''}`;
+      } else {
+        relative = diffYear > 0 ? `${diffYear} year${diffYear !== 1 ? 's' : ''} ago` : `In ${Math.abs(diffYear)} year${Math.abs(diffYear) !== 1 ? 's' : ''}`;
+      }
+      
+      return relative;
+    }
+    
+    function loadCurrentTime() {
+      input.value = 'now';
+      processInput();
+    }
+    
+    function loadUnixNow() {
+      const unixTimestamp = Math.floor(Date.now() / 1000);
+      input.value = unixTimestamp.toString();
+      processInput();
+    }
+    
+    function clearAll() {
+      input.value = '';
+      output.textContent = '';
+      updateStats();
+      setStatus('Cleared', 'success');
+    }
+    
+    function clearInput() {
+      input.value = '';
+      updateStats();
+      setStatus('Input cleared', 'success');
+    }
+    
+    async function copyOutput() {
+      const text = output.textContent;
+      if (!text) {
+        setStatus('Nothing to copy', 'error');
+        return;
+      }
+      
+      try {
+        await navigator.clipboard.writeText(text);
+        setStatus('Copied to clipboard', 'success');
+      } catch (error) {
+        setStatus('Copy failed', 'error');
+      }
+    }
+    
+    function downloadOutput() {
+      const text = output.textContent;
+      if (!text) {
+        setStatus('Nothing to download', 'error');
+        return;
+      }
+      
+      const toolName = document.title.split(' - ')[0].toLowerCase().replace(/\s+/g, '-');
+      const blob = new Blob([text], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = toolName + '-output.txt';
+      a.click();
+      URL.revokeObjectURL(url);
+      setStatus('Downloaded', 'success');
+    }
+    
+    async function pasteInput() {
+      try {
+        const text = await navigator.clipboard.readText();
+        input.value = text;
+        updateStats();
+        setStatus('Pasted from clipboard', 'success');
+      } catch (error) {
+        setStatus('Paste failed - check permissions', 'error');
+      }
+    }
+    
+    function loadSample() {
+      loadCurrentTime();
+    }
+    
+    // Event listeners
+    if (processBtn) processBtn.addEventListener('click', processInput);
+    if (clearBtn) clearBtn.addEventListener('click', clearAll);
+    if (clearInputBtn) clearInputBtn.addEventListener('click', clearInput);
+    if (sampleBtn) sampleBtn.addEventListener('click', loadSample);
+    if (copyBtn) copyBtn.addEventListener('click', copyOutput);
+    if (copyOutputBtn) copyOutputBtn.addEventListener('click', copyOutput);
+    if (downloadBtn) downloadBtn.addEventListener('click', downloadOutput);
+    if (pasteBtn) pasteBtn.addEventListener('click', pasteInput);
+    
+    // Unix now button
+    const unixBtn = document.getElementById('unix-btn');
+    if (unixBtn) unixBtn.addEventListener('click', loadUnixNow);
+    
+    // Update stats on input
+    input.addEventListener('input', updateStats);
+    
+    // Keyboard shortcuts
+    input.addEventListener('keydown', function(e) {
+      if (e.ctrlKey || e.metaKey) {
+        if (e.key === 'Enter') {
+          processInput();
+        }
+      }
+    });
+    
+    // Initial stats
+    updateStats();
+  })();
+</script>

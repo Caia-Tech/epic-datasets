@@ -1,0 +1,1313 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CaiatechToolLayout from '../../components/tools/CaiatechToolLayout.astro';
+import ToolAttribution from '../../components/tools/ToolAttribution.astro';
+import PrivacyBadge from '../../components/tools/PrivacyBadge.astro';
+---
+
+<BaseLayout title="Code Beautifier - Caiatech">
+  <CaiatechToolLayout 
+    title="Code Beautifier" 
+    description="Beautify and format code"
+    icon="✨">
+    
+    <div slot="header-actions">
+      <PrivacyBadge />
+    </div>
+    
+    <div class="tool-container">
+      <!-- Language Selection Panel -->
+      <div class="terminal-panel language-panel">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">LANG://selector</span>
+        </div>
+        <div class="terminal-body">
+          <div class="language-grid">
+            <button class="lang-btn active" data-lang="javascript">
+              <span class="lang-icon">🟨</span>
+              <span>JavaScript</span>
+            </button>
+            <button class="lang-btn" data-lang="css">
+              <span class="lang-icon">🎨</span>
+              <span>CSS</span>
+            </button>
+            <button class="lang-btn" data-lang="html">
+              <span class="lang-icon">🌐</span>
+              <span>HTML</span>
+            </button>
+            <button class="lang-btn" data-lang="json">
+              <span class="lang-icon">📋</span>
+              <span>JSON</span>
+            </button>
+            <button class="lang-btn" data-lang="xml">
+              <span class="lang-icon">📄</span>
+              <span>XML</span>
+            </button>
+            <button class="lang-btn" data-lang="sql">
+              <span class="lang-icon">🗃️</span>
+              <span>SQL</span>
+            </button>
+            <button class="lang-btn" data-lang="python">
+              <span class="lang-icon">🐍</span>
+              <span>Python</span>
+            </button>
+            <button class="lang-btn" data-lang="php">
+              <span class="lang-icon">🐘</span>
+              <span>PHP</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Options Panel -->
+      <div class="terminal-panel options-panel">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">CONFIG://format</span>
+        </div>
+        <div class="terminal-body">
+          <!-- JavaScript Options -->
+          <div class="options-group" id="javascript-options">
+            <h4>⚙️ JavaScript Options</h4>
+            <div class="options-grid">
+              <label class="option">
+                <span>Indent size:</span>
+                <input type="number" id="js-indent" value="2" min="1" max="8" class="cyber-input">
+              </label>
+              <label class="option">
+                <input type="checkbox" id="js-semicolons" checked class="cyber-checkbox">
+                <span>Add semicolons</span>
+              </label>
+              <label class="option">
+                <input type="checkbox" id="js-quotes" class="cyber-checkbox">
+                <span>Use single quotes</span>
+              </label>
+              <label class="option">
+                <input type="checkbox" id="js-trailing-commas" checked class="cyber-checkbox">
+                <span>Trailing commas</span>
+              </label>
+              <label class="option">
+                <span>Max line width:</span>
+                <input type="number" id="js-line-width" value="80" min="40" max="200" class="cyber-input">
+              </label>
+            </div>
+          </div>
+
+          <!-- CSS Options -->
+          <div class="options-group" id="css-options" style="display: none;">
+            <h4>⚙️ CSS Options</h4>
+            <div class="options-grid">
+              <label class="option">
+                <span>Indent size:</span>
+                <input type="number" id="css-indent" value="2" min="1" max="8" class="cyber-input">
+              </label>
+              <label class="option">
+                <input type="checkbox" id="css-newline-rules" checked class="cyber-checkbox">
+                <span>New line between rules</span>
+              </label>
+              <label class="option">
+                <input type="checkbox" id="css-sort-properties" class="cyber-checkbox">
+                <span>Sort properties</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- HTML Options -->
+          <div class="options-group" id="html-options" style="display: none;">
+            <h4>⚙️ HTML Options</h4>
+            <div class="options-grid">
+              <label class="option">
+                <span>Indent size:</span>
+                <input type="number" id="html-indent" value="2" min="1" max="8" class="cyber-input">
+              </label>
+              <label class="option">
+                <input type="checkbox" id="html-wrap-attributes" class="cyber-checkbox">
+                <span>Wrap attributes</span>
+              </label>
+              <label class="option">
+                <input type="checkbox" id="html-preserve-newlines" checked class="cyber-checkbox">
+                <span>Preserve newlines</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- JSON Options -->
+          <div class="options-group" id="json-options" style="display: none;">
+            <h4>⚙️ JSON Options</h4>
+            <div class="options-grid">
+              <label class="option">
+                <span>Indent size:</span>
+                <input type="number" id="json-indent" value="2" min="1" max="8" class="cyber-input">
+              </label>
+              <label class="option">
+                <input type="checkbox" id="json-sort-keys" class="cyber-checkbox">
+                <span>Sort object keys</span>
+              </label>
+              <label class="option">
+                <input type="checkbox" id="json-trailing-commas" class="cyber-checkbox">
+                <span>Trailing commas</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- XML Options -->
+          <div class="options-group" id="xml-options" style="display: none;">
+            <h4>⚙️ XML Options</h4>
+            <div class="options-grid">
+              <label class="option">
+                <span>Indent size:</span>
+                <input type="number" id="xml-indent" value="2" min="1" max="8" class="cyber-input">
+              </label>
+              <label class="option">
+                <input type="checkbox" id="xml-self-closing" checked class="cyber-checkbox">
+                <span>Self-closing tags</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- SQL Options -->
+          <div class="options-group" id="sql-options" style="display: none;">
+            <h4>⚙️ SQL Options</h4>
+            <div class="options-grid">
+              <label class="option">
+                <input type="checkbox" id="sql-uppercase" checked class="cyber-checkbox">
+                <span>Uppercase keywords</span>
+              </label>
+              <label class="option">
+                <input type="checkbox" id="sql-break-lines" checked class="cyber-checkbox">
+                <span>Break long lines</span>
+              </label>
+              <label class="option">
+                <span>Indent size:</span>
+                <input type="number" id="sql-indent" value="2" min="1" max="8" class="cyber-input">
+              </label>
+            </div>
+          </div>
+
+          <!-- Python Options -->
+          <div class="options-group" id="python-options" style="display: none;">
+            <h4>⚙️ Python Options</h4>
+            <div class="options-grid">
+              <label class="option">
+                <span>Indent size:</span>
+                <input type="number" id="python-indent" value="4" min="2" max="8" class="cyber-input">
+              </label>
+              <label class="option">
+                <span>Max line width:</span>
+                <input type="number" id="python-line-width" value="88" min="60" max="200" class="cyber-input">
+              </label>
+              <label class="option">
+                <input type="checkbox" id="python-quotes" class="cyber-checkbox">
+                <span>Use single quotes</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Generic Options -->
+          <div class="options-group" id="php-options" style="display: none;">
+            <h4>⚙️ PHP Options</h4>
+            <div class="options-grid">
+              <label class="option">
+                <span>Indent size:</span>
+                <input type="number" id="php-indent" value="4" min="1" max="8" class="cyber-input">
+              </label>
+              <label class="option">
+                <input type="checkbox" id="php-trim" class="cyber-checkbox">
+                <span>Trim whitespace</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Terminal-style input section -->
+      <div class="terminal-panel input-terminal">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">INPUT://code</span>
+          <div class="terminal-actions">
+            <button class="terminal-action" id="clear-input-btn" title="Clear">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6"/>
+              </svg>
+            </button>
+            <button class="terminal-action" id="paste-btn" title="Paste">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/>
+                <rect x="8" y="2" width="8" height="4" rx="1"/>
+              </svg>
+            </button>
+            <button class="terminal-action" id="load-sample-btn" title="Load Sample">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+                <polyline points="10 9 9 9 8 9"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-prompt">
+            <span class="prompt-symbol">$</span>
+            <span class="prompt-text">beautify</span>
+            <span class="prompt-arrow">→</span>
+          </div>
+          <textarea 
+            id="input" 
+            class="terminal-input"
+            placeholder="Paste your code here to beautify it..."
+            spellcheck="false"
+          ></textarea>
+        </div>
+      </div>
+
+      <!-- Control center -->
+      <div class="control-center">
+        <div class="control-grid">
+          <button id="format-btn" class="cyber-btn primary">
+            <span class="btn-glow"></span>
+            <span class="btn-text">✨ Beautify Code</span>
+          </button>
+          <button id="minify-btn" class="cyber-btn secondary">
+            <span class="btn-text">🗜️ Minify</span>
+          </button>
+          <button id="clear-btn" class="cyber-btn secondary">
+            <span class="btn-text">Clear All</span>
+          </button>
+          <button id="copy-btn" class="cyber-btn secondary">
+            <span class="btn-text">Copy Output</span>
+          </button>
+        </div>
+        
+        <!-- Status indicator -->
+        <div class="status-bar">
+          <div class="status-indicator" id="status">
+            <span class="status-dot"></span>
+            <span class="status-text">Ready</span>
+          </div>
+          <div class="stats" id="stats">
+            <span class="stat-item">Input: <span id="input-length">0</span> chars</span>
+            <span class="stat-separator">•</span>
+            <span class="stat-item">Output: <span id="output-length">0</span> chars</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Terminal-style output section -->
+      <div class="terminal-panel output-terminal">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">OUTPUT://beautify.result</span>
+          <div class="terminal-actions">
+            <button class="terminal-action" id="copy-output-btn" title="Copy">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2"/>
+                <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+              </svg>
+            </button>
+            <button class="terminal-action" id="download-btn" title="Download">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-prompt">
+            <span class="prompt-symbol">></span>
+            <span class="prompt-text">result</span>
+          </div>
+          <pre id="output" class="terminal-output"></pre>
+        </div>
+      </div>
+    </div>
+    
+    <ToolAttribution toolName="Code Beautifier" version="2.0.0" />
+  </CaiatechToolLayout>
+</BaseLayout>
+
+<style>
+  .tool-container {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  /* Terminal panels */
+  .terminal-panel {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 
+      0 10px 40px rgba(0, 0, 0, 0.3),
+      0 0 60px rgba(0, 212, 255, 0.05);
+    transition: all 0.3s ease;
+  }
+
+  .terminal-panel:hover {
+    box-shadow: 
+      0 10px 40px rgba(0, 0, 0, 0.4),
+      0 0 80px rgba(0, 212, 255, 0.1);
+    border-color: rgba(0, 212, 255, 0.3);
+  }
+
+  .terminal-header {
+    background: linear-gradient(90deg, rgba(42, 42, 43, 1) 0%, rgba(26, 26, 27, 1) 100%);
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .terminal-controls {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .control {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    transition: all 0.2s;
+  }
+
+  .control.red { 
+    background: #ff5f57; 
+    box-shadow: 0 0 10px rgba(255, 95, 87, 0.5);
+  }
+  .control.yellow { 
+    background: #ffbd2e; 
+    box-shadow: 0 0 10px rgba(255, 189, 46, 0.5);
+  }
+  .control.green { 
+    background: #28ca42; 
+    box-shadow: 0 0 10px rgba(40, 202, 66, 0.5);
+  }
+
+  .terminal-panel:hover .control {
+    box-shadow: 0 0 15px currentColor;
+  }
+
+  .terminal-title {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-accent);
+    margin-left: auto;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.8;
+  }
+
+  .terminal-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: 1rem;
+  }
+
+  .terminal-action {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--color-text-secondary);
+    padding: 0.25rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .terminal-action:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    background: rgba(0, 212, 255, 0.1);
+  }
+
+  .terminal-body {
+    padding: 1.5rem;
+  }
+
+  .terminal-prompt {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .prompt-symbol {
+    color: var(--color-accent);
+    font-weight: bold;
+  }
+
+  .prompt-text {
+    color: var(--color-text-secondary);
+  }
+
+  .prompt-arrow {
+    color: var(--color-accent);
+    opacity: 0.5;
+  }
+
+  .terminal-input,
+  .terminal-output {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 8px;
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    padding: 1rem;
+    width: 100%;
+    min-height: 200px;
+    resize: vertical;
+    transition: all 0.3s;
+  }
+
+  .terminal-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 
+      0 0 20px rgba(0, 212, 255, 0.2),
+      inset 0 0 20px rgba(0, 212, 255, 0.05);
+  }
+
+  .terminal-output {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.6;
+  }
+
+  /* Control center */
+  .control-center {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.02) 0%, rgba(118, 75, 162, 0.02) 100%);
+    border: 1px solid rgba(0, 212, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+
+  .control-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Cyber buttons */
+  .cyber-btn {
+    position: relative;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+
+  .cyber-btn.primary {
+    border-color: var(--color-accent);
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  }
+
+  .cyber-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0, 212, 255, 0.3);
+  }
+
+  .cyber-btn.primary:hover {
+    border-color: var(--color-accent);
+    box-shadow: 
+      0 5px 30px rgba(0, 212, 255, 0.4),
+      inset 0 0 30px rgba(0, 212, 255, 0.1);
+  }
+
+  .btn-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--color-accent) 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+
+  .cyber-btn:hover .btn-glow {
+    width: 300px;
+    height: 300px;
+    opacity: 0;
+  }
+
+  .btn-text {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  /* Status bar */
+  .status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    border: 1px solid rgba(0, 212, 255, 0.1);
+  }
+
+  .status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { 
+      opacity: 1;
+      box-shadow: 0 0 10px var(--color-accent);
+    }
+    50% { 
+      opacity: 0.5;
+      box-shadow: 0 0 5px var(--color-accent);
+    }
+  }
+
+  .status-text {
+    color: var(--color-text-secondary);
+  }
+
+  .stats {
+    display: flex;
+    gap: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+  }
+
+  .stat-item {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .stat-separator {
+    opacity: 0.3;
+  }
+
+  /* Success/Error states */
+  .status-indicator.success .status-dot {
+    background: #28ca42;
+    animation: success-pulse 1s;
+  }
+
+  .status-indicator.error .status-dot {
+    background: #ff5f57;
+    animation: error-pulse 1s;
+  }
+
+  @keyframes success-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.5); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes error-pulse {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+  }
+
+  /* Language selection */
+  .language-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+  }
+
+  .lang-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 8px;
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .lang-btn:hover {
+    border-color: var(--color-accent);
+    background: rgba(0, 212, 255, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 212, 255, 0.2);
+  }
+
+  .lang-btn.active {
+    border-color: var(--color-accent);
+    background: rgba(0, 212, 255, 0.15);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+  }
+
+  .lang-icon {
+    font-size: 1.5rem;
+  }
+
+  /* Options styling */
+  .options-group {
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .options-group h4 {
+    margin: 0 0 1rem 0;
+    color: var(--color-accent);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+
+  .option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+  }
+
+  .cyber-input {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 4px;
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    padding: 0.25rem 0.5rem;
+    width: 80px;
+    transition: all 0.3s;
+  }
+
+  .cyber-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 8px rgba(0, 212, 255, 0.3);
+  }
+
+  .cyber-checkbox {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--color-accent);
+    cursor: pointer;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .control-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .stats {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .stat-separator {
+      display: none;
+    }
+
+    .language-grid {
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    }
+
+    .options-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .lang-btn {
+      padding: 0.75rem;
+      font-size: 0.8rem;
+    }
+
+    .lang-icon {
+      font-size: 1.2rem;
+    }
+  }
+</style>
+
+<script>
+  // Code Beautifier Implementation
+  (function() {
+    let currentLanguage = 'javascript';
+    
+    // DOM Elements
+    const input = document.getElementById('input');
+    const output = document.getElementById('output');
+    const status = document.getElementById('status');
+    const statusText = status?.querySelector('.status-text');
+    const inputLength = document.getElementById('input-length');
+    const outputLength = document.getElementById('output-length');
+    
+    // Control buttons
+    const formatBtn = document.getElementById('format-btn');
+    const minifyBtn = document.getElementById('minify-btn');
+    const clearBtn = document.getElementById('clear-btn');
+    const copyBtn = document.getElementById('copy-btn');
+    const copyOutputBtn = document.getElementById('copy-output-btn');
+    const downloadBtn = document.getElementById('download-btn');
+    const pasteBtn = document.getElementById('paste-btn');
+    const clearInputBtn = document.getElementById('clear-input-btn');
+    const loadSampleBtn = document.getElementById('load-sample-btn');
+    
+    // Sample code for each language
+    const sampleCodes = {
+      javascript: 'function hello(name){if(!name)return "Hello World";else return `Hello ${name}!`;}',
+      css: `.container{margin:0;padding:20px;background:#fff}.button{display:inline-block;padding:10px 20px;background:#007bff;color:white;border:none;border-radius:4px}.button:hover{background:#0056b3}`,
+      html: `<div class="container"><h1>Title</h1><p>This is a paragraph with <a href="#">a link</a> inside.</p><ul><li>Item 1</li><li>Item 2</li></ul></div>`,
+      json: `{"name":"John Doe","age":30,"skills":["JavaScript","Python","SQL"],"address":{"city":"New York","country":"USA"}}`,
+      xml: `<root><person id="1"><name>John Doe</name><age>30</age><skills><skill>JavaScript</skill><skill>Python</skill></skills></person></root>`,
+      sql: `select users.name,orders.total,products.name from users inner join orders on users.id=orders.user_id inner join products on orders.product_id=products.id where orders.total>100 order by orders.total desc limit 10;`,
+      python: `def fibonacci(n):\n    if n<=1:return n\n    else:return fibonacci(n-1)+fibonacci(n-2)\nfor i in range(10):print(fibonacci(i))`,
+      php: `<?php function greeting($name) { if (!$name) { return "Hello World"; } else { return "Hello " . $name . "!"; } } echo greeting("PHP"); ?>`
+    };
+    
+    // Language selection
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const lang = btn.getAttribute('data-lang');
+        currentLanguage = lang;
+        
+        // Update active button
+        document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        // Show appropriate options
+        document.querySelectorAll('.options-group').forEach(group => {
+          group.style.display = 'none';
+        });
+        
+        const optionsGroup = document.getElementById(`${lang}-options`);
+        if (optionsGroup) {
+          optionsGroup.style.display = 'block';
+        }
+        
+        setStatus(`Switched to ${lang} mode`, 'success');
+      });
+    });
+    
+    // Utility functions
+    function updateStats() {
+      if (inputLength) inputLength.textContent = input.value.length;
+      if (outputLength) outputLength.textContent = output.textContent.length;
+    }
+    
+    function setStatus(text, type = 'normal') {
+      if (status && statusText) {
+        status.className = 'status-indicator ' + type;
+        statusText.textContent = text;
+        
+        if (type !== 'normal') {
+          setTimeout(() => {
+            status.className = 'status-indicator';
+            statusText.textContent = 'Ready';
+          }, 3000);
+        }
+      }
+    }
+    
+    // Format functions for each language
+    function formatJavaScript(code) {
+      const indent = parseInt(document.getElementById('js-indent')?.value) || 2;
+      const semicolons = document.getElementById('js-semicolons')?.checked;
+      const singleQuotes = document.getElementById('js-quotes')?.checked;
+      const trailingCommas = document.getElementById('js-trailing-commas')?.checked;
+      
+      // Basic JavaScript formatting (simplified)
+      let formatted = code.replace(/;?\\s*}/g, semicolons ? ';\\n}' : '\\n}');
+      formatted = formatted.replace(/{\\s*/g, '{\\n');
+      formatted = formatted.replace(/,\\s*/g, ',\\n');
+      
+      // Add indentation
+      const lines = formatted.split('\\n');
+      let indentLevel = 0;
+      const indentStr = ' '.repeat(indent);
+      
+      return lines.map(line => {
+        const trimmed = line.trim();
+        if (trimmed.endsWith('}')) indentLevel = Math.max(0, indentLevel - 1);
+        
+        const result = indentStr.repeat(indentLevel) + trimmed;
+        
+        if (trimmed.endsWith('{')) indentLevel++;
+        
+        return result;
+      }).join('\\n');
+    }
+    
+    function formatCSS(code) {
+      const indent = parseInt(document.getElementById('css-indent')?.value) || 2;
+      const newlineRules = document.getElementById('css-newline-rules')?.checked;
+      const sortProperties = document.getElementById('css-sort-properties')?.checked;
+      
+      const indentStr = ' '.repeat(indent);
+      
+      // Basic CSS formatting
+      let formatted = code.replace(/\\s*{\\s*/g, ' {\\n');
+      formatted = formatted.replace(/;\\s*/g, ';\\n');
+      formatted = formatted.replace(/\\s*}\\s*/g, '\\n}\\n');
+      
+      // Add indentation
+      const lines = formatted.split('\\n');
+      let indentLevel = 0;
+      
+      return lines.map(line => {
+        const trimmed = line.trim();
+        if (!trimmed) return '';
+        
+        if (trimmed === '}') indentLevel = Math.max(0, indentLevel - 1);
+        
+        const result = indentStr.repeat(indentLevel) + trimmed;
+        
+        if (trimmed.endsWith('{')) indentLevel++;
+        
+        return result;
+      }).filter(line => line.trim()).join('\\n') + (newlineRules ? '\\n\\n' : '\\n');
+    }
+    
+    function formatHTML(code) {
+      const indent = parseInt(document.getElementById('html-indent')?.value) || 2;
+      const indentStr = ' '.repeat(indent);
+      
+      // Simple HTML formatting
+      let formatted = code.replace(/></g, '>\\n<');
+      const lines = formatted.split('\\n');
+      let indentLevel = 0;
+      
+      return lines.map(line => {
+        const trimmed = line.trim();
+        if (!trimmed) return '';
+        
+        // Decrease indent for closing tags
+        if (trimmed.startsWith('</')) {
+          indentLevel = Math.max(0, indentLevel - 1);
+        }
+        
+        const result = indentStr.repeat(indentLevel) + trimmed;
+        
+        // Increase indent for opening tags (but not self-closing)
+        if (trimmed.startsWith('<') && !trimmed.startsWith('</') && !trimmed.endsWith('/>')) {
+          indentLevel++;
+        }
+        
+        return result;
+      }).filter(line => line.trim()).join('\\n');
+    }
+    
+    function formatJSON(code) {
+      const indent = parseInt(document.getElementById('json-indent')?.value) || 2;
+      const sortKeys = document.getElementById('json-sort-keys')?.checked;
+      
+      try {
+        const parsed = JSON.parse(code);
+        
+        if (sortKeys && typeof parsed === 'object') {
+          const sorted = sortObjectKeys(parsed);
+          return JSON.stringify(sorted, null, indent);
+        }
+        
+        return JSON.stringify(parsed, null, indent);
+      } catch (error) {
+        throw new Error('Invalid JSON: ' + error.message);
+      }
+    }
+    
+    function sortObjectKeys(obj) {
+      if (Array.isArray(obj)) {
+        return obj.map(sortObjectKeys);
+      } else if (obj !== null && typeof obj === 'object') {
+        const sorted = {};
+        Object.keys(obj).sort().forEach(key => {
+          sorted[key] = sortObjectKeys(obj[key]);
+        });
+        return sorted;
+      }
+      return obj;
+    }
+    
+    function formatXML(code) {
+      const indent = parseInt(document.getElementById('xml-indent')?.value) || 2;
+      const indentStr = ' '.repeat(indent);
+      
+      let formatted = code.replace(/></g, '>\\n<');
+      const lines = formatted.split('\\n');
+      let indentLevel = 0;
+      
+      return lines.map(line => {
+        const trimmed = line.trim();
+        if (!trimmed) return '';
+        
+        if (trimmed.startsWith('</')) {
+          indentLevel = Math.max(0, indentLevel - 1);
+        }
+        
+        const result = indentStr.repeat(indentLevel) + trimmed;
+        
+        if (trimmed.startsWith('<') && !trimmed.startsWith('</') && !trimmed.endsWith('/>')) {
+          indentLevel++;
+        }
+        
+        return result;
+      }).filter(line => line.trim()).join('\\n');
+    }
+    
+    function formatSQL(code) {
+      const uppercase = document.getElementById('sql-uppercase')?.checked;
+      const indent = parseInt(document.getElementById('sql-indent')?.value) || 2;
+      
+      const keywords = ['SELECT', 'FROM', 'WHERE', 'JOIN', 'INNER JOIN', 'LEFT JOIN', 'RIGHT JOIN', 'ORDER BY', 'GROUP BY', 'HAVING', 'INSERT', 'UPDATE', 'DELETE', 'CREATE', 'ALTER', 'DROP'];
+      
+      let formatted = code;
+      
+      if (uppercase) {
+        keywords.forEach(keyword => {
+          const regex = new RegExp(`\\b${keyword}\\b`, 'gi');
+          formatted = formatted.replace(regex, keyword);
+        });
+      }
+      
+      // Add line breaks after major keywords
+      formatted = formatted.replace(/\\bFROM\\b/gi, '\\nFROM');
+      formatted = formatted.replace(/\\bWHERE\\b/gi, '\\nWHERE');
+      formatted = formatted.replace(/\\bJOIN\\b/gi, '\\nJOIN');
+      formatted = formatted.replace(/\\bINNER JOIN\\b/gi, '\\nINNER JOIN');
+      formatted = formatted.replace(/\\bLEFT JOIN\\b/gi, '\\nLEFT JOIN');
+      formatted = formatted.replace(/\\bRIGHT JOIN\\b/gi, '\\nRIGHT JOIN');
+      formatted = formatted.replace(/\\bORDER BY\\b/gi, '\\nORDER BY');
+      formatted = formatted.replace(/\\bGROUP BY\\b/gi, '\\nGROUP BY');
+      
+      return formatted.split('\\n').map(line => line.trim()).filter(line => line).join('\\n');
+    }
+    
+    function formatPython(code) {
+      const indent = parseInt(document.getElementById('python-indent')?.value) || 4;
+      
+      // Basic Python formatting (simplified)
+      const lines = code.split('\\n');
+      let indentLevel = 0;
+      const indentStr = ' '.repeat(indent);
+      
+      return lines.map(line => {
+        const trimmed = line.trim();
+        if (!trimmed) return '';
+        
+        // Handle indentation based on colons and content
+        if (line.includes(':') && !line.trim().startsWith('#')) {
+          const result = indentStr.repeat(indentLevel) + trimmed;
+          if (trimmed.endsWith(':')) indentLevel++;
+          return result;
+        } else if (trimmed.startsWith('else:') || trimmed.startsWith('elif') || trimmed.startsWith('except:') || trimmed.startsWith('finally:')) {
+          indentLevel = Math.max(0, indentLevel - 1);
+          const result = indentStr.repeat(indentLevel) + trimmed;
+          indentLevel++;
+          return result;
+        } else {
+          return indentStr.repeat(indentLevel) + trimmed;
+        }
+      }).join('\\n');
+    }
+    
+    function formatPHP(code) {
+      const indent = parseInt(document.getElementById('php-indent')?.value) || 4;
+      const trim = document.getElementById('php-trim')?.checked;
+      
+      const indentStr = ' '.repeat(indent);
+      const lines = code.split('\\n');
+      
+      return lines.map(line => {
+        const processed = trim ? line.trim() : line;
+        return processed ? indentStr + processed : '';
+      }).join('\\n');
+    }
+    
+    // Minify functions
+    function minifyJavaScript(code) {
+      return code.replace(/\\s+/g, ' ').replace(/;\\s*}/g, '}').replace(/{\\s*/g, '{').trim();
+    }
+    
+    function minifyCSS(code) {
+      return code.replace(/\\s+/g, ' ').replace(/;\\s*}/g, '}').replace(/{\\s*/g, '{').replace(/,\\s*/g, ',').trim();
+    }
+    
+    function minifyHTML(code) {
+      return code.replace(/>\\s+</g, '><').replace(/\\s+/g, ' ').trim();
+    }
+    
+    function minifyJSON(code) {
+      try {
+        const parsed = JSON.parse(code);
+        return JSON.stringify(parsed);
+      } catch (error) {
+        throw new Error('Invalid JSON: ' + error.message);
+      }
+    }
+    
+    function minifyGeneric(code) {
+      return code.replace(/\\s+/g, ' ').trim();
+    }
+    
+    // Main format function
+    function formatCode() {
+      const code = input.value.trim();
+      if (!code) {
+        setStatus('Please enter some code to format', 'error');
+        return;
+      }
+      
+      try {
+        let formatted = '';
+        
+        switch (currentLanguage) {
+          case 'javascript':
+            formatted = formatJavaScript(code);
+            break;
+          case 'css':
+            formatted = formatCSS(code);
+            break;
+          case 'html':
+            formatted = formatHTML(code);
+            break;
+          case 'json':
+            formatted = formatJSON(code);
+            break;
+          case 'xml':
+            formatted = formatXML(code);
+            break;
+          case 'sql':
+            formatted = formatSQL(code);
+            break;
+          case 'python':
+            formatted = formatPython(code);
+            break;
+          case 'php':
+            formatted = formatPHP(code);
+            break;
+          default:
+            formatted = formatPHP(code); // Use PHP as generic
+        }
+        
+        output.textContent = formatted;
+        updateOutputStats(formatted);
+        setStatus('Code formatted successfully', 'success');
+        
+      } catch (error) {
+        output.textContent = `Error formatting code: ${error.message}`;
+        setStatus('Format failed', 'error');
+      }
+    }
+    
+    // Main minify function
+    function minifyCode() {
+      const code = input.value.trim();
+      if (!code) {
+        setStatus('Please enter some code to minify', 'error');
+        return;
+      }
+      
+      try {
+        let minified = '';
+        
+        switch (currentLanguage) {
+          case 'javascript':
+            minified = minifyJavaScript(code);
+            break;
+          case 'css':
+            minified = minifyCSS(code);
+            break;
+          case 'html':
+            minified = minifyHTML(code);
+            break;
+          case 'json':
+            minified = minifyJSON(code);
+            break;
+          default:
+            minified = minifyGeneric(code);
+        }
+        
+        output.textContent = minified;
+        updateOutputStats(minified);
+        setStatus('Code minified successfully', 'success');
+        
+      } catch (error) {
+        output.textContent = `Error minifying code: ${error.message}`;
+        setStatus('Minify failed', 'error');
+      }
+    }
+    
+    function updateOutputStats(outputText) {
+      const lines = outputText.split('\\n').length;
+      const chars = outputText.length;
+      const words = outputText.split(/\\s+/).filter(w => w).length;
+      // Update stats in status or elsewhere if needed
+    }
+    
+    function clearAll() {
+      input.value = '';
+      output.textContent = '';
+      updateStats();
+      setStatus('All cleared', 'success');
+    }
+    
+    function clearInput() {
+      input.value = '';
+      updateStats();
+      setStatus('Input cleared', 'success');
+    }
+    
+    async function copyOutput() {
+      const text = output.textContent;
+      if (!text || text.startsWith('Error')) {
+        setStatus('Nothing to copy', 'error');
+        return;
+      }
+      
+      try {
+        await navigator.clipboard.writeText(text);
+        setStatus('Copied to clipboard', 'success');
+      } catch (error) {
+        setStatus('Copy failed', 'error');
+      }
+    }
+    
+    function downloadOutput() {
+      const text = output.textContent;
+      if (!text || text.startsWith('Error')) {
+        setStatus('Nothing to download', 'error');
+        return;
+      }
+      
+      const extensions = {
+        javascript: 'js',
+        css: 'css',
+        html: 'html',
+        json: 'json',
+        xml: 'xml',
+        sql: 'sql',
+        python: 'py',
+        php: 'php'
+      };
+      
+      const ext = extensions[currentLanguage] || 'txt';
+      const blob = new Blob([text], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `formatted-code.${ext}`;
+      a.click();
+      URL.revokeObjectURL(url);
+      setStatus('File downloaded', 'success');
+    }
+    
+    async function pasteInput() {
+      try {
+        const text = await navigator.clipboard.readText();
+        input.value = text;
+        updateStats();
+        setStatus('Pasted from clipboard', 'success');
+      } catch (error) {
+        setStatus('Paste failed - check permissions', 'error');
+      }
+    }
+    
+    function loadSample() {
+      const sampleCode = sampleCodes[currentLanguage];
+      if (sampleCode) {
+        input.value = sampleCode;
+        updateStats();
+        setStatus(`Sample ${currentLanguage} code loaded`, 'success');
+      }
+    }
+    
+    // Event listeners
+    if (formatBtn) formatBtn.addEventListener('click', formatCode);
+    if (minifyBtn) minifyBtn.addEventListener('click', minifyCode);
+    if (clearBtn) clearBtn.addEventListener('click', clearAll);
+    if (clearInputBtn) clearInputBtn.addEventListener('click', clearInput);
+    if (copyBtn) copyBtn.addEventListener('click', copyOutput);
+    if (copyOutputBtn) copyOutputBtn.addEventListener('click', copyOutput);
+    if (downloadBtn) downloadBtn.addEventListener('click', downloadOutput);
+    if (pasteBtn) pasteBtn.addEventListener('click', pasteInput);
+    if (loadSampleBtn) loadSampleBtn.addEventListener('click', loadSample);
+    
+    // Update stats on input
+    if (input) input.addEventListener('input', updateStats);
+    
+    // Keyboard shortcuts
+    if (input) {
+      input.addEventListener('keydown', function(e) {
+        if (e.ctrlKey || e.metaKey) {
+          if (e.key === 'Enter') {
+            formatCode();
+          }
+        }
+      });
+    }
+    
+    // Initialize
+    updateStats();
+    setStatus('Ready - Select language and paste your code', 'success');
+  })();
+</script>

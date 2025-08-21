@@ -1,0 +1,198 @@
+---
+/**
+ * @fileoverview Tool Attribution Component for Caiatech Developer Tools
+ * @author Caiatech (https://caiatech.com)
+ * @copyright 2025 Caiatech. All rights reserved.
+ * @license Proprietary - Caiatech Developer Tools
+ * @website https://caiatech.com
+ * @company Caiatech - Professional Developer Tools & Solutions
+ */
+
+export interface Props {
+  toolName: string;
+  version?: string;
+}
+
+const { toolName, version = "1.0.0" } = Astro.props;
+const currentYear = new Date().getFullYear();
+
+// Create safe URL slug from tool name
+const toolSlug = toolName ? toolName.toLowerCase().replace(/\s+/g, '-') : '';
+---
+
+<div class="tool-attribution">
+  <div class="attribution-content">
+    <div class="brand-section">
+      <strong>Caiatech Developer Tools</strong>
+      <span class="separator">|</span>
+      <a href="https://caiatech.com" target="_blank" rel="noopener">caiatech.com</a>
+    </div>
+    
+    <div class="tool-info">
+      <span>{toolName} v{version}</span>
+      <span class="separator">|</span>
+      <span>© {currentYear} Caiatech. All rights reserved.</span>
+    </div>
+    
+    <div class="disclaimer">
+      <p>
+        <strong>🔐 100% Private Tool by Caiatech</strong> - 
+        <em>Your data NEVER leaves your browser!</em> All processing happens locally on your device. 
+        Zero data collection, zero tracking, zero servers. This tool works completely offline once loaded.
+        Built with absolute privacy by <a href="https://caiatech.com" target="_blank" rel="noopener">Caiatech</a>.
+      </p>
+      <p class="privacy-guarantee">
+        <strong>Privacy Guarantee:</strong> No cookies • No analytics • No third-party scripts • No cloud processing • No data storage
+      </p>
+      <p class="links">
+        <a href="https://caiatech.com/tools" target="_blank" rel="noopener">More Tools</a>
+        <span class="separator">|</span>
+        <a href="https://caiatech.com/privacy" target="_blank" rel="noopener">Privacy Policy</a>
+        <span class="separator">|</span>
+        <a href="https://caiatech.com/terms" target="_blank" rel="noopener">Terms of Service</a>
+        <span class="separator">|</span>
+        <a href="https://github.com/caiatech" target="_blank" rel="noopener">GitHub</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Structured Data for SEO -->
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": `${toolName} - Caiatech Developer Tools`,
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Web Browser",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "Caiatech",
+    "url": "https://caiatech.com",
+    "logo": "https://caiatech.com/logo.png",
+    "sameAs": [
+      "https://github.com/caiatech",
+      "https://twitter.com/caiatech",
+      "https://linkedin.com/company/caiatech"
+    ]
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Caiatech",
+    "url": "https://caiatech.com"
+  },
+  "softwareVersion": version,
+  "url": `https://caiatech.com/tools/${toolSlug}`,
+  "description": `Professional ${toolName} tool by Caiatech. Free, fast, secure, and runs entirely in your browser. Part of Caiatech's suite of developer tools.`,
+  "keywords": `${toolName}, Caiatech, developer tools, caiatech.com, web tools, programming tools, software development`,
+  "inLanguage": "en-US",
+  "isAccessibleForFree": true,
+  "featureList": [
+    "Client-side processing",
+    "No data transmission",
+    "Privacy-focused",
+    "Professional grade",
+    "Free to use"
+  ]
+})} />
+
+<style>
+  .tool-attribution {
+    margin-top: 3rem;
+    padding: 2rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+  }
+
+  .attribution-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .brand-section {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: #212529;
+  }
+
+  .brand-section strong {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .tool-info {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-bottom: 1rem;
+  }
+
+  .disclaimer {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #dee2e6;
+  }
+
+  .disclaimer p {
+    margin: 0.5rem 0;
+    color: #495057;
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+
+  .disclaimer a {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .disclaimer a:hover {
+    text-decoration: underline;
+  }
+
+  .privacy-guarantee {
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+    border-radius: 6px;
+    padding: 0.75rem;
+    margin: 1rem 0;
+    color: #155724;
+    font-size: 0.85rem;
+  }
+
+  .links {
+    margin-top: 1rem;
+  }
+
+  .separator {
+    margin: 0 0.5rem;
+    color: #adb5bd;
+  }
+
+  @media (max-width: 640px) {
+    .tool-attribution {
+      padding: 1.5rem 1rem;
+    }
+
+    .brand-section {
+      font-size: 1rem;
+    }
+
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .links .separator {
+      display: none;
+    }
+  }
+</style>

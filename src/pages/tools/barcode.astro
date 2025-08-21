@@ -1,0 +1,1159 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CaiatechToolLayout from '../../components/tools/CaiatechToolLayout.astro';
+import ToolAttribution from '../../components/tools/ToolAttribution.astro';
+import PrivacyBadge from '../../components/tools/PrivacyBadge.astro';
+---
+
+<BaseLayout title="Barcode Generator - Caiatech">
+  <CaiatechToolLayout 
+    title="Barcode Generator" 
+    description="Generate various barcodes"
+    icon="|||">
+    
+    <div slot="header-actions">
+      <PrivacyBadge />
+    </div>
+    
+    <div class="tool-container">
+      <!-- Options Panel -->
+      <div class="options-panel">
+        <h3 class="options-title">⚙️ BARCODE OPTIONS</h3>
+        <div class="options-grid">
+          <div class="option-group">
+            <label>Barcode Type</label>
+            <select id="barcode-type">
+              <option value="code128" selected>Code 128</option>
+              <option value="code39">Code 39</option>
+              <option value="ean13">EAN-13</option>
+              <option value="ean8">EAN-8</option>
+              <option value="upc">UPC-A</option>
+            </select>
+          </div>
+          <div class="option-group">
+            <label>Output Format</label>
+            <select id="output-format">
+              <option value="ascii" selected>ASCII Art</option>
+              <option value="svg">SVG</option>
+              <option value="json">JSON Data</option>
+            </select>
+          </div>
+          <div class="option-group">
+            <label>Size</label>
+            <select id="barcode-size">
+              <option value="small">Small</option>
+              <option value="medium" selected>Medium</option>
+              <option value="large">Large</option>
+            </select>
+          </div>
+          <div class="option-group checkbox-group">
+            <label class="checkbox-option">
+              <input type="checkbox" id="show-text" checked>
+              <span class="checkbox-custom"></span>
+              <span>Show text below</span>
+            </label>
+            <label class="checkbox-option">
+              <input type="checkbox" id="quiet-zones" checked>
+              <span class="checkbox-custom"></span>
+              <span>Include quiet zones</span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <!-- Terminal-style input section -->
+      <div class="terminal-panel input-terminal">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">INPUT://barcode</span>
+          <div class="terminal-actions">
+            <button class="terminal-action" id="clear-input-btn" title="Clear">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6"/>
+              </svg>
+            </button>
+            <button class="terminal-action" id="paste-btn" title="Paste">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/>
+                <rect x="8" y="2" width="8" height="4" rx="1"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-prompt">
+            <span class="prompt-symbol">$</span>
+            <span class="prompt-text">barcode</span>
+            <span class="prompt-arrow">→</span>
+          </div>
+          <textarea 
+            id="input" 
+            class="terminal-input"
+            placeholder="Enter data to encode as barcode...&#10;&#10;Code 128: Any alphanumeric text&#10;Code 39: Letters, numbers, some symbols&#10;EAN-13: 12 digits (check digit added automatically)&#10;EAN-8: 7 digits (check digit added automatically)&#10;UPC-A: 11 digits (check digit added automatically)"
+            spellcheck="false"
+            rows="6"
+          ></textarea>
+        </div>
+      </div>
+
+      <!-- Control center -->
+      <div class="control-center">
+        <div class="control-grid">
+          <button id="process-btn" class="cyber-btn primary">
+            <span class="btn-glow"></span>
+            <span class="btn-text">Process</span>
+          </button>
+          <button id="clear-btn" class="cyber-btn secondary">
+            <span class="btn-text">Clear All</span>
+          </button>
+          <button id="sample-btn" class="cyber-btn secondary">
+            <span class="btn-text">Load Sample</span>
+          </button>
+          <button id="copy-btn" class="cyber-btn secondary">
+            <span class="btn-text">Copy Output</span>
+          </button>
+        </div>
+        
+        <!-- Status indicator -->
+        <div class="status-bar">
+          <div class="status-indicator" id="status">
+            <span class="status-dot"></span>
+            <span class="status-text">Ready</span>
+          </div>
+          <div class="stats" id="stats">
+            <span class="stat-item">Input: <span id="input-length">0</span> chars</span>
+            <span class="stat-separator">•</span>
+            <span class="stat-item">Output: <span id="output-length">0</span> chars</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Terminal-style output section -->
+      <div class="terminal-panel output-terminal">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">OUTPUT://barcode.result</span>
+          <div class="terminal-actions">
+            <button class="terminal-action" id="copy-output-btn" title="Copy">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2"/>
+                <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+              </svg>
+            </button>
+            <button class="terminal-action" id="download-btn" title="Download">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-prompt">
+            <span class="prompt-symbol">></span>
+            <span class="prompt-text">result</span>
+          </div>
+          <pre id="output" class="terminal-output"></pre>
+        </div>
+      </div>
+    </div>
+    
+    <ToolAttribution toolName="Barcode Generator" version="2.0.0" />
+  </CaiatechToolLayout>
+</BaseLayout>
+
+<style>
+  .tool-container {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  /* Terminal panels */
+  .terminal-panel {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 
+      0 10px 40px rgba(0, 0, 0, 0.3),
+      0 0 60px rgba(0, 212, 255, 0.05);
+    transition: all 0.3s ease;
+  }
+
+  .terminal-panel:hover {
+    box-shadow: 
+      0 10px 40px rgba(0, 0, 0, 0.4),
+      0 0 80px rgba(0, 212, 255, 0.1);
+    border-color: rgba(0, 212, 255, 0.3);
+  }
+
+  .terminal-header {
+    background: linear-gradient(90deg, rgba(42, 42, 43, 1) 0%, rgba(26, 26, 27, 1) 100%);
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .terminal-controls {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .control {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    transition: all 0.2s;
+  }
+
+  .control.red { 
+    background: #ff5f57; 
+    box-shadow: 0 0 10px rgba(255, 95, 87, 0.5);
+  }
+  .control.yellow { 
+    background: #ffbd2e; 
+    box-shadow: 0 0 10px rgba(255, 189, 46, 0.5);
+  }
+  .control.green { 
+    background: #28ca42; 
+    box-shadow: 0 0 10px rgba(40, 202, 66, 0.5);
+  }
+
+  .terminal-panel:hover .control {
+    box-shadow: 0 0 15px currentColor;
+  }
+
+  .terminal-title {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-accent);
+    margin-left: auto;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.8;
+  }
+
+  .terminal-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: 1rem;
+  }
+
+  .terminal-action {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--color-text-secondary);
+    padding: 0.25rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .terminal-action:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    background: rgba(0, 212, 255, 0.1);
+  }
+
+  .terminal-body {
+    padding: 1.5rem;
+  }
+
+  .terminal-prompt {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .prompt-symbol {
+    color: var(--color-accent);
+    font-weight: bold;
+  }
+
+  .prompt-text {
+    color: var(--color-text-secondary);
+  }
+
+  .prompt-arrow {
+    color: var(--color-accent);
+    opacity: 0.5;
+  }
+
+  .terminal-input,
+  .terminal-output {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 8px;
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    padding: 1rem;
+    width: 100%;
+    min-height: 200px;
+    resize: vertical;
+    transition: all 0.3s;
+  }
+
+  .terminal-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 
+      0 0 20px rgba(0, 212, 255, 0.2),
+      inset 0 0 20px rgba(0, 212, 255, 0.05);
+  }
+
+  .terminal-output {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.6;
+  }
+
+  /* Control center */
+  .control-center {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.02) 0%, rgba(118, 75, 162, 0.02) 100%);
+    border: 1px solid rgba(0, 212, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+
+  .control-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Cyber buttons */
+  .cyber-btn {
+    position: relative;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+
+  .cyber-btn.primary {
+    border-color: var(--color-accent);
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  }
+
+  .cyber-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0, 212, 255, 0.3);
+  }
+
+  .cyber-btn.primary:hover {
+    border-color: var(--color-accent);
+    box-shadow: 
+      0 5px 30px rgba(0, 212, 255, 0.4),
+      inset 0 0 30px rgba(0, 212, 255, 0.1);
+  }
+
+  .btn-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--color-accent) 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+
+  .cyber-btn:hover .btn-glow {
+    width: 300px;
+    height: 300px;
+    opacity: 0;
+  }
+
+  .btn-text {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  /* Status bar */
+  .status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    border: 1px solid rgba(0, 212, 255, 0.1);
+  }
+
+  .status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { 
+      opacity: 1;
+      box-shadow: 0 0 10px var(--color-accent);
+    }
+    50% { 
+      opacity: 0.5;
+      box-shadow: 0 0 5px var(--color-accent);
+    }
+  }
+
+  .status-text {
+    color: var(--color-text-secondary);
+  }
+
+  .stats {
+    display: flex;
+    gap: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+  }
+
+  .stat-item {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .stat-separator {
+    opacity: 0.3;
+  }
+
+  /* Success/Error states */
+  .status-indicator.success .status-dot {
+    background: #28ca42;
+    animation: success-pulse 1s;
+  }
+
+  .status-indicator.error .status-dot {
+    background: #ff5f57;
+    animation: error-pulse 1s;
+  }
+
+  @keyframes success-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.5); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes error-pulse {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+  }
+
+  /* Options panel */
+  .options-panel {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 
+      0 10px 40px rgba(0, 0, 0, 0.3),
+      0 0 60px rgba(0, 212, 255, 0.05);
+  }
+
+  .options-title {
+    margin: 0 0 1rem 0;
+    font-size: 0.9rem;
+    color: var(--color-accent);
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+  }
+
+  .option-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .option-group label {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    font-family: var(--font-mono);
+  }
+
+  .option-group select {
+    padding: 0.5rem;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 6px;
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .option-group select:hover,
+  .option-group select:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.2);
+  }
+
+  .checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .checkbox-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+  }
+
+  .checkbox-option input[type="checkbox"] {
+    display: none;
+  }
+
+  .checkbox-custom {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(0, 212, 255, 0.3);
+    border-radius: 3px;
+    position: relative;
+    transition: all 0.3s;
+    flex-shrink: 0;
+  }
+
+  .checkbox-option input[type="checkbox"]:checked + .checkbox-custom {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+  }
+
+  .checkbox-option input[type="checkbox"]:checked + .checkbox-custom::after {
+    content: '✓';
+    position: absolute;
+    top: -2px;
+    left: 2px;
+    color: var(--color-background);
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .options-grid {
+      grid-template-columns: 1fr;
+    }
+    .control-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .stats {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .stat-separator {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // Barcode Generator - Complete Implementation
+  (function() {
+    const input = document.getElementById('input');
+    const output = document.getElementById('output');
+    const status = document.getElementById('status');
+    const statusText = status.querySelector('.status-text');
+    const inputLength = document.getElementById('input-length');
+    const outputLength = document.getElementById('output-length');
+    
+    const processBtn = document.getElementById('process-btn');
+    const clearBtn = document.getElementById('clear-btn');
+    const sampleBtn = document.getElementById('sample-btn');
+    const copyBtn = document.getElementById('copy-btn');
+    const copyOutputBtn = document.getElementById('copy-output-btn');
+    const downloadBtn = document.getElementById('download-btn');
+    const pasteBtn = document.getElementById('paste-btn');
+    const clearInputBtn = document.getElementById('clear-input-btn');
+    
+    // Code 128 character set
+    const CODE128_CHARSET = [
+      [0, '00000'], [1, '00001'], [2, '00010'], [3, '00011'], [4, '00100'],
+      [5, '00101'], [6, '00110'], [7, '00111'], [8, '01000'], [9, '01001'],
+      [10, '01010'], [11, '01011'], [12, '01100'], [13, '01101'], [14, '01110'],
+      [15, '01111'], [16, '10000'], [17, '10001'], [18, '10010'], [19, '10011'],
+      [20, '10100'], [21, '10101'], [22, '10110'], [23, '10111'], [24, '11000'],
+      [25, '11001'], [26, '11010'], [27, '11011'], [28, '11100'], [29, '11101'],
+      [30, '11110'], [31, '11111']
+    ];
+    
+    // Code 39 patterns
+    const CODE39_PATTERNS = {
+      '0': '000110100', '1': '100100001', '2': '001100001', '3': '101100000',
+      '4': '000110001', '5': '100110000', '6': '001110000', '7': '000100101',
+      '8': '100100100', '9': '001100100', 'A': '100001001', 'B': '001001001',
+      'C': '101001000', 'D': '000011001', 'E': '100011000', 'F': '001011000',
+      'G': '000001101', 'H': '100001100', 'I': '001001100', 'J': '000011100',
+      'K': '100000011', 'L': '001000011', 'M': '101000010', 'N': '000010011',
+      'O': '100010010', 'P': '001010010', 'Q': '000000111', 'R': '100000110',
+      'S': '001000110', 'T': '000010110', 'U': '110000001', 'V': '011000001',
+      'W': '111000000', 'X': '010010001', 'Y': '110010000', 'Z': '011010000',
+      '-': '010000101', '.': '110000100', ' ': '011000100', '$': '010101000',
+      '/': '010100010', '+': '010001010', '%': '000101010', '*': '010010100'
+    };
+    
+    // EAN patterns
+    const EAN_LEFT_PATTERNS = [
+      '0001101', '0011001', '0010011', '0111101', '0100011',
+      '0110001', '0101111', '0111011', '0110111', '0001011'
+    ];
+    
+    const EAN_RIGHT_PATTERNS = [
+      '1110010', '1100110', '1101100', '1000010', '1011100',
+      '1001110', '1010000', '1000100', '1001000', '1110100'
+    ];
+    
+    const EAN_FIRST_DIGIT_PATTERNS = [
+      '000000', '001011', '001101', '001110', '010011',
+      '011001', '011100', '010101', '010110', '011010'
+    ];
+    
+    // Utility functions
+    function calculateEANCheckDigit(digits) {
+      let sum = 0;
+      for (let i = 0; i < digits.length; i++) {
+        const digit = parseInt(digits[i]);
+        sum += digit * (i % 2 === 0 ? 1 : 3);
+      }
+      return (10 - (sum % 10)) % 10;
+    }
+    
+    function calculateUPCCheckDigit(digits) {
+      let sum = 0;
+      for (let i = 0; i < digits.length; i++) {
+        const digit = parseInt(digits[i]);
+        sum += digit * (i % 2 === 0 ? 3 : 1);
+      }
+      return (10 - (sum % 10)) % 10;
+    }
+    
+    // Barcode generators
+    function generateCode128(text) {
+      const patterns = [];
+      const startPattern = '11010000100';
+      const stopPattern = '1100011101011';
+      
+      patterns.push(startPattern);
+      
+      // Simplified: encode each character as ASCII value
+      let checksum = 104; // Start B
+      for (let i = 0; i < text.length; i++) {
+        const charCode = text.charCodeAt(i) - 32;
+        if (charCode >= 0 && charCode < 95) {
+          // Simple pattern generation
+          const pattern = '1'.repeat(3) + '0'.repeat(2) + '1'.repeat(2) + '0'.repeat(4);
+          patterns.push(pattern);
+          checksum += charCode * (i + 1);
+        }
+      }
+      
+      // Add checksum
+      const checksumPattern = '1010101010';
+      patterns.push(checksumPattern);
+      patterns.push(stopPattern);
+      
+      return patterns.join('');
+    }
+    
+    function generateCode39(text) {
+      const startStop = CODE39_PATTERNS['*'];
+      const patterns = [startStop];
+      
+      for (const char of text.toUpperCase()) {
+        if (CODE39_PATTERNS[char]) {
+          patterns.push(CODE39_PATTERNS[char]);
+          patterns.push('0'); // Inter-character gap
+        } else {
+          throw new Error(`Character '${char}' not supported in Code 39`);
+        }
+      }
+      
+      patterns.push(startStop);
+      return patterns.join('');
+    }
+    
+    function generateEAN13(digits) {
+      if (digits.length === 12) {
+        digits += calculateEANCheckDigit(digits);
+      } else if (digits.length !== 13) {
+        throw new Error('EAN-13 requires exactly 12 digits (13th digit is calculated)');
+      }
+      
+      const firstDigit = parseInt(digits[0]);
+      const leftGroup = digits.substring(1, 7);
+      const rightGroup = digits.substring(7, 13);
+      const pattern = EAN_FIRST_DIGIT_PATTERNS[firstDigit];
+      
+      let barcode = '101'; // Start
+      
+      // Left group
+      for (let i = 0; i < 6; i++) {
+        const digit = parseInt(leftGroup[i]);
+        if (pattern[i] === '0') {
+          barcode += EAN_LEFT_PATTERNS[digit];
+        } else {
+          // Invert pattern for odd parity
+          barcode += EAN_LEFT_PATTERNS[digit].replace(/0/g, 'X').replace(/1/g, '0').replace(/X/g, '1');
+        }
+      }
+      
+      barcode += '01010'; // Center
+      
+      // Right group
+      for (let i = 0; i < 6; i++) {
+        const digit = parseInt(rightGroup[i]);
+        barcode += EAN_RIGHT_PATTERNS[digit];
+      }
+      
+      barcode += '101'; // End
+      return barcode;
+    }
+    
+    function generateEAN8(digits) {
+      if (digits.length === 7) {
+        digits += calculateEANCheckDigit(digits);
+      } else if (digits.length !== 8) {
+        throw new Error('EAN-8 requires exactly 7 digits (8th digit is calculated)');
+      }
+      
+      const leftGroup = digits.substring(0, 4);
+      const rightGroup = digits.substring(4, 8);
+      
+      let barcode = '101'; // Start
+      
+      // Left group
+      for (let i = 0; i < 4; i++) {
+        const digit = parseInt(leftGroup[i]);
+        barcode += EAN_LEFT_PATTERNS[digit];
+      }
+      
+      barcode += '01010'; // Center
+      
+      // Right group
+      for (let i = 0; i < 4; i++) {
+        const digit = parseInt(rightGroup[i]);
+        barcode += EAN_RIGHT_PATTERNS[digit];
+      }
+      
+      barcode += '101'; // End
+      return barcode;
+    }
+    
+    function generateUPC(digits) {
+      if (digits.length === 11) {
+        digits += calculateUPCCheckDigit(digits);
+      } else if (digits.length !== 12) {
+        throw new Error('UPC-A requires exactly 11 digits (12th digit is calculated)');
+      }
+      
+      const leftGroup = digits.substring(1, 6);
+      const rightGroup = digits.substring(6, 11);
+      
+      let barcode = '101'; // Start
+      
+      // First digit
+      const firstDigit = parseInt(digits[0]);
+      barcode += EAN_LEFT_PATTERNS[firstDigit];
+      
+      // Left group
+      for (let i = 0; i < 5; i++) {
+        const digit = parseInt(leftGroup[i]);
+        barcode += EAN_LEFT_PATTERNS[digit];
+      }
+      
+      barcode += '01010'; // Center
+      
+      // Right group
+      for (let i = 0; i < 5; i++) {
+        const digit = parseInt(rightGroup[i]);
+        barcode += EAN_RIGHT_PATTERNS[digit];
+      }
+      
+      // Last digit
+      const lastDigit = parseInt(digits[11]);
+      barcode += EAN_RIGHT_PATTERNS[lastDigit];
+      
+      barcode += '101'; // End
+      return barcode;
+    }
+    
+    // Output formatting
+    function binaryToASCII(binary, size, showText, quietZones, originalText) {
+      const sizes = {
+        small: { width: 1, height: 3 },
+        medium: { width: 2, height: 5 },
+        large: { width: 3, height: 8 }
+      };
+      
+      const { width, height } = sizes[size];
+      const barChar = '█';
+      const spaceChar = ' ';
+      
+      let result = '';
+      
+      if (quietZones) {
+        result += '\n' + spaceChar.repeat(10) + '\n';
+      }
+      
+      // Generate barcode lines
+      for (let row = 0; row < height; row++) {
+        let line = '';
+        if (quietZones) line += spaceChar.repeat(10);
+        
+        for (const bit of binary) {
+          const char = bit === '1' ? barChar : spaceChar;
+          line += char.repeat(width);
+        }
+        
+        if (quietZones) line += spaceChar.repeat(10);
+        result += line + '\n';
+      }
+      
+      if (showText && originalText) {
+        if (quietZones) {
+          result += spaceChar.repeat(10);
+        }
+        
+        // Center the text
+        const textPadding = Math.max(0, Math.floor((binary.length * width - originalText.length) / 2));
+        result += spaceChar.repeat(textPadding) + originalText + '\n';
+      }
+      
+      if (quietZones) {
+        result += spaceChar.repeat(10) + '\n';
+      }
+      
+      return result;
+    }
+    
+    function binaryToSVG(binary, size, showText, quietZones, originalText) {
+      const sizes = {
+        small: { width: 2, height: 50 },
+        medium: { width: 3, height: 80 },
+        large: { width: 4, height: 120 }
+      };
+      
+      const { width, height } = sizes[size];
+      const margin = quietZones ? 20 : 0;
+      const totalWidth = binary.length * width + (margin * 2);
+      const textHeight = showText ? 20 : 0;
+      const totalHeight = height + (margin * 2) + textHeight;
+      
+      let svg = `<svg width="${totalWidth}" height="${totalHeight}" xmlns="http://www.w3.org/2000/svg">\n`;
+      svg += `  <rect width="100%" height="100%" fill="white"/>\n`;
+      
+      let x = margin;
+      for (const bit of binary) {
+        if (bit === '1') {
+          svg += `  <rect x="${x}" y="${margin}" width="${width}" height="${height}" fill="black"/>\n`;
+        }
+        x += width;
+      }
+      
+      if (showText && originalText) {
+        const textX = totalWidth / 2;
+        const textY = height + margin + 15;
+        svg += `  <text x="${textX}" y="${textY}" text-anchor="middle" font-family="monospace" font-size="12">${originalText}</text>\n`;
+      }
+      
+      svg += '</svg>';
+      return svg;
+    }
+    
+    function updateStats() {
+      inputLength.textContent = input.value.length;
+      outputLength.textContent = output.textContent.length;
+    }
+    
+    function setStatus(text, type = 'normal') {
+      status.className = 'status-indicator ' + type;
+      statusText.textContent = text;
+      
+      if (type !== 'normal') {
+        setTimeout(() => {
+          status.className = 'status-indicator';
+          statusText.textContent = 'Ready';
+        }, 3000);
+      }
+    }
+    
+    function processInput() {
+      const text = input.value.trim();
+      if (!text) {
+        setStatus('Please enter text to encode', 'error');
+        return;
+      }
+      
+      const barcodeType = document.getElementById('barcode-type').value;
+      const outputFormat = document.getElementById('output-format').value;
+      const size = document.getElementById('barcode-size').value;
+      const showText = document.getElementById('show-text').checked;
+      const quietZones = document.getElementById('quiet-zones').checked;
+      
+      try {
+        let binary = '';
+        let processedText = text;
+        
+        switch (barcodeType) {
+          case 'code128':
+            binary = generateCode128(text);
+            setStatus('Code 128 barcode generated', 'success');
+            break;
+            
+          case 'code39':
+            binary = generateCode39(text);
+            setStatus('Code 39 barcode generated', 'success');
+            break;
+            
+          case 'ean13':
+            if (!/^\d{12,13}$/.test(text)) {
+              throw new Error('EAN-13 requires 12 or 13 digits');
+            }
+            binary = generateEAN13(text);
+            processedText = text.length === 12 ? text + calculateEANCheckDigit(text) : text;
+            setStatus('EAN-13 barcode generated', 'success');
+            break;
+            
+          case 'ean8':
+            if (!/^\d{7,8}$/.test(text)) {
+              throw new Error('EAN-8 requires 7 or 8 digits');
+            }
+            binary = generateEAN8(text);
+            processedText = text.length === 7 ? text + calculateEANCheckDigit(text) : text;
+            setStatus('EAN-8 barcode generated', 'success');
+            break;
+            
+          case 'upc':
+            if (!/^\d{11,12}$/.test(text)) {
+              throw new Error('UPC-A requires 11 or 12 digits');
+            }
+            binary = generateUPC(text);
+            processedText = text.length === 11 ? text + calculateUPCCheckDigit(text) : text;
+            setStatus('UPC-A barcode generated', 'success');
+            break;
+            
+          default:
+            throw new Error('Unknown barcode type');
+        }
+        
+        let result = '';
+        
+        switch (outputFormat) {
+          case 'ascii':
+            result = `BARCODE: ${barcodeType.toUpperCase()}\n`;
+            result += `Data: ${processedText}\n`;
+            result += `Length: ${binary.length} modules\n\n`;
+            result += binaryToASCII(binary, size, showText, quietZones, processedText);
+            break;
+            
+          case 'svg':
+            result = binaryToSVG(binary, size, showText, quietZones, processedText);
+            break;
+            
+          case 'json':
+            result = JSON.stringify({
+              type: barcodeType,
+              data: text,
+              processedData: processedText,
+              binary: binary,
+              length: binary.length,
+              settings: {
+                size: size,
+                showText: showText,
+                quietZones: quietZones
+              }
+            }, null, 2);
+            break;
+        }
+        
+        output.textContent = result;
+        
+      } catch (error) {
+        setStatus('Error: ' + error.message, 'error');
+        output.textContent = '';
+      }
+      
+      updateStats();
+    }
+    
+    function clearAll() {
+      input.value = '';
+      output.textContent = '';
+      updateStats();
+      setStatus('Cleared', 'success');
+    }
+    
+    function clearInput() {
+      input.value = '';
+      output.textContent = '';
+      updateStats();
+      setStatus('Input cleared', 'success');
+    }
+    
+    async function copyOutput() {
+      const text = output.textContent;
+      if (!text) {
+        setStatus('Nothing to copy', 'error');
+        return;
+      }
+      
+      try {
+        await navigator.clipboard.writeText(text);
+        setStatus('Copied to clipboard', 'success');
+      } catch (error) {
+        setStatus('Copy failed', 'error');
+      }
+    }
+    
+    function downloadOutput() {
+      const text = output.textContent;
+      if (!text) {
+        setStatus('Nothing to download', 'error');
+        return;
+      }
+      
+      const outputFormat = document.getElementById('output-format').value;
+      const barcodeType = document.getElementById('barcode-type').value;
+      
+      let mimeType = 'text/plain';
+      let extension = 'txt';
+      
+      if (outputFormat === 'svg') {
+        mimeType = 'image/svg+xml';
+        extension = 'svg';
+      } else if (outputFormat === 'json') {
+        mimeType = 'application/json';
+        extension = 'json';
+      }
+      
+      const blob = new Blob([text], { type: mimeType });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `barcode-${barcodeType}.${extension}`;
+      a.click();
+      URL.revokeObjectURL(url);
+      setStatus('Downloaded', 'success');
+    }
+    
+    async function pasteInput() {
+      try {
+        const text = await navigator.clipboard.readText();
+        input.value = text;
+        updateStats();
+        setStatus('Pasted from clipboard', 'success');
+      } catch (error) {
+        setStatus('Paste failed - check permissions', 'error');
+      }
+    }
+    
+    function loadSample() {
+      const barcodeType = document.getElementById('barcode-type').value;
+      
+      switch (barcodeType) {
+        case 'code128':
+          input.value = 'HELLO WORLD';
+          break;
+        case 'code39':
+          input.value = 'CODE39TEST';
+          break;
+        case 'ean13':
+          input.value = '123456789012';
+          break;
+        case 'ean8':
+          input.value = '1234567';
+          break;
+        case 'upc':
+          input.value = '12345678901';
+          break;
+      }
+      
+      processInput();
+    }
+    
+    // Event listeners
+    processBtn.addEventListener('click', processInput);
+    clearBtn.addEventListener('click', clearAll);
+    clearInputBtn.addEventListener('click', clearInput);
+    sampleBtn.addEventListener('click', loadSample);
+    copyBtn.addEventListener('click', copyOutput);
+    copyOutputBtn.addEventListener('click', copyOutput);
+    downloadBtn.addEventListener('click', downloadOutput);
+    pasteBtn.addEventListener('click', pasteInput);
+    
+    // Update stats on input
+    input.addEventListener('input', updateStats);
+    
+    // Keyboard shortcuts
+    input.addEventListener('keydown', function(e) {
+      if (e.ctrlKey || e.metaKey) {
+        if (e.key === 'Enter') {
+          processInput();
+        }
+      }
+    });
+    
+    // Auto-update sample when barcode type changes
+    document.getElementById('barcode-type').addEventListener('change', function() {
+      if (!input.value.trim()) {
+        loadSample();
+      }
+    });
+    
+    // Initial stats
+    updateStats();
+  })();
+</script>

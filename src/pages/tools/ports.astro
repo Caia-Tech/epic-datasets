@@ -1,0 +1,832 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CaiatechToolLayout from '../../components/tools/CaiatechToolLayout.astro';
+import ToolAttribution from '../../components/tools/ToolAttribution.astro';
+import PrivacyBadge from '../../components/tools/PrivacyBadge.astro';
+---
+
+<BaseLayout title="Port Scanner - Caiatech">
+  <CaiatechToolLayout 
+    title="Port Scanner" 
+    description="Check common network ports"
+    icon="🔌">
+    
+    <div slot="header-actions">
+      <PrivacyBadge />
+    </div>
+    
+    <div class="tool-container">
+      <!-- Terminal-style input section -->
+      <div class="terminal-panel input-terminal">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">INPUT://port.lookup</span>
+          <div class="terminal-actions">
+            <button class="terminal-action" id="clear-input-btn" title="Clear">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6"/>
+              </svg>
+            </button>
+            <button class="terminal-action" id="paste-btn" title="Paste">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/>
+                <rect x="8" y="2" width="8" height="4" rx="1"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-prompt">
+            <span class="prompt-symbol">$</span>
+            <span class="prompt-text">port-lookup</span>
+            <span class="prompt-arrow">→</span>
+          </div>
+          <input 
+            type="text"
+            id="input" 
+            class="terminal-input"
+            placeholder="Enter port number(s) or service name (e.g., 80, 443, ssh, http, 1-100)"
+            spellcheck="false"
+          />
+        </div>
+      </div>
+
+      <!-- Control center -->
+      <div class="control-center">
+        <div class="control-grid">
+          <button id="lookup-btn" class="cyber-btn primary">
+            <span class="btn-glow"></span>
+            <span class="btn-text">🔍 Lookup Port</span>
+          </button>
+          <button id="common-btn" class="cyber-btn primary">
+            <span class="btn-glow"></span>
+            <span class="btn-text">⭐ Common Ports</span>
+          </button>
+          <button id="web-btn" class="cyber-btn secondary">
+            <span class="btn-text">🌐 Web</span>
+          </button>
+          <button id="mail-btn" class="cyber-btn secondary">
+            <span class="btn-text">📧 Mail</span>
+          </button>
+          <button id="database-btn" class="cyber-btn secondary">
+            <span class="btn-text">💾 Database</span>
+          </button>
+          <button id="gaming-btn" class="cyber-btn secondary">
+            <span class="btn-text">🎮 Gaming</span>
+          </button>
+        </div>
+        
+        <!-- Status indicator -->
+        <div class="status-bar">
+          <div class="status-indicator" id="status">
+            <span class="status-dot"></span>
+            <span class="status-text">Ready</span>
+          </div>
+          <div class="stats" id="stats">
+            <span class="stat-item">Input: <span id="input-length">0</span> chars</span>
+            <span class="stat-separator">•</span>
+            <span class="stat-item">Output: <span id="output-length">0</span> chars</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Terminal-style output section -->
+      <div class="terminal-panel output-terminal">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">OUTPUT://ports.result</span>
+          <div class="terminal-actions">
+            <button class="terminal-action" id="copy-output-btn" title="Copy">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2"/>
+                <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+              </svg>
+            </button>
+            <button class="terminal-action" id="download-btn" title="Download">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-prompt">
+            <span class="prompt-symbol">></span>
+            <span class="prompt-text">result</span>
+          </div>
+          <pre id="output" class="terminal-output"></pre>
+        </div>
+      </div>
+    </div>
+    
+    <ToolAttribution toolName="Port Scanner" version="2.0.0" />
+  </CaiatechToolLayout>
+</BaseLayout>
+
+<style>
+  .tool-container {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  /* Terminal panels */
+  .terminal-panel {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 
+      0 10px 40px rgba(0, 0, 0, 0.3),
+      0 0 60px rgba(0, 212, 255, 0.05);
+    transition: all 0.3s ease;
+  }
+
+  .terminal-panel:hover {
+    box-shadow: 
+      0 10px 40px rgba(0, 0, 0, 0.4),
+      0 0 80px rgba(0, 212, 255, 0.1);
+    border-color: rgba(0, 212, 255, 0.3);
+  }
+
+  .terminal-header {
+    background: linear-gradient(90deg, rgba(42, 42, 43, 1) 0%, rgba(26, 26, 27, 1) 100%);
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .terminal-controls {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .control {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    transition: all 0.2s;
+  }
+
+  .control.red { 
+    background: #ff5f57; 
+    box-shadow: 0 0 10px rgba(255, 95, 87, 0.5);
+  }
+  .control.yellow { 
+    background: #ffbd2e; 
+    box-shadow: 0 0 10px rgba(255, 189, 46, 0.5);
+  }
+  .control.green { 
+    background: #28ca42; 
+    box-shadow: 0 0 10px rgba(40, 202, 66, 0.5);
+  }
+
+  .terminal-panel:hover .control {
+    box-shadow: 0 0 15px currentColor;
+  }
+
+  .terminal-title {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-accent);
+    margin-left: auto;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.8;
+  }
+
+  .terminal-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: 1rem;
+  }
+
+  .terminal-action {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--color-text-secondary);
+    padding: 0.25rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .terminal-action:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    background: rgba(0, 212, 255, 0.1);
+  }
+
+  .terminal-body {
+    padding: 1.5rem;
+  }
+
+  .terminal-prompt {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .prompt-symbol {
+    color: var(--color-accent);
+    font-weight: bold;
+  }
+
+  .prompt-text {
+    color: var(--color-text-secondary);
+  }
+
+  .prompt-arrow {
+    color: var(--color-accent);
+    opacity: 0.5;
+  }
+
+  .terminal-input {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 8px;
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    padding: 1rem;
+    width: 100%;
+    transition: all 0.3s;
+  }
+
+  .terminal-output {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 8px;
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    padding: 1rem;
+    width: 100%;
+    min-height: 200px;
+    resize: vertical;
+    transition: all 0.3s;
+  }
+
+  .terminal-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 
+      0 0 20px rgba(0, 212, 255, 0.2),
+      inset 0 0 20px rgba(0, 212, 255, 0.05);
+  }
+
+  .terminal-output {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.6;
+  }
+
+  /* Control center */
+  .control-center {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.02) 0%, rgba(118, 75, 162, 0.02) 100%);
+    border: 1px solid rgba(0, 212, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+
+  .control-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Cyber buttons */
+  .cyber-btn {
+    position: relative;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+
+  .cyber-btn.primary {
+    border-color: var(--color-accent);
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  }
+
+  .cyber-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0, 212, 255, 0.3);
+  }
+
+  .cyber-btn.primary:hover {
+    border-color: var(--color-accent);
+    box-shadow: 
+      0 5px 30px rgba(0, 212, 255, 0.4),
+      inset 0 0 30px rgba(0, 212, 255, 0.1);
+  }
+
+  .btn-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--color-accent) 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+
+  .cyber-btn:hover .btn-glow {
+    width: 300px;
+    height: 300px;
+    opacity: 0;
+  }
+
+  .btn-text {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  /* Status bar */
+  .status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    border: 1px solid rgba(0, 212, 255, 0.1);
+  }
+
+  .status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { 
+      opacity: 1;
+      box-shadow: 0 0 10px var(--color-accent);
+    }
+    50% { 
+      opacity: 0.5;
+      box-shadow: 0 0 5px var(--color-accent);
+    }
+  }
+
+  .status-text {
+    color: var(--color-text-secondary);
+  }
+
+  .stats {
+    display: flex;
+    gap: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+  }
+
+  .stat-item {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .stat-separator {
+    opacity: 0.3;
+  }
+
+  /* Success/Error states */
+  .status-indicator.success .status-dot {
+    background: #28ca42;
+    animation: success-pulse 1s;
+  }
+
+  .status-indicator.error .status-dot {
+    background: #ff5f57;
+    animation: error-pulse 1s;
+  }
+
+  @keyframes success-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.5); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes error-pulse {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .control-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .stats {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .stat-separator {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // Port Scanner and Information Tool
+  (function() {
+    const input = document.getElementById('input');
+    const output = document.getElementById('output');
+    const status = document.getElementById('status');
+    const statusText = status.querySelector('.status-text');
+    const inputLength = document.getElementById('input-length');
+    const outputLength = document.getElementById('output-length');
+    
+    const lookupBtn = document.getElementById('lookup-btn');
+    const commonBtn = document.getElementById('common-btn');
+    const webBtn = document.getElementById('web-btn');
+    const mailBtn = document.getElementById('mail-btn');
+    const databaseBtn = document.getElementById('database-btn');
+    const gamingBtn = document.getElementById('gaming-btn');
+    const copyOutputBtn = document.getElementById('copy-output-btn');
+    const downloadBtn = document.getElementById('download-btn');
+    const pasteBtn = document.getElementById('paste-btn');
+    const clearInputBtn = document.getElementById('clear-input-btn');
+    
+    // Comprehensive port database
+    const portDatabase = {
+      // Well-known ports (0-1023)
+      20: { service: 'FTP-DATA', protocol: 'TCP', description: 'FTP Data Transfer', category: 'file' },
+      21: { service: 'FTP', protocol: 'TCP', description: 'FTP Control', category: 'file' },
+      22: { service: 'SSH', protocol: 'TCP', description: 'Secure Shell', category: 'admin' },
+      23: { service: 'Telnet', protocol: 'TCP', description: 'Telnet (Insecure)', category: 'admin' },
+      25: { service: 'SMTP', protocol: 'TCP', description: 'Simple Mail Transfer Protocol', category: 'mail' },
+      53: { service: 'DNS', protocol: 'TCP/UDP', description: 'Domain Name System', category: 'network' },
+      67: { service: 'DHCP', protocol: 'UDP', description: 'DHCP Server', category: 'network' },
+      68: { service: 'DHCP', protocol: 'UDP', description: 'DHCP Client', category: 'network' },
+      69: { service: 'TFTP', protocol: 'UDP', description: 'Trivial File Transfer Protocol', category: 'file' },
+      80: { service: 'HTTP', protocol: 'TCP', description: 'HyperText Transfer Protocol', category: 'web' },
+      88: { service: 'Kerberos', protocol: 'TCP/UDP', description: 'Kerberos Authentication', category: 'auth' },
+      110: { service: 'POP3', protocol: 'TCP', description: 'Post Office Protocol v3', category: 'mail' },
+      111: { service: 'RPC', protocol: 'TCP/UDP', description: 'Remote Procedure Call', category: 'network' },
+      119: { service: 'NNTP', protocol: 'TCP', description: 'Network News Transfer Protocol', category: 'news' },
+      123: { service: 'NTP', protocol: 'UDP', description: 'Network Time Protocol', category: 'network' },
+      135: { service: 'RPC/DCE', protocol: 'TCP', description: 'Microsoft EPMAP', category: 'windows' },
+      139: { service: 'NetBIOS', protocol: 'TCP', description: 'NetBIOS Session Service', category: 'windows' },
+      143: { service: 'IMAP', protocol: 'TCP', description: 'Internet Message Access Protocol', category: 'mail' },
+      161: { service: 'SNMP', protocol: 'UDP', description: 'Simple Network Management Protocol', category: 'network' },
+      162: { service: 'SNMPTRAP', protocol: 'UDP', description: 'SNMP Trap', category: 'network' },
+      179: { service: 'BGP', protocol: 'TCP', description: 'Border Gateway Protocol', category: 'network' },
+      389: { service: 'LDAP', protocol: 'TCP', description: 'Lightweight Directory Access Protocol', category: 'directory' },
+      443: { service: 'HTTPS', protocol: 'TCP', description: 'HTTP Secure', category: 'web' },
+      445: { service: 'SMB', protocol: 'TCP', description: 'Server Message Block', category: 'windows' },
+      465: { service: 'SMTPS', protocol: 'TCP', description: 'SMTP over SSL', category: 'mail' },
+      514: { service: 'Syslog', protocol: 'UDP', description: 'System Logging Protocol', category: 'logging' },
+      515: { service: 'LPD', protocol: 'TCP', description: 'Line Printer Daemon', category: 'print' },
+      520: { service: 'RIP', protocol: 'UDP', description: 'Routing Information Protocol', category: 'network' },
+      554: { service: 'RTSP', protocol: 'TCP', description: 'Real Time Streaming Protocol', category: 'media' },
+      587: { service: 'SMTP', protocol: 'TCP', description: 'SMTP Mail Submission', category: 'mail' },
+      631: { service: 'IPP', protocol: 'TCP', description: 'Internet Printing Protocol', category: 'print' },
+      636: { service: 'LDAPS', protocol: 'TCP', description: 'LDAP over SSL', category: 'directory' },
+      873: { service: 'rsync', protocol: 'TCP', description: 'rsync file synchronization', category: 'file' },
+      993: { service: 'IMAPS', protocol: 'TCP', description: 'IMAP over SSL', category: 'mail' },
+      995: { service: 'POP3S', protocol: 'TCP', description: 'POP3 over SSL', category: 'mail' },
+      
+      // Registered ports (1024-49151)
+      1080: { service: 'SOCKS', protocol: 'TCP', description: 'SOCKS Proxy', category: 'proxy' },
+      1194: { service: 'OpenVPN', protocol: 'TCP/UDP', description: 'OpenVPN', category: 'vpn' },
+      1433: { service: 'MSSQL', protocol: 'TCP', description: 'Microsoft SQL Server', category: 'database' },
+      1434: { service: 'MSSQL-UDP', protocol: 'UDP', description: 'Microsoft SQL Server Browser', category: 'database' },
+      1521: { service: 'Oracle', protocol: 'TCP', description: 'Oracle Database', category: 'database' },
+      1701: { service: 'L2TP', protocol: 'UDP', description: 'Layer 2 Tunneling Protocol', category: 'vpn' },
+      1723: { service: 'PPTP', protocol: 'TCP', description: 'Point-to-Point Tunneling Protocol', category: 'vpn' },
+      2049: { service: 'NFS', protocol: 'TCP/UDP', description: 'Network File System', category: 'file' },
+      2181: { service: 'ZooKeeper', protocol: 'TCP', description: 'Apache ZooKeeper', category: 'coordination' },
+      2375: { service: 'Docker', protocol: 'TCP', description: 'Docker API', category: 'container' },
+      2376: { service: 'Docker-TLS', protocol: 'TCP', description: 'Docker API (TLS)', category: 'container' },
+      3000: { service: 'Dev Server', protocol: 'TCP', description: 'Common Development Server', category: 'dev' },
+      3128: { service: 'Squid', protocol: 'TCP', description: 'Squid HTTP Proxy', category: 'proxy' },
+      3260: { service: 'iSCSI', protocol: 'TCP', description: 'iSCSI Target', category: 'storage' },
+      3306: { service: 'MySQL', protocol: 'TCP', description: 'MySQL Database', category: 'database' },
+      3389: { service: 'RDP', protocol: 'TCP', description: 'Remote Desktop Protocol', category: 'remote' },
+      3478: { service: 'STUN', protocol: 'TCP/UDP', description: 'STUN Protocol', category: 'voip' },
+      4000: { service: 'Diablo II', protocol: 'TCP', description: 'Diablo II Game', category: 'gaming' },
+      4369: { service: 'Erlang', protocol: 'TCP', description: 'Erlang Port Mapper', category: 'dev' },
+      4443: { service: 'Kubernetes', protocol: 'TCP', description: 'Kubernetes API (alt)', category: 'container' },
+      5000: { service: 'Docker Registry', protocol: 'TCP', description: 'Docker Registry', category: 'container' },
+      5060: { service: 'SIP', protocol: 'TCP/UDP', description: 'Session Initiation Protocol', category: 'voip' },
+      5222: { service: 'XMPP', protocol: 'TCP', description: 'XMPP Client Connection', category: 'chat' },
+      5269: { service: 'XMPP-S2S', protocol: 'TCP', description: 'XMPP Server-to-Server', category: 'chat' },
+      5432: { service: 'PostgreSQL', protocol: 'TCP', description: 'PostgreSQL Database', category: 'database' },
+      5555: { service: 'ADB', protocol: 'TCP', description: 'Android Debug Bridge', category: 'mobile' },
+      5672: { service: 'AMQP', protocol: 'TCP', description: 'Advanced Message Queuing Protocol', category: 'messaging' },
+      5900: { service: 'VNC', protocol: 'TCP', description: 'Virtual Network Computing', category: 'remote' },
+      5984: { service: 'CouchDB', protocol: 'TCP', description: 'CouchDB', category: 'database' },
+      6379: { service: 'Redis', protocol: 'TCP', description: 'Redis Database', category: 'database' },
+      6443: { service: 'Kubernetes', protocol: 'TCP', description: 'Kubernetes API Server', category: 'container' },
+      6667: { service: 'IRC', protocol: 'TCP', description: 'Internet Relay Chat', category: 'chat' },
+      7000: { service: 'Cassandra', protocol: 'TCP', description: 'Apache Cassandra', category: 'database' },
+      7001: { service: 'Cassandra-SSL', protocol: 'TCP', description: 'Apache Cassandra SSL', category: 'database' },
+      8000: { service: 'HTTP-ALT', protocol: 'TCP', description: 'HTTP Alternate', category: 'web' },
+      8080: { service: 'HTTP-Proxy', protocol: 'TCP', description: 'HTTP Proxy', category: 'web' },
+      8081: { service: 'HTTP-ALT', protocol: 'TCP', description: 'HTTP Alternate', category: 'web' },
+      8086: { service: 'InfluxDB', protocol: 'TCP', description: 'InfluxDB', category: 'database' },
+      8088: { service: 'Splunk', protocol: 'TCP', description: 'Splunk HTTP Event Collector', category: 'logging' },
+      8200: { service: 'Vault', protocol: 'TCP', description: 'HashiCorp Vault', category: 'security' },
+      8443: { service: 'HTTPS-ALT', protocol: 'TCP', description: 'HTTPS Alternate', category: 'web' },
+      8500: { service: 'Consul', protocol: 'TCP', description: 'HashiCorp Consul', category: 'coordination' },
+      8888: { service: 'Jupyter', protocol: 'TCP', description: 'Jupyter Notebook', category: 'dev' },
+      9000: { service: 'SonarQube', protocol: 'TCP', description: 'SonarQube', category: 'dev' },
+      9042: { service: 'Cassandra-CQL', protocol: 'TCP', description: 'Cassandra CQL', category: 'database' },
+      9090: { service: 'Prometheus', protocol: 'TCP', description: 'Prometheus', category: 'monitoring' },
+      9092: { service: 'Kafka', protocol: 'TCP', description: 'Apache Kafka', category: 'messaging' },
+      9093: { service: 'Grafana', protocol: 'TCP', description: 'Grafana', category: 'monitoring' },
+      9100: { service: 'Node-Exporter', protocol: 'TCP', description: 'Prometheus Node Exporter', category: 'monitoring' },
+      9200: { service: 'Elasticsearch', protocol: 'TCP', description: 'Elasticsearch HTTP', category: 'database' },
+      9300: { service: 'Elasticsearch', protocol: 'TCP', description: 'Elasticsearch Transport', category: 'database' },
+      9418: { service: 'Git', protocol: 'TCP', description: 'Git Protocol', category: 'vcs' },
+      10000: { service: 'Webmin', protocol: 'TCP', description: 'Webmin', category: 'admin' },
+      11211: { service: 'Memcached', protocol: 'TCP', description: 'Memcached', category: 'cache' },
+      15672: { service: 'RabbitMQ', protocol: 'TCP', description: 'RabbitMQ Management', category: 'messaging' },
+      25565: { service: 'Minecraft', protocol: 'TCP', description: 'Minecraft Server', category: 'gaming' },
+      27017: { service: 'MongoDB', protocol: 'TCP', description: 'MongoDB', category: 'database' },
+      27018: { service: 'MongoDB', protocol: 'TCP', description: 'MongoDB Shard', category: 'database' },
+      27019: { service: 'MongoDB', protocol: 'TCP', description: 'MongoDB Config Server', category: 'database' },
+      32400: { service: 'Plex', protocol: 'TCP', description: 'Plex Media Server', category: 'media' }
+    };
+    
+    function updateStats() {
+      inputLength.textContent = input.value.length;
+      outputLength.textContent = output.textContent.length;
+    }
+    
+    function setStatus(text, type = 'normal') {
+      status.className = 'status-indicator ' + type;
+      statusText.textContent = text;
+      
+      if (type !== 'normal') {
+        setTimeout(() => {
+          status.className = 'status-indicator';
+          statusText.textContent = 'Ready';
+        }, 3000);
+      }
+    }
+    
+    function lookupPort() {
+      const query = input.value.trim().toLowerCase();
+      if (!query) {
+        setStatus('Please enter a port number or service name', 'error');
+        return;
+      }
+      
+      setStatus('Looking up port information...', 'working');
+      
+      let results = [];
+      
+      // Check if it's a port number or range
+      if (/^\d+(-\d+)?$/.test(query)) {
+        if (query.includes('-')) {
+          // Port range
+          const [start, end] = query.split('-').map(Number);
+          if (start > end || start < 0 || end > 65535) {
+            setStatus('Invalid port range', 'error');
+            return;
+          }
+          
+          for (let port = start; port <= end && port <= start + 100; port++) {
+            if (portDatabase[port]) {
+              results.push({ port, ...portDatabase[port] });
+            }
+          }
+          
+          if (results.length === 0) {
+            results.push({ message: `No known services in range ${start}-${end}` });
+          }
+        } else {
+          // Single port
+          const port = parseInt(query);
+          if (port < 0 || port > 65535) {
+            setStatus('Port must be between 0-65535', 'error');
+            return;
+          }
+          
+          if (portDatabase[port]) {
+            results.push({ port, ...portDatabase[port] });
+          } else {
+            results.push({ 
+              port, 
+              service: 'Unknown', 
+              protocol: 'TCP/UDP', 
+              description: 'No common service registered',
+              category: 'unknown'
+            });
+          }
+        }
+      } else {
+        // Service name search
+        for (const [port, info] of Object.entries(portDatabase)) {
+          if (info.service.toLowerCase().includes(query) ||
+              info.description.toLowerCase().includes(query)) {
+            results.push({ port: parseInt(port), ...info });
+          }
+        }
+        
+        if (results.length === 0) {
+          results.push({ message: `No ports found for service "${query}"` });
+        }
+      }
+      
+      displayResults(results);
+      setStatus('Lookup complete', 'success');
+    }
+    
+    function displayResults(results) {
+      let output_text = '';
+      
+      if (results.length === 1 && results[0].message) {
+        output_text = results[0].message;
+      } else {
+        output_text = `╔════════════════════════════════════════╗\n`;
+        output_text += `║         PORT INFORMATION               ║\n`;
+        output_text += `╚════════════════════════════════════════╝\n\n`;
+        
+        results.forEach(result => {
+          if (result.port) {
+            output_text += `PORT ${result.port}:\n`;
+            output_text += `${'─'.repeat(40)}\n`;
+            output_text += `Service:     ${result.service}\n`;
+            output_text += `Protocol:    ${result.protocol}\n`;
+            output_text += `Description: ${result.description}\n`;
+            output_text += `Category:    ${result.category.toUpperCase()}\n`;
+            
+            // Add security notes for certain ports
+            if ([23, 21, 80, 139, 445, 3389].includes(result.port)) {
+              output_text += `⚠️ Security:  Often targeted by attackers\n`;
+            }
+            if ([22, 443, 993, 995, 465].includes(result.port)) {
+              output_text += `🔒 Security:  Encrypted communication\n`;
+            }
+            
+            output_text += `\n`;
+          }
+        });
+        
+        output_text += `SUMMARY:\n`;
+        output_text += `${'─'.repeat(40)}\n`;
+        output_text += `Total ports found: ${results.length}\n`;
+        
+        // Category breakdown
+        const categories = {};
+        results.forEach(r => {
+          if (r.category) {
+            categories[r.category] = (categories[r.category] || 0) + 1;
+          }
+        });
+        
+        Object.entries(categories).forEach(([cat, count]) => {
+          output_text += `• ${cat}: ${count}\n`;
+        });
+      }
+      
+      output.textContent = output_text;
+      updateStats();
+    }
+    
+    function showCommonPorts() {
+      const commonPorts = [22, 80, 443, 3306, 5432, 6379, 8080, 8443, 9200, 27017];
+      const results = commonPorts.map(port => ({ port, ...portDatabase[port] }));
+      displayResults(results);
+      setStatus('Showing common ports', 'success');
+    }
+    
+    function showCategory(category) {
+      const results = [];
+      for (const [port, info] of Object.entries(portDatabase)) {
+        if (info.category === category) {
+          results.push({ port: parseInt(port), ...info });
+        }
+      }
+      displayResults(results.slice(0, 20)); // Limit to 20 results
+      setStatus(`Showing ${category} ports`, 'success');
+    }
+    
+    function clearAll() {
+      input.value = '';
+      output.textContent = '';
+      updateStats();
+      setStatus('Cleared', 'success');
+    }
+    
+    function clearInput() {
+      input.value = '';
+      updateStats();
+      setStatus('Input cleared', 'success');
+    }
+    
+    async function copyOutput() {
+      const text = output.textContent;
+      if (!text) {
+        setStatus('Nothing to copy', 'error');
+        return;
+      }
+      
+      try {
+        await navigator.clipboard.writeText(text);
+        setStatus('Copied to clipboard', 'success');
+      } catch (error) {
+        setStatus('Copy failed', 'error');
+      }
+    }
+    
+    function downloadOutput() {
+      const text = output.textContent;
+      if (!text) {
+        setStatus('Nothing to download', 'error');
+        return;
+      }
+      
+      const blob = new Blob([text], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'port-information.txt';
+      a.click();
+      URL.revokeObjectURL(url);
+      setStatus('Downloaded', 'success');
+    }
+    
+    async function pasteInput() {
+      try {
+        const text = await navigator.clipboard.readText();
+        input.value = text;
+        updateStats();
+        setStatus('Pasted from clipboard', 'success');
+      } catch (error) {
+        setStatus('Paste failed - check permissions', 'error');
+      }
+    }
+    
+    // Event listeners
+    if (lookupBtn) lookupBtn.addEventListener('click', lookupPort);
+    if (commonBtn) commonBtn.addEventListener('click', showCommonPorts);
+    if (webBtn) webBtn.addEventListener('click', () => showCategory('web'));
+    if (mailBtn) mailBtn.addEventListener('click', () => showCategory('mail'));
+    if (databaseBtn) databaseBtn.addEventListener('click', () => showCategory('database'));
+    if (gamingBtn) gamingBtn.addEventListener('click', () => showCategory('gaming'));
+    if (clearInputBtn) clearInputBtn.addEventListener('click', clearInput);
+    if (copyOutputBtn) copyOutputBtn.addEventListener('click', copyOutput);
+    if (downloadBtn) downloadBtn.addEventListener('click', downloadOutput);
+    if (pasteBtn) pasteBtn.addEventListener('click', pasteInput);
+    
+    // Update stats on input
+    input.addEventListener('input', updateStats);
+    
+    // Enter key to lookup
+    input.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        lookupPort();
+      }
+    });
+    
+    // Initial stats
+    updateStats();
+    setStatus('Ready - Enter port number or service name', 'normal');
+  })();
+</script>

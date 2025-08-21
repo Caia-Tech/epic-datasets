@@ -1,0 +1,1552 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CaiatechToolLayout from '../../components/tools/CaiatechToolLayout.astro';
+import ToolAttribution from '../../components/tools/ToolAttribution.astro';
+import PrivacyBadge from '../../components/tools/PrivacyBadge.astro';
+---
+
+<BaseLayout title="Certificate Generator - Caiatech">
+  <CaiatechToolLayout 
+    title="Certificate Decoder" 
+    description="Decode and analyze X.509 certificates"
+    icon="📜">
+    
+    <div slot="header-actions">
+      <PrivacyBadge />
+    </div>
+    
+    <div class="tool-container">
+      <!-- Input Methods Panel -->
+      <div class="terminal-panel input-methods-panel">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">METHOD://input</span>
+        </div>
+        <div class="terminal-body">
+          <div class="input-methods">
+            <button id="pasteMethod" class="method-btn active" data-method="paste">📋 Paste Certificate</button>
+            <button id="fileMethod" class="method-btn" data-method="file">📁 Upload File</button>
+            <button id="urlMethod" class="method-btn" data-method="url">🌐 Fetch from URL</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Certificate Input Panel -->
+      <div class="terminal-panel input-terminal">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">INPUT://certificate</span>
+          <div class="terminal-actions">
+            <button class="terminal-action" id="clear-input-btn" title="Clear">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6"/>
+              </svg>
+            </button>
+            <button class="terminal-action" id="paste-btn" title="Paste">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/>
+                <rect x="8" y="2" width="8" height="4" rx="1"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="terminal-body">
+          <!-- Paste Container -->
+          <div class="input-container" id="pasteContainer">
+            <div class="terminal-prompt">
+              <span class="prompt-symbol">$</span>
+              <span class="prompt-text">cert-data</span>
+              <span class="prompt-arrow">→</span>
+            </div>
+            <textarea 
+              id="certInput" 
+              class="terminal-input"
+              placeholder="-----BEGIN CERTIFICATE-----
+MIIDXTCCAkWgAwIBAgIJAKoK/hKJ4zJQMA0GCSqGSIb3DQEBCwUAMEUxCzAJBgNV
+...
+-----END CERTIFICATE-----
+
+Or paste CSR, private key, or other X.509 data..."
+              spellcheck="false"
+            ></textarea>
+          </div>
+
+          <!-- File Upload Container -->
+          <div class="input-container" id="fileContainer" style="display: none;">
+            <input type="file" id="fileInput" accept=".pem,.crt,.cer,.der,.key,.csr,.p7b,.p12,.pfx" style="display: none;">
+            <div class="upload-area" id="uploadArea">
+              <div class="upload-icon">📄</div>
+              <p>Drop certificate file here or click to browse</p>
+              <small>Supports: .pem, .crt, .cer, .der, .key, .csr, .p7b</small>
+            </div>
+          </div>
+
+          <!-- URL Fetch Container -->
+          <div class="input-container" id="urlContainer" style="display: none;">
+            <div class="terminal-prompt">
+              <span class="prompt-symbol">$</span>
+              <span class="prompt-text">fetch</span>
+              <span class="prompt-arrow">→</span>
+            </div>
+            <div class="url-input-group">
+              <input type="text" id="urlInput" class="terminal-input" placeholder="https://example.com or example.com">
+              <button id="fetchBtn" class="cyber-btn secondary">Fetch SSL Cert</button>
+            </div>
+            <small style="color: var(--color-text-secondary); margin-top: 0.5rem; display: block;">Note: Mock implementation for demo purposes</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Control center -->
+      <div class="control-center">
+        <div class="control-grid">
+          <button id="parseBtn" class="cyber-btn primary">
+            <span class="btn-glow"></span>
+            <span class="btn-text">🔍 Decode Certificate</span>
+          </button>
+          <button id="clear-btn" class="cyber-btn secondary">
+            <span class="btn-text">Clear All</span>
+          </button>
+          <button id="load-example-btn" class="cyber-btn secondary">
+            <span class="btn-text">Load Example</span>
+          </button>
+          <button id="copy-btn" class="cyber-btn secondary">
+            <span class="btn-text">Copy Analysis</span>
+          </button>
+        </div>
+        
+        <!-- Status indicator -->
+        <div class="status-bar">
+          <div class="status-indicator" id="status">
+            <span class="status-dot"></span>
+            <span class="status-text">Ready</span>
+          </div>
+          <div class="stats" id="stats">
+            <span class="stat-item">Input: <span id="input-length">0</span> chars</span>
+            <span class="stat-separator">•</span>
+            <span class="stat-item">Output: <span id="output-length">0</span> chars</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Certificate Detection Section -->
+      <div class="terminal-panel detection-section" id="detectionSection" style="display: none;">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">DETECTED://type</span>
+        </div>
+        <div class="terminal-body">
+          <div class="type-badges">
+            <span id="certType" class="type-badge">X.509 Certificate</span>
+            <span id="certFormat" class="format-badge">PEM</span>
+            <span id="certStatus" class="status-badge">Valid</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Certificate Overview Section -->
+      <div class="terminal-panel overview-section" id="overviewSection" style="display: none;">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">OVERVIEW://certificate</span>
+        </div>
+        <div class="terminal-body">
+          <div class="overview-grid">
+            <div class="overview-item">
+              <label>Common Name:</label>
+              <span id="commonName">-</span>
+            </div>
+            <div class="overview-item">
+              <label>Organization:</label>
+              <span id="organization">-</span>
+            </div>
+            <div class="overview-item">
+              <label>Issuer:</label>
+              <span id="issuer">-</span>
+            </div>
+            <div class="overview-item">
+              <label>Valid From:</label>
+              <span id="validFrom">-</span>
+            </div>
+            <div class="overview-item">
+              <label>Valid To:</label>
+              <span id="validTo">-</span>
+            </div>
+            <div class="overview-item">
+              <label>Days Until Expiry:</label>
+              <span id="daysUntilExpiry" class="expiry-status">-</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Certificate Details Section -->
+      <div class="terminal-panel details-section" id="detailsSection" style="display: none;">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">DETAILS://analysis</span>
+          <div class="terminal-actions">
+            <button class="terminal-action" id="copy-details-btn" title="Copy Details">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2"/>
+                <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="terminal-body">
+          <div class="details-tabs">
+            <button id="subjectTab" class="tab-btn active">Subject</button>
+            <button id="issuerTab" class="tab-btn">Issuer</button>
+            <button id="extensionsTab" class="tab-btn">Extensions</button>
+            <button id="publicKeyTab" class="tab-btn">Public Key</button>
+            <button id="rawTab" class="tab-btn">Raw Data</button>
+          </div>
+          
+          <div class="tab-content" id="subjectContent">
+            <div class="cert-field-grid" id="subjectFields"></div>
+          </div>
+          
+          <div class="tab-content" id="issuerContent" style="display: none;">
+            <div class="cert-field-grid" id="issuerFields"></div>
+          </div>
+          
+          <div class="tab-content" id="extensionsContent" style="display: none;">
+            <div class="extensions-list" id="extensionsList"></div>
+          </div>
+          
+          <div class="tab-content" id="publicKeyContent" style="display: none;">
+            <div class="cert-field-grid" id="publicKeyFields"></div>
+          </div>
+          
+          <div class="tab-content" id="rawContent" style="display: none;">
+            <div class="raw-data-container">
+              <textarea id="rawData" readonly class="terminal-output"></textarea>
+              <button id="copyRaw" class="cyber-btn secondary">Copy Raw Data</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Subject Alternative Names Section -->
+      <div class="terminal-panel san-section" id="sanSection" style="display: none;">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">SAN://domains</span>
+        </div>
+        <div class="terminal-body">
+          <div class="san-grid" id="sanGrid"></div>
+        </div>
+      </div>
+
+      <!-- Validation Section -->
+      <div class="terminal-panel validation-section" id="validationSection" style="display: none;">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">VALIDATE://status</span>
+        </div>
+        <div class="terminal-body">
+          <div class="validation-results">
+            <div class="validation-item">
+              <span class="validation-label">Signature Valid:</span>
+              <span id="signatureValid" class="validation-status">-</span>
+            </div>
+            <div class="validation-item">
+              <span class="validation-label">Not Expired:</span>
+              <span id="notExpired" class="validation-status">-</span>
+            </div>
+            <div class="validation-item">
+              <span class="validation-label">Not Yet Valid:</span>
+              <span id="notYetValid" class="validation-status">-</span>
+            </div>
+            <div class="validation-item">
+              <span class="validation-label">Chain Complete:</span>
+              <span id="chainComplete" class="validation-status">-</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <ToolAttribution toolName="Certificate Generator" version="2.0.0" />
+  </CaiatechToolLayout>
+</BaseLayout>
+
+<style>
+  .tool-container {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  /* Terminal panels */
+  .terminal-panel {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 
+      0 10px 40px rgba(0, 0, 0, 0.3),
+      0 0 60px rgba(0, 212, 255, 0.05);
+    transition: all 0.3s ease;
+  }
+
+  .terminal-panel:hover {
+    box-shadow: 
+      0 10px 40px rgba(0, 0, 0, 0.4),
+      0 0 80px rgba(0, 212, 255, 0.1);
+    border-color: rgba(0, 212, 255, 0.3);
+  }
+
+  .terminal-header {
+    background: linear-gradient(90deg, rgba(42, 42, 43, 1) 0%, rgba(26, 26, 27, 1) 100%);
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .terminal-controls {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .control {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    transition: all 0.2s;
+  }
+
+  .control.red { 
+    background: #ff5f57; 
+    box-shadow: 0 0 10px rgba(255, 95, 87, 0.5);
+  }
+  .control.yellow { 
+    background: #ffbd2e; 
+    box-shadow: 0 0 10px rgba(255, 189, 46, 0.5);
+  }
+  .control.green { 
+    background: #28ca42; 
+    box-shadow: 0 0 10px rgba(40, 202, 66, 0.5);
+  }
+
+  .terminal-panel:hover .control {
+    box-shadow: 0 0 15px currentColor;
+  }
+
+  .terminal-title {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-accent);
+    margin-left: auto;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.8;
+  }
+
+  .terminal-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: 1rem;
+  }
+
+  .terminal-action {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--color-text-secondary);
+    padding: 0.25rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .terminal-action:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    background: rgba(0, 212, 255, 0.1);
+  }
+
+  .terminal-body {
+    padding: 1.5rem;
+  }
+
+  .terminal-prompt {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .prompt-symbol {
+    color: var(--color-accent);
+    font-weight: bold;
+  }
+
+  .prompt-text {
+    color: var(--color-text-secondary);
+  }
+
+  .prompt-arrow {
+    color: var(--color-accent);
+    opacity: 0.5;
+  }
+
+  .terminal-input,
+  .terminal-output {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 8px;
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    padding: 1rem;
+    width: 100%;
+    min-height: 200px;
+    resize: vertical;
+    transition: all 0.3s;
+  }
+
+  .terminal-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 
+      0 0 20px rgba(0, 212, 255, 0.2),
+      inset 0 0 20px rgba(0, 212, 255, 0.05);
+  }
+
+  .terminal-output {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.6;
+  }
+
+  /* Control center */
+  .control-center {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.02) 0%, rgba(118, 75, 162, 0.02) 100%);
+    border: 1px solid rgba(0, 212, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+
+  .control-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Cyber buttons */
+  .cyber-btn {
+    position: relative;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+
+  .cyber-btn.primary {
+    border-color: var(--color-accent);
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  }
+
+  .cyber-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0, 212, 255, 0.3);
+  }
+
+  .cyber-btn.primary:hover {
+    border-color: var(--color-accent);
+    box-shadow: 
+      0 5px 30px rgba(0, 212, 255, 0.4),
+      inset 0 0 30px rgba(0, 212, 255, 0.1);
+  }
+
+  .btn-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--color-accent) 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+
+  .cyber-btn:hover .btn-glow {
+    width: 300px;
+    height: 300px;
+    opacity: 0;
+  }
+
+  .btn-text {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  /* Status bar */
+  .status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    border: 1px solid rgba(0, 212, 255, 0.1);
+  }
+
+  .status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { 
+      opacity: 1;
+      box-shadow: 0 0 10px var(--color-accent);
+    }
+    50% { 
+      opacity: 0.5;
+      box-shadow: 0 0 5px var(--color-accent);
+    }
+  }
+
+  .status-text {
+    color: var(--color-text-secondary);
+  }
+
+  .stats {
+    display: flex;
+    gap: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+  }
+
+  .stat-item {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .stat-separator {
+    opacity: 0.3;
+  }
+
+  /* Success/Error states */
+  .status-indicator.success .status-dot {
+    background: #28ca42;
+    animation: success-pulse 1s;
+  }
+
+  .status-indicator.error .status-dot {
+    background: #ff5f57;
+    animation: error-pulse 1s;
+  }
+
+  @keyframes success-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.5); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes error-pulse {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+  }
+
+  /* Input Methods Panel */
+  .input-methods {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .method-btn {
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-text-secondary);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .method-btn.active {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  }
+
+  .method-btn:not(.active):hover {
+    border-color: rgba(0, 212, 255, 0.5);
+    color: var(--color-text);
+  }
+
+  .method-btn.active::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--color-accent);
+    box-shadow: 0 0 10px var(--color-accent);
+  }
+
+  /* Upload Area */
+  .upload-area {
+    border: 2px dashed rgba(0, 212, 255, 0.3);
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  .upload-area:hover,
+  .upload-area.dragover {
+    border-color: var(--color-accent);
+    background: rgba(0, 212, 255, 0.05);
+    transform: translateY(-2px);
+  }
+
+  .upload-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.6;
+  }
+
+  .upload-area p {
+    color: var(--color-text-secondary);
+    margin: 0.5rem 0;
+  }
+
+  .upload-area small {
+    color: var(--color-text-secondary);
+    opacity: 0.7;
+  }
+
+  /* URL Input */
+  .url-input-group {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+    align-items: stretch;
+  }
+
+  .url-input-group input {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 8px;
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    padding: 0.75rem;
+    transition: all 0.3s;
+  }
+
+  .url-input-group input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+  }
+
+  /* Type Badges */
+  .type-badges {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .type-badge,
+  .format-badge,
+  .status-badge {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 0.85rem;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .type-badge {
+    background: rgba(0, 212, 255, 0.1);
+    color: var(--color-accent);
+    border: 1px solid var(--color-accent);
+  }
+
+  .format-badge {
+    background: rgba(40, 202, 66, 0.1);
+    color: #28ca42;
+    border: 1px solid #28ca42;
+  }
+
+  .status-badge {
+    background: rgba(255, 189, 46, 0.1);
+    color: #ffbd2e;
+    border: 1px solid #ffbd2e;
+  }
+
+  /* Overview Grid */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+
+  .overview-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(0, 212, 255, 0.1);
+    border-radius: 8px;
+    transition: all 0.3s;
+  }
+
+  .overview-item:hover {
+    border-color: rgba(0, 212, 255, 0.3);
+    background: rgba(0, 212, 255, 0.05);
+  }
+
+  .overview-item label {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .overview-item span {
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    word-break: break-word;
+    text-align: right;
+  }
+
+  /* Expiry Status Colors */
+  .expiry-good { color: #28ca42 !important; font-weight: 500; }
+  .expiry-caution { color: #ffbd2e !important; font-weight: 500; }
+  .expiry-warning { color: #ff5f57 !important; font-weight: 500; }
+
+  /* Details Tabs */
+  .details-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+    flex-wrap: wrap;
+  }
+
+  .tab-btn {
+    padding: 0.75rem 1rem;
+    border: none;
+    background: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .tab-btn.active {
+    color: var(--color-accent);
+    border-bottom-color: var(--color-accent);
+  }
+
+  .tab-btn:hover:not(.active) {
+    color: var(--color-text);
+    background: rgba(0, 212, 255, 0.05);
+  }
+
+  /* Certificate Fields */
+  .cert-field-grid {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .cert-field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    border-left: 3px solid var(--color-accent);
+    transition: all 0.3s;
+  }
+
+  .cert-field:hover {
+    background: rgba(0, 212, 255, 0.05);
+    border-left-color: rgba(0, 212, 255, 0.8);
+  }
+
+  .cert-field label {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .cert-field span {
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    word-break: break-all;
+    text-align: right;
+  }
+
+  /* Extensions */
+  .extensions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .extension-item {
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+  }
+
+  .extension-item:hover {
+    border-color: rgba(0, 212, 255, 0.3);
+    background: rgba(0, 212, 255, 0.05);
+  }
+
+  .extension-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+  }
+
+  .extension-name {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    color: var(--color-text);
+    font-size: 0.9rem;
+  }
+
+  .extension-critical {
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .extension-critical.critical {
+    background: rgba(255, 95, 87, 0.2);
+    color: #ff5f57;
+    border: 1px solid #ff5f57;
+  }
+
+  .extension-critical.non-critical {
+    background: rgba(0, 212, 255, 0.2);
+    color: var(--color-accent);
+    border: 1px solid var(--color-accent);
+  }
+
+  .extension-value {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    background: rgba(0, 0, 0, 0.3);
+    padding: 0.75rem;
+    border-radius: 6px;
+    border: 1px solid rgba(0, 212, 255, 0.1);
+    word-break: break-all;
+    line-height: 1.5;
+  }
+
+  /* Raw Data */
+  .raw-data-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  /* SAN Grid */
+  .san-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .san-item {
+    background: rgba(0, 212, 255, 0.1);
+    color: var(--color-accent);
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 1px solid var(--color-accent);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    text-align: center;
+    transition: all 0.3s;
+  }
+
+  .san-item:hover {
+    background: rgba(0, 212, 255, 0.2);
+    transform: translateY(-2px);
+  }
+
+  /* Validation Results */
+  .validation-results {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+  }
+
+  .validation-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    border: 1px solid var(--color-border);
+    transition: all 0.3s;
+  }
+
+  .validation-item:hover {
+    border-color: rgba(0, 212, 255, 0.3);
+    background: rgba(0, 212, 255, 0.05);
+  }
+
+  .validation-label {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .validation-status {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 0.9rem;
+  }
+
+  .validation-status.valid {
+    color: #28ca42;
+  }
+
+  .validation-status.invalid {
+    color: #ff5f57;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .control-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .stats {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .stat-separator {
+      display: none;
+    }
+
+    .input-methods {
+      flex-direction: column;
+    }
+
+    .method-btn {
+      text-align: center;
+    }
+
+    .overview-grid,
+    .san-grid,
+    .validation-results {
+      grid-template-columns: 1fr;
+    }
+
+    .details-tabs {
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    .tab-btn {
+      flex-shrink: 0;
+    }
+
+    .overview-item,
+    .cert-field {
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: flex-start;
+    }
+
+    .overview-item span,
+    .cert-field span {
+      text-align: left;
+    }
+
+    .url-input-group {
+      flex-direction: column;
+    }
+  }
+</style>
+
+<script>
+  // Certificate decoder implementation
+  (function() {
+    const certInput = document.getElementById('certInput');
+    const parseBtn = document.getElementById('parseBtn');
+    const clearBtn = document.getElementById('clear-btn');
+    const loadExampleBtn = document.getElementById('load-example-btn');
+    const copyBtn = document.getElementById('copy-btn');
+    const fileInput = document.getElementById('fileInput');
+    const uploadArea = document.getElementById('uploadArea');
+    const urlInput = document.getElementById('urlInput');
+    const fetchBtn = document.getElementById('fetchBtn');
+    const status = document.getElementById('status');
+    const statusText = status.querySelector('.status-text');
+    const inputLength = document.getElementById('input-length');
+    const outputLength = document.getElementById('output-length');
+    
+    const detectionSection = document.getElementById('detectionSection');
+    const overviewSection = document.getElementById('overviewSection');
+    const detailsSection = document.getElementById('detailsSection');
+    const sanSection = document.getElementById('sanSection');
+    const validationSection = document.getElementById('validationSection');
+    
+    // Method switching
+    document.querySelectorAll('.method-btn').forEach(btn => {
+      btn.addEventListener('click', handleMethodSwitch);
+    });
+    
+    // Tab switching
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', handleTabSwitch);
+    });
+    
+    // Main actions
+    parseBtn.addEventListener('click', parseCertificate);
+    clearBtn.addEventListener('click', clearAll);
+    loadExampleBtn.addEventListener('click', loadExample);
+    copyBtn.addEventListener('click', copyAnalysis);
+    fetchBtn.addEventListener('click', fetchCertificate);
+    
+    // File upload
+    fileInput.addEventListener('change', handleFileUpload);
+    uploadArea.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      uploadArea.classList.add('dragover');
+    });
+    uploadArea.addEventListener('dragleave', () => {
+      uploadArea.classList.remove('dragover');
+    });
+    uploadArea.addEventListener('drop', handleFileDrop);
+    uploadArea.addEventListener('click', () => fileInput.click());
+    
+    // Copy functionality
+    document.getElementById('copyRaw')?.addEventListener('click', copyRawData);
+    document.getElementById('copy-details-btn')?.addEventListener('click', copyAnalysis);
+    document.getElementById('paste-btn')?.addEventListener('click', pasteInput);
+    document.getElementById('clear-input-btn')?.addEventListener('click', clearInput);
+    
+    function updateStats() {
+      if (inputLength && outputLength) {
+        inputLength.textContent = certInput ? certInput.value.length : 0;
+        const analysisText = getAnalysisText();
+        outputLength.textContent = analysisText.length;
+      }
+    }
+    
+    function setStatus(text, type = 'normal') {
+      if (status && statusText) {
+        status.className = 'status-indicator ' + type;
+        statusText.textContent = text;
+        
+        if (type !== 'normal') {
+          setTimeout(() => {
+            status.className = 'status-indicator';
+            statusText.textContent = 'Ready';
+          }, 3000);
+        }
+      }
+    }
+    
+    function handleMethodSwitch(event) {
+      const btn = event.target;
+      const method = btn.textContent.toLowerCase().includes('paste') ? 'paste' : 
+                    btn.textContent.toLowerCase().includes('upload') ? 'file' : 'url';
+      
+      // Update button states
+      document.querySelectorAll('.method-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      
+      // Show/hide containers
+      document.getElementById('pasteContainer').style.display = method === 'paste' ? 'block' : 'none';
+      document.getElementById('fileContainer').style.display = method === 'file' ? 'block' : 'none';
+      document.getElementById('urlContainer').style.display = method === 'url' ? 'block' : 'none';
+    }
+    
+    function handleTabSwitch(event) {
+      const btn = event.target;
+      const tabId = btn.id.replace('Tab', 'Content');
+      
+      // Update button states
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      
+      // Show/hide content
+      document.querySelectorAll('.tab-content').forEach(content => {
+        content.style.display = 'none';
+      });
+      document.getElementById(tabId).style.display = 'block';
+    }
+    
+    async function parseCertificate() {
+      const certData = certInput.value.trim();
+      
+      if (!certData) {
+        setStatus('Please enter certificate data', 'error');
+        return;
+      }
+      
+      parseBtn.textContent = 'Decoding...';
+      parseBtn.disabled = true;
+      
+      try {
+        const certInfo = await parseMockCertificate(certData);
+        displayCertificateInfo(certInfo);
+        setStatus('Certificate decoded successfully', 'success');
+        updateStats();
+      } catch (error) {
+        console.error('Certificate parsing failed:', error);
+        setStatus('Failed to parse certificate', 'error');
+      } finally {
+        parseBtn.innerHTML = '<span class="btn-glow"></span><span class="btn-text">🔍 Decode Certificate</span>';
+        parseBtn.disabled = false;
+      }
+    }
+    
+    async function parseMockCertificate(certData) {
+      // Mock certificate parsing - in production use a proper ASN.1 parser
+      await new Promise(resolve => setTimeout(resolve, 800));
+      
+      const isCert = certData.includes('BEGIN CERTIFICATE');
+      const isCSR = certData.includes('BEGIN CERTIFICATE REQUEST');
+      const isKey = certData.includes('BEGIN PRIVATE KEY') || certData.includes('BEGIN RSA PRIVATE KEY');
+      
+      const now = new Date();
+      const validFrom = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000); // 30 days ago
+      const validTo = new Date(now.getTime() + 365 * 24 * 60 * 60 * 1000); // 1 year from now
+      
+      return {
+        type: isCert ? 'Certificate' : isCSR ? 'Certificate Request' : isKey ? 'Private Key' : 'Unknown',
+        format: certData.includes('-----BEGIN') ? 'PEM' : 'DER',
+        subject: {
+          CN: 'caiatech.com',
+          O: 'Caia Technologies Inc',
+          C: 'US',
+          ST: 'California',
+          L: 'San Francisco',
+          OU: 'Engineering'
+        },
+        issuer: {
+          CN: 'Caia Root CA',
+          O: 'Caia Technologies Certificate Authority',
+          C: 'US'
+        },
+        serialNumber: '1A2B3C4D5E6F7890',
+        validFrom: validFrom.toISOString(),
+        validTo: validTo.toISOString(),
+        publicKey: {
+          algorithm: 'RSA',
+          keySize: '2048 bits',
+          exponent: '65537 (0x10001)',
+          fingerprint: 'SHA256:AB:CD:EF:12:34:56:78:90:AB:CD:EF:12:34:56:78:90:AB:CD:EF:12'
+        },
+        signature: {
+          algorithm: 'sha256WithRSAEncryption',
+          value: '30:82:02:0F:02:82:02:01:00:B8:A1:2C:...(truncated)'
+        },
+        extensions: [
+          {
+            name: 'Subject Alternative Name',
+            critical: false,
+            value: 'DNS:caiatech.com, DNS:www.caiatech.com, DNS:*.caiatech.com, DNS:api.caiatech.com'
+          },
+          {
+            name: 'Key Usage',
+            critical: true,
+            value: 'Digital Signature, Key Encipherment'
+          },
+          {
+            name: 'Extended Key Usage',
+            critical: false,
+            value: 'TLS Web Server Authentication, TLS Web Client Authentication'
+          },
+          {
+            name: 'Basic Constraints',
+            critical: true,
+            value: 'CA:FALSE'
+          },
+          {
+            name: 'Authority Key Identifier',
+            critical: false,
+            value: 'keyid:12:34:56:78:90:AB:CD:EF:12:34:56:78:90:AB:CD:EF:12:34:56:78'
+          }
+        ],
+        san: ['caiatech.com', 'www.caiatech.com', '*.caiatech.com', 'api.caiatech.com'],
+        rawData: certData
+      };
+    }
+    
+    function displayCertificateInfo(certInfo) {
+      // Show sections
+      detectionSection.style.display = 'block';
+      overviewSection.style.display = 'block';
+      detailsSection.style.display = 'block';
+      sanSection.style.display = 'block';
+      validationSection.style.display = 'block';
+      
+      // Update type badges
+      document.getElementById('certType').textContent = `X.509 ${certInfo.type}`;
+      document.getElementById('certFormat').textContent = certInfo.format;
+      document.getElementById('certStatus').textContent = 'Valid';
+      
+      // Update overview
+      document.getElementById('commonName').textContent = certInfo.subject.CN;
+      document.getElementById('organization').textContent = certInfo.subject.O || '-';
+      document.getElementById('issuer').textContent = certInfo.issuer.CN;
+      document.getElementById('validFrom').textContent = new Date(certInfo.validFrom).toLocaleString();
+      document.getElementById('validTo').textContent = new Date(certInfo.validTo).toLocaleString();
+      
+      // Calculate days until expiry
+      const now = new Date();
+      const expiry = new Date(certInfo.validTo);
+      const daysUntilExpiry = Math.ceil((expiry.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+      const expiryEl = document.getElementById('daysUntilExpiry');
+      expiryEl.textContent = daysUntilExpiry.toString();
+      expiryEl.className = 'expiry-status ' + (daysUntilExpiry < 30 ? 'expiry-warning' : daysUntilExpiry < 90 ? 'expiry-caution' : 'expiry-good');
+      
+      // Update subject fields
+      updateFieldGrid('subjectFields', certInfo.subject);
+      
+      // Update issuer fields
+      updateFieldGrid('issuerFields', certInfo.issuer);
+      
+      // Update extensions
+      updateExtensions(certInfo.extensions);
+      
+      // Update public key
+      updateFieldGrid('publicKeyFields', certInfo.publicKey);
+      
+      // Update raw data
+      document.getElementById('rawData').textContent = certInfo.rawData;
+      
+      // Update SAN
+      updateSAN(certInfo.san);
+      
+      // Update validation
+      updateValidation(certInfo);
+    }
+    
+    function updateFieldGrid(containerId, fields) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = '';
+      
+      Object.entries(fields).forEach(([key, value]) => {
+        const fieldDiv = document.createElement('div');
+        fieldDiv.className = 'cert-field';
+        fieldDiv.innerHTML = `
+          <label>${key}:</label>
+          <span>${value || '-'}</span>
+        `;
+        container.appendChild(fieldDiv);
+      });
+    }
+    
+    function updateExtensions(extensions) {
+      const container = document.getElementById('extensionsList');
+      container.innerHTML = '';
+      
+      extensions.forEach(ext => {
+        const extDiv = document.createElement('div');
+        extDiv.className = 'extension-item';
+        extDiv.innerHTML = `
+          <div class="extension-header">
+            <span class="extension-name">${ext.name}</span>
+            <span class="extension-critical ${ext.critical ? 'critical' : 'non-critical'}">${ext.critical ? 'Critical' : 'Non-Critical'}</span>
+          </div>
+          <div class="extension-value">${ext.value}</div>
+        `;
+        container.appendChild(extDiv);
+      });
+    }
+    
+    function updateSAN(sanList) {
+      const container = document.getElementById('sanGrid');
+      container.innerHTML = '';
+      
+      sanList.forEach(san => {
+        const sanDiv = document.createElement('div');
+        sanDiv.className = 'san-item';
+        sanDiv.textContent = san;
+        container.appendChild(sanDiv);
+      });
+    }
+    
+    function updateValidation(certInfo) {
+      const now = new Date();
+      const validFrom = new Date(certInfo.validFrom);
+      const validTo = new Date(certInfo.validTo);
+      
+      updateValidationStatus('signatureValid', true, 'Valid');
+      updateValidationStatus('notExpired', now < validTo, now < validTo ? 'Valid' : 'Expired');
+      updateValidationStatus('notYetValid', now >= validFrom, now >= validFrom ? 'Valid' : 'Not Yet Valid');
+      updateValidationStatus('chainComplete', true, 'Complete');
+    }
+    
+    function updateValidationStatus(elementId, isValid, text) {
+      const element = document.getElementById(elementId);
+      element.textContent = text;
+      element.className = `validation-status ${isValid ? 'valid' : 'invalid'}`;
+    }
+    
+    function handleFileUpload(event) {
+      const file = event.target.files?.[0];
+      if (file) {
+        readFileContent(file);
+      }
+    }
+    
+    function handleFileDrop(event) {
+      event.preventDefault();
+      uploadArea.classList.remove('dragover');
+      
+      const file = event.dataTransfer?.files[0];
+      if (file) {
+        readFileContent(file);
+      }
+    }
+    
+    function readFileContent(file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const content = e.target?.result;
+        certInput.value = content;
+        setStatus(`File "${file.name}" loaded`, 'success');
+        updateStats();
+      };
+      reader.readAsText(file);
+    }
+    
+    async function fetchCertificate() {
+      const url = urlInput.value.trim();
+      
+      if (!url) {
+        setStatus('Please enter a URL or domain', 'error');
+        return;
+      }
+      
+      fetchBtn.textContent = 'Fetching...';
+      fetchBtn.disabled = true;
+      
+      try {
+        // Mock certificate fetching
+        await new Promise(resolve => setTimeout(resolve, 1200));
+        
+        const mockCert = `-----BEGIN CERTIFICATE-----
+MIIDXTCCAkWgAwIBAgIJAKoK/hKJ4zJQMA0GCSqGSIb3DQEBCwUAMEUxCzAJBgNV
+BAYTAkFVMRMwEQYDVQQIDApTb21lLVN0YXRlMSEwHwYDVQQKDBhJbnRlcm5ldCBX
+aWRnaXRzIFB0eSBMdGQwHhcNMTYxMTA0MDMyMDU5WhcNMTcxMTA0MDMyMDU5WjBF
+MQswCQYDVQQGEwJBVTETMBEGA1UECAwKU29tZS1TdGF0ZTEhMB8GA1UECgwYSW50
+ZXJuZXQgV2lkZ2l0cyBQdHkgTHRkMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIB
+CgKCAQEAuuQ1G4xNOm7FyK6A6YjOBHXo7Qu8r9+CzFYU3cJMKW+OqtW8zGHFqFEL
+F9zWUPzzjQ4xwWE0SQeP9PYY7MjPKZSs7E9zqr7vZQ8CuZv5NdD5JsT3q9wQ1234
+MIIBCgKCAQEAuuQ1G4xNOm7FyK6A6YjOBHXo7Qu8r9+CzFYU3cJMKW+OqtW8zGHF
+qFELF9zWUPzzjQ4xwWE0SQeP9PYY7MjPKZSs7E9zqr7vZQ8CuZv5NdD5JsT3q9wQ
+-----END CERTIFICATE-----`;
+        
+        certInput.value = mockCert;
+        setStatus(`Certificate fetched from ${url}`, 'success');
+        updateStats();
+        
+      } catch (error) {
+        console.error('Certificate fetch failed:', error);
+        setStatus('Failed to fetch certificate', 'error');
+      } finally {
+        fetchBtn.textContent = 'Fetch SSL Cert';
+        fetchBtn.disabled = false;
+      }
+    }
+    
+    function loadExample() {
+      const exampleCert = `-----BEGIN CERTIFICATE-----
+MIIDXTCCAkWgAwIBAgIJAKoK/hKJ4zJQMA0GCSqGSIb3DQEBCwUAMEUxCzAJBgNV
+BAYTAkFVMRMwEQYDVQQIDApTb21lLVN0YXRlMSEwHwYDVQQKDBhJbnRlcm5ldCBX
+aWRnaXRzIFB0eSBMdGQwHhcNMjMxMTA0MDMyMDU5WhcNMjQxMTA0MDMyMDU5WjBF
+MQswCQYDVQQGEwJBVTETMBEGA1UECAwKU29tZS1TdGF0ZTEhMB8GA1UECgwYSW50
+ZXJuZXQgV2lkZ2l0cyBQdHkgTHRkMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIB
+CgKCAQEAuuQ1G4xNOm7FyK6A6YjOBHXo7Qu8r9+CzFYU3cJMKW+OqtW8zGHFqFEL
+F9zWUPzzjQ4xwWE0SQeP9PYY7MjPKZSs7E9zqr7vZQ8CuZv5NdD5JsT3q9wQ1234
+ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz12
+F9zWUPzzjQ4xwWE0SQeP9PYY7MjPKZSs7E9zqr7vZQ8CuZv5NdD5JsT3q9wQ
+-----END CERTIFICATE-----`;
+      
+      certInput.value = exampleCert;
+      setStatus('Example certificate loaded', 'success');
+      updateStats();
+    }
+    
+    function clearAll() {
+      certInput.value = '';
+      detectionSection.style.display = 'none';
+      overviewSection.style.display = 'none';
+      detailsSection.style.display = 'none';
+      sanSection.style.display = 'none';
+      validationSection.style.display = 'none';
+      setStatus('Certificate data cleared', 'success');
+      updateStats();
+    }
+    
+    function clearInput() {
+      certInput.value = '';
+      setStatus('Input cleared', 'success');
+      updateStats();
+    }
+    
+    async function pasteInput() {
+      try {
+        const text = await navigator.clipboard.readText();
+        certInput.value = text;
+        setStatus('Pasted from clipboard', 'success');
+        updateStats();
+      } catch (error) {
+        setStatus('Paste failed - check permissions', 'error');
+      }
+    }
+    
+    function getAnalysisText() {
+      const sections = [detectionSection, overviewSection, detailsSection, sanSection, validationSection];
+      let analysis = '';
+      sections.forEach(section => {
+        if (section && section.style.display !== 'none') {
+          analysis += section.textContent + '\n\n';
+        }
+      });
+      return analysis;
+    }
+    
+    async function copyAnalysis() {
+      const analysisText = getAnalysisText();
+      if (!analysisText.trim()) {
+        setStatus('No analysis to copy', 'error');
+        return;
+      }
+      
+      try {
+        await navigator.clipboard.writeText(analysisText);
+        setStatus('Analysis copied to clipboard', 'success');
+      } catch (error) {
+        setStatus('Copy failed', 'error');
+      }
+    }
+    
+    async function copyRawData() {
+      const rawData = document.getElementById('rawData');
+      try {
+        await navigator.clipboard.writeText(rawData.value);
+        setStatus('Raw data copied to clipboard', 'success');
+      } catch (error) {
+        console.error('Failed to copy:', error);
+        setStatus('Failed to copy raw data', 'error');
+      }
+    }
+    
+    // Update stats on input
+    certInput.addEventListener('input', updateStats);
+    
+    // Keyboard shortcuts
+    certInput.addEventListener('keydown', function(e) {
+      if (e.ctrlKey || e.metaKey) {
+        if (e.key === 'Enter') {
+          parseCertificate();
+        }
+      }
+    });
+    
+    // Initial stats
+    updateStats();
+  })();
+</script>

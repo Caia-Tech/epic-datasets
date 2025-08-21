@@ -1,0 +1,8 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#0a0a0b"/>
+  <g transform="translate(600,315)">
+    <text x="-120" y="-20" font-family="monospace" font-size="72" font-weight="700" fill="#ffffff">Caia</text>
+    <text x="40" y="-20" font-family="monospace" font-size="72" font-weight="700" fill="#00d4ff">Tech</text>
+    <text x="-320" y="40" font-family="sans-serif" font-size="28" fill="#b3b3b3">AI research lab exploring technology and human potential</text>
+  </g>
+</svg>

@@ -1,0 +1,959 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CaiatechToolLayout from '../../components/tools/CaiatechToolLayout.astro';
+import ToolAttribution from '../../components/tools/ToolAttribution.astro';
+import PrivacyBadge from '../../components/tools/PrivacyBadge.astro';
+---
+
+<BaseLayout title="Meta Tag Generator - Caiatech">
+  <CaiatechToolLayout 
+    title="Meta Tag Generator" 
+    description="Generate HTML meta tags for SEO"
+    icon="<>">
+    
+    <div slot="header-actions">
+      <PrivacyBadge />
+    </div>
+    
+    <div class="tool-container">
+      <!-- Terminal-style input section -->
+      <div class="terminal-panel input-terminal">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">INPUT://meta</span>
+          <div class="terminal-actions">
+            <button class="terminal-action" id="clear-input-btn" title="Clear">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6"/>
+              </svg>
+            </button>
+            <button class="terminal-action" id="paste-btn" title="Paste">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/>
+                <rect x="8" y="2" width="8" height="4" rx="1"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-prompt">
+            <span class="prompt-symbol">$</span>
+            <span class="prompt-text">meta</span>
+            <span class="prompt-arrow">→</span>
+          </div>
+          <div class="meta-form">
+            <div class="form-group">
+              <label for="site-title" class="form-label">Site Title:</label>
+              <input 
+                id="site-title" 
+                class="form-input"
+                type="text"
+                placeholder="My Awesome Website"
+                spellcheck="false"
+              />
+            </div>
+            
+            <div class="form-group">
+              <label for="site-description" class="form-label">Description:</label>
+              <textarea 
+                id="site-description" 
+                class="form-textarea"
+                placeholder="A brief description of your website for search engines..."
+                rows="3"
+                spellcheck="false"
+              ></textarea>
+            </div>
+            
+            <div class="form-group">
+              <label for="site-url" class="form-label">Site URL:</label>
+              <input 
+                id="site-url" 
+                class="form-input"
+                type="url"
+                placeholder="https://example.com"
+                spellcheck="false"
+              />
+            </div>
+            
+            <div class="form-group">
+              <label for="image-url" class="form-label">Image URL (Optional):</label>
+              <input 
+                id="image-url" 
+                class="form-input"
+                type="url"
+                placeholder="https://example.com/image.jpg"
+                spellcheck="false"
+              />
+            </div>
+            
+            <div class="form-group">
+              <label for="keywords" class="form-label">Keywords (comma-separated):</label>
+              <input 
+                id="keywords" 
+                class="form-input"
+                type="text"
+                placeholder="web development, programming, tutorial"
+                spellcheck="false"
+              />
+            </div>
+            
+            <div class="form-group">
+              <label for="author" class="form-label">Author (Optional):</label>
+              <input 
+                id="author" 
+                class="form-input"
+                type="text"
+                placeholder="John Doe"
+                spellcheck="false"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Control center -->
+      <div class="control-center">
+        <div class="control-grid">
+          <button id="generate-btn" class="cyber-btn primary">
+            <span class="btn-glow"></span>
+            <span class="btn-text">🏷️ Generate Tags</span>
+          </button>
+          <button id="preview-btn" class="cyber-btn secondary">
+            <span class="btn-text">👁️ Preview</span>
+          </button>
+          <button id="clear-btn" class="cyber-btn secondary">
+            <span class="btn-text">Clear All</span>
+          </button>
+          <button id="sample-btn" class="cyber-btn secondary">
+            <span class="btn-text">Load Sample</span>
+          </button>
+          <button id="copy-btn" class="cyber-btn secondary">
+            <span class="btn-text">Copy Tags</span>
+          </button>
+        </div>
+        
+        <!-- Status indicator -->
+        <div class="status-bar">
+          <div class="status-indicator" id="status">
+            <span class="status-dot"></span>
+            <span class="status-text">Ready</span>
+          </div>
+          <div class="stats" id="stats">
+            <span class="stat-item">Tags: <span id="tag-count">0</span></span>
+            <span class="stat-separator">•</span>
+            <span class="stat-item">Output: <span id="output-length">0</span> chars</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Terminal-style output section -->
+      <div class="terminal-panel output-terminal">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">OUTPUT://meta.result</span>
+          <div class="terminal-actions">
+            <button class="terminal-action" id="copy-output-btn" title="Copy">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2"/>
+                <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+              </svg>
+            </button>
+            <button class="terminal-action" id="download-btn" title="Download">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-prompt">
+            <span class="prompt-symbol">></span>
+            <span class="prompt-text">result</span>
+          </div>
+          <pre id="output" class="terminal-output"></pre>
+        </div>
+      </div>
+    </div>
+    
+    <ToolAttribution toolName="Meta Tag Generator" version="2.0.0" />
+  </CaiatechToolLayout>
+</BaseLayout>
+
+<style>
+  .tool-container {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  /* Terminal panels */
+  .terminal-panel {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 
+      0 10px 40px rgba(0, 0, 0, 0.3),
+      0 0 60px rgba(0, 212, 255, 0.05);
+    transition: all 0.3s ease;
+  }
+
+  .terminal-panel:hover {
+    box-shadow: 
+      0 10px 40px rgba(0, 0, 0, 0.4),
+      0 0 80px rgba(0, 212, 255, 0.1);
+    border-color: rgba(0, 212, 255, 0.3);
+  }
+
+  .terminal-header {
+    background: linear-gradient(90deg, rgba(42, 42, 43, 1) 0%, rgba(26, 26, 27, 1) 100%);
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .terminal-controls {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .control {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    transition: all 0.2s;
+  }
+
+  .control.red { 
+    background: #ff5f57; 
+    box-shadow: 0 0 10px rgba(255, 95, 87, 0.5);
+  }
+  .control.yellow { 
+    background: #ffbd2e; 
+    box-shadow: 0 0 10px rgba(255, 189, 46, 0.5);
+  }
+  .control.green { 
+    background: #28ca42; 
+    box-shadow: 0 0 10px rgba(40, 202, 66, 0.5);
+  }
+
+  .terminal-panel:hover .control {
+    box-shadow: 0 0 15px currentColor;
+  }
+
+  .terminal-title {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-accent);
+    margin-left: auto;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.8;
+  }
+
+  .terminal-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: 1rem;
+  }
+
+  .terminal-action {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--color-text-secondary);
+    padding: 0.25rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .terminal-action:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    background: rgba(0, 212, 255, 0.1);
+  }
+
+  .terminal-body {
+    padding: 1.5rem;
+  }
+
+  .terminal-prompt {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .prompt-symbol {
+    color: var(--color-accent);
+    font-weight: bold;
+  }
+
+  .prompt-text {
+    color: var(--color-text-secondary);
+  }
+
+  .prompt-arrow {
+    color: var(--color-accent);
+    opacity: 0.5;
+  }
+
+  .terminal-input,
+  .terminal-output {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 8px;
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    padding: 1rem;
+    width: 100%;
+    min-height: 200px;
+    resize: vertical;
+    transition: all 0.3s;
+  }
+
+  .terminal-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 
+      0 0 20px rgba(0, 212, 255, 0.2),
+      inset 0 0 20px rgba(0, 212, 255, 0.05);
+  }
+
+  .terminal-output {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.6;
+  }
+
+  /* Form styles */
+  .meta-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .form-label {
+    color: var(--color-text-secondary);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .form-input,
+  .form-textarea {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 8px;
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    padding: 0.75rem;
+    transition: all 0.3s;
+  }
+
+  .form-input:focus,
+  .form-textarea:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 
+      0 0 20px rgba(0, 212, 255, 0.2),
+      inset 0 0 20px rgba(0, 212, 255, 0.05);
+  }
+
+  .form-textarea {
+    min-height: 80px;
+    resize: vertical;
+  }
+
+  /* Control center */
+  .control-center {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.02) 0%, rgba(118, 75, 162, 0.02) 100%);
+    border: 1px solid rgba(0, 212, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+
+  .control-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Cyber buttons */
+  .cyber-btn {
+    position: relative;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+
+  .cyber-btn.primary {
+    border-color: var(--color-accent);
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  }
+
+  .cyber-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0, 212, 255, 0.3);
+  }
+
+  .cyber-btn.primary:hover {
+    border-color: var(--color-accent);
+    box-shadow: 
+      0 5px 30px rgba(0, 212, 255, 0.4),
+      inset 0 0 30px rgba(0, 212, 255, 0.1);
+  }
+
+  .btn-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--color-accent) 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+
+  .cyber-btn:hover .btn-glow {
+    width: 300px;
+    height: 300px;
+    opacity: 0;
+  }
+
+  .btn-text {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  /* Status bar */
+  .status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    border: 1px solid rgba(0, 212, 255, 0.1);
+  }
+
+  .status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { 
+      opacity: 1;
+      box-shadow: 0 0 10px var(--color-accent);
+    }
+    50% { 
+      opacity: 0.5;
+      box-shadow: 0 0 5px var(--color-accent);
+    }
+  }
+
+  .status-text {
+    color: var(--color-text-secondary);
+  }
+
+  .stats {
+    display: flex;
+    gap: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+  }
+
+  .stat-item {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .stat-separator {
+    opacity: 0.3;
+  }
+
+  /* Success/Error states */
+  .status-indicator.success .status-dot {
+    background: #28ca42;
+    animation: success-pulse 1s;
+  }
+
+  .status-indicator.error .status-dot {
+    background: #ff5f57;
+    animation: error-pulse 1s;
+  }
+
+  @keyframes success-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.5); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes error-pulse {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .control-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .stats {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .stat-separator {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // Meta Tag Generator Tool
+  (function() {
+    const output = document.getElementById('output');
+    const status = document.getElementById('status');
+    const statusText = status.querySelector('.status-text');
+    const tagCount = document.getElementById('tag-count');
+    const outputLength = document.getElementById('output-length');
+    
+    // Form inputs
+    const siteTitle = document.getElementById('site-title');
+    const siteDescription = document.getElementById('site-description');
+    const siteUrl = document.getElementById('site-url');
+    const imageUrl = document.getElementById('image-url');
+    const keywords = document.getElementById('keywords');
+    const author = document.getElementById('author');
+    
+    // Buttons
+    const generateBtn = document.getElementById('generate-btn');
+    const previewBtn = document.getElementById('preview-btn');
+    const clearBtn = document.getElementById('clear-btn');
+    const sampleBtn = document.getElementById('sample-btn');
+    const copyBtn = document.getElementById('copy-btn');
+    const copyOutputBtn = document.getElementById('copy-output-btn');
+    const downloadBtn = document.getElementById('download-btn');
+    const pasteBtn = document.getElementById('paste-btn');
+    const clearInputBtn = document.getElementById('clear-input-btn');
+    
+    function updateStats() {
+      const outputText = output.textContent;
+      outputLength.textContent = outputText.length;
+      
+      // Count meta tags in output
+      const metaTagMatches = outputText.match(/<meta[^>]*>/g) || [];
+      const titleMatches = outputText.match(/<title[^>]*>/g) || [];
+      const linkMatches = outputText.match(/<link[^>]*>/g) || [];
+      
+      tagCount.textContent = metaTagMatches.length + titleMatches.length + linkMatches.length;
+    }
+    
+    function setStatus(text, type = 'normal') {
+      status.className = 'status-indicator ' + type;
+      statusText.textContent = text;
+      
+      if (type !== 'normal') {
+        setTimeout(() => {
+          status.className = 'status-indicator';
+          statusText.textContent = 'Ready';
+        }, 3000);
+      }
+    }
+    
+    function generateMetaTags() {
+      const title = siteTitle.value.trim();
+      const description = siteDescription.value.trim();
+      const url = siteUrl.value.trim();
+      const image = imageUrl.value.trim();
+      const keywordList = keywords.value.trim();
+      const authorName = author.value.trim();
+      
+      if (!title || !description) {
+        setStatus('Title and description are required', 'error');
+        return;
+      }
+      
+      try {
+        const metaTags = buildMetaTags({
+          title,
+          description,
+          url,
+          image,
+          keywords: keywordList,
+          author: authorName
+        });
+        
+        const result = generateResult('META TAG GENERATION', metaTags, {
+          title,
+          description,
+          url,
+          image,
+          keywords: keywordList,
+          author: authorName
+        });
+        
+        output.textContent = result;
+        setStatus('Meta tags generated successfully!', 'success');
+        updateStats();
+      } catch (error) {
+        setStatus('Generation failed: ' + error.message, 'error');
+      }
+    }
+    
+    function previewTags() {
+      const title = siteTitle.value.trim();
+      const description = siteDescription.value.trim();
+      
+      if (!title || !description) {
+        setStatus('Title and description required for preview', 'error');
+        return;
+      }
+      
+      try {
+        const preview = generatePreview({
+          title,
+          description,
+          url: siteUrl.value.trim(),
+          image: imageUrl.value.trim()
+        });
+        
+        output.textContent = preview;
+        setStatus('Preview generated!', 'success');
+        updateStats();
+      } catch (error) {
+        setStatus('Preview failed: ' + error.message, 'error');
+      }
+    }
+    
+    function buildMetaTags(data) {
+      let tags = [];
+      
+      // Essential HTML meta tags
+      tags.push(`<title>${escapeHtml(data.title)}</title>`);
+      tags.push(`<meta name="description" content="${escapeHtml(data.description)}">`);
+      
+      if (data.keywords) {
+        tags.push(`<meta name="keywords" content="${escapeHtml(data.keywords)}">`);
+      }
+      
+      if (data.author) {
+        tags.push(`<meta name="author" content="${escapeHtml(data.author)}">`);
+      }
+      
+      // Viewport and basic SEO
+      tags.push(`<meta name="viewport" content="width=device-width, initial-scale=1.0">`);
+      tags.push(`<meta charset="UTF-8">`);
+      tags.push(`<meta name="robots" content="index, follow">`);
+      
+      // Open Graph tags
+      tags.push(`<meta property="og:title" content="${escapeHtml(data.title)}">`);
+      tags.push(`<meta property="og:description" content="${escapeHtml(data.description)}">`);
+      tags.push(`<meta property="og:type" content="website">`);
+      
+      if (data.url) {
+        tags.push(`<meta property="og:url" content="${escapeHtml(data.url)}">`);
+        tags.push(`<link rel="canonical" href="${escapeHtml(data.url)}">`);
+      }
+      
+      if (data.image) {
+        tags.push(`<meta property="og:image" content="${escapeHtml(data.image)}">`);
+        tags.push(`<meta property="og:image:alt" content="${escapeHtml(data.title)}">`);
+      }
+      
+      // Twitter Card tags
+      tags.push(`<meta name="twitter:card" content="summary_large_image">`);
+      tags.push(`<meta name="twitter:title" content="${escapeHtml(data.title)}">`);
+      tags.push(`<meta name="twitter:description" content="${escapeHtml(data.description)}">`);
+      
+      if (data.image) {
+        tags.push(`<meta name="twitter:image" content="${escapeHtml(data.image)}">`);
+      }
+      
+      // Additional SEO tags
+      tags.push(`<meta name="theme-color" content="#1a1a1b">`);
+      tags.push(`<meta name="msapplication-TileColor" content="#1a1a1b">`);
+      
+      return tags;
+    }
+    
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+    
+    function generateResult(title, tags, data) {
+      let result = '';
+      result += '┌─── ' + title + ' RESULTS ───┐\\n';
+      result += '│                                    │\\n';
+      result += `│ Total Tags: ${tags.length.toString().padEnd(21)}│\\n`;
+      result += `│ SEO Score: ${calculateSeoScore(data).toString().padEnd(22)}│\\n`;
+      result += `│ Social Ready: ${(data.image ? 'Yes' : 'No').padEnd(19)}│\\n`;
+      result += '│                                    │\\n';
+      result += '└────────────────────────────────────┘\\n\\n';
+      
+      result += 'HTML META TAGS:\\n';
+      result += '─'.repeat(50) + '\\n';
+      result += tags.join('\\n') + '\\n\\n';
+      
+      result += 'SEO ANALYSIS:\\n';
+      result += '─'.repeat(30) + '\\n';
+      result += `• Title Length: ${data.title.length}/60 chars ${data.title.length <= 60 ? '✓' : '⚠️'}\\n`;
+      result += `• Description Length: ${data.description.length}/160 chars ${data.description.length <= 160 ? '✓' : '⚠️'}\\n`;
+      result += `• Open Graph: ${data.url && data.image ? '✓ Complete' : '⚠️ Missing URL or Image'}\\n`;
+      result += `• Keywords: ${data.keywords ? '✓ Provided' : '⚠️ Not specified'}\\n`;
+      result += `• Author: ${data.author ? '✓ Specified' : 'ℹ️ Optional'}\\n\\n`;
+      
+      result += 'BEST PRACTICES:\\n';
+      result += '─'.repeat(30) + '\\n';
+      result += '• Keep title under 60 characters\\n';
+      result += '• Keep description between 120-160 characters\\n';
+      result += '• Use relevant keywords naturally\\n';
+      result += '• Always include Open Graph tags\\n';
+      result += '• Test with social media validators\\n';
+      
+      return result;
+    }
+    
+    function generatePreview(data) {
+      let result = '';
+      result += '┌─── SOCIAL MEDIA PREVIEW ───┐\\n';
+      result += '│                             │\\n';
+      result += '└─────────────────────────────┘\\n\\n';
+      
+      // Google Search Preview
+      result += 'GOOGLE SEARCH PREVIEW:\\n';
+      result += '─'.repeat(40) + '\\n';
+      result += `🔗 ${data.url || 'https://example.com'}\\n`;
+      result += `📄 ${data.title}\\n`;
+      result += `📝 ${data.description}\\n\\n`;
+      
+      // Facebook Preview
+      result += 'FACEBOOK PREVIEW:\\n';
+      result += '─'.repeat(40) + '\\n';
+      result += `┌─────────────────────────────────────┐\\n`;
+      result += `│ ${data.image ? '🖼️ ' + data.image.substring(0, 30) + (data.image.length > 30 ? '...' : '') : '🖼️ No image specified'.padEnd(35)} │\\n`;
+      result += `├─────────────────────────────────────┤\\n`;
+      result += `│ ${data.title.substring(0, 35).padEnd(35)} │\\n`;
+      result += `│ ${data.description.substring(0, 35).padEnd(35)} │\\n`;
+      result += `│ ${(data.url || 'EXAMPLE.COM').toUpperCase().substring(0, 35).padEnd(35)} │\\n`;
+      result += `└─────────────────────────────────────┘\\n\\n`;
+      
+      // Twitter Preview
+      result += 'TWITTER PREVIEW:\\n';
+      result += '─'.repeat(40) + '\\n';
+      result += `┌─────────────────────────────────────┐\\n`;
+      result += `│ ${data.image ? '🖼️ Large image card' : '📄 Summary card'.padEnd(35)} │\\n`;
+      result += `├─────────────────────────────────────┤\\n`;
+      result += `│ ${data.title.substring(0, 35).padEnd(35)} │\\n`;
+      result += `│ ${data.description.substring(0, 35).padEnd(35)} │\\n`;
+      result += `│ ${(data.url || 'example.com').toLowerCase().substring(0, 35).padEnd(35)} │\\n`;
+      result += `└─────────────────────────────────────┘\\n\\n`;
+      
+      result += 'PREVIEW NOTES:\\n';
+      result += '─'.repeat(20) + '\\n';
+      result += '• Actual appearance may vary by platform\\n';
+      result += '• Test with platform-specific validators\\n';
+      result += '• Image dimensions: 1200x630px recommended\\n';
+      result += '• Twitter: Use Twitter Card Validator\\n';
+      result += '• Facebook: Use Facebook Sharing Debugger';
+      
+      return result;
+    }
+    
+    function calculateSeoScore(data) {
+      let score = 0;
+      
+      // Title score (30 points)
+      if (data.title.length > 0 && data.title.length <= 60) score += 30;
+      else if (data.title.length > 0) score += 15;
+      
+      // Description score (30 points)
+      if (data.description.length >= 120 && data.description.length <= 160) score += 30;
+      else if (data.description.length > 0 && data.description.length <= 200) score += 20;
+      else if (data.description.length > 0) score += 10;
+      
+      // URL score (20 points)
+      if (data.url) score += 20;
+      
+      // Image score (10 points)
+      if (data.image) score += 10;
+      
+      // Keywords score (5 points)
+      if (data.keywords) score += 5;
+      
+      // Author score (5 points)
+      if (data.author) score += 5;
+      
+      return Math.min(score, 100);
+    }
+    
+    function clearAll() {
+      siteTitle.value = '';
+      siteDescription.value = '';
+      siteUrl.value = '';
+      imageUrl.value = '';
+      keywords.value = '';
+      author.value = '';
+      output.textContent = '';
+      updateStats();
+      setStatus('Cleared', 'success');
+    }
+    
+    function clearInput() {
+      siteTitle.value = '';
+      siteDescription.value = '';
+      siteUrl.value = '';
+      imageUrl.value = '';
+      keywords.value = '';
+      author.value = '';
+      updateStats();
+      setStatus('Input cleared', 'success');
+    }
+    
+    async function copyOutput() {
+      const text = output.textContent;
+      if (!text) {
+        setStatus('Nothing to copy', 'error');
+        return;
+      }
+      
+      try {
+        // Extract just the HTML tags for copying
+        const lines = text.split('\\n');
+        const startIndex = lines.indexOf('HTML META TAGS:');
+        const endIndex = lines.indexOf('SEO ANALYSIS:');
+        
+        if (startIndex !== -1 && endIndex !== -1) {
+          const tagLines = lines.slice(startIndex + 2, endIndex - 1);
+          const tags = tagLines.filter(line => line.trim() && !line.startsWith('─')).join('\\n');
+          await navigator.clipboard.writeText(tags);
+        } else {
+          await navigator.clipboard.writeText(text);
+        }
+        
+        setStatus('Tags copied to clipboard', 'success');
+      } catch (error) {
+        setStatus('Copy failed', 'error');
+      }
+    }
+    
+    function downloadOutput() {
+      const text = output.textContent;
+      if (!text) {
+        setStatus('Nothing to download', 'error');
+        return;
+      }
+      
+      const blob = new Blob([text], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'meta-tags.html';
+      a.click();
+      URL.revokeObjectURL(url);
+      setStatus('Downloaded', 'success');
+    }
+    
+    async function pasteInput() {
+      try {
+        const text = await navigator.clipboard.readText();
+        siteTitle.value = text;
+        updateStats();
+        setStatus('Pasted from clipboard', 'success');
+      } catch (error) {
+        setStatus('Paste failed - check permissions', 'error');
+      }
+    }
+    
+    function loadSample() {
+      siteTitle.value = 'Amazing Developer Tools - Boost Your Productivity';
+      siteDescription.value = 'Discover powerful online tools for developers including formatters, validators, generators, and utilities. Free, fast, and privacy-focused development tools.';
+      siteUrl.value = 'https://caiatech.com/tools';
+      imageUrl.value = 'https://caiatech.com/images/tools-preview.jpg';
+      keywords.value = 'developer tools, online tools, code formatter, validator, generator, programming utilities';
+      author.value = 'Caiatech Team';
+      generateMetaTags();
+    }
+    
+    // Event listeners
+    if (generateBtn) generateBtn.addEventListener('click', generateMetaTags);
+    if (previewBtn) previewBtn.addEventListener('click', previewTags);
+    if (clearBtn) clearBtn.addEventListener('click', clearAll);
+    if (clearInputBtn) clearInputBtn.addEventListener('click', clearInput);
+    if (sampleBtn) sampleBtn.addEventListener('click', loadSample);
+    if (copyBtn) copyBtn.addEventListener('click', copyOutput);
+    if (copyOutputBtn) copyOutputBtn.addEventListener('click', copyOutput);
+    if (downloadBtn) downloadBtn.addEventListener('click', downloadOutput);
+    if (pasteBtn) pasteBtn.addEventListener('click', pasteInput);
+    
+    // Update stats on input
+    [siteTitle, siteDescription, siteUrl, imageUrl, keywords, author].forEach(input => {
+      if (input) input.addEventListener('input', updateStats);
+    });
+    
+    // Keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+      if (e.ctrlKey || e.metaKey) {
+        if (e.key === 'Enter') {
+          generateMetaTags();
+        }
+      }
+    });
+    
+    // Initial stats
+    updateStats();
+  })();
+</script>

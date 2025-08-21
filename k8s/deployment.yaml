@@ -1,0 +1,119 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: caiatech-website
+  namespace: default
+  labels:
+    app: caiatech-website
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: caiatech-website
+  template:
+    metadata:
+      labels:
+        app: caiatech-website
+    spec:
+      containers:
+      - name: caiatech-website
+        image: gcr.io/caiatech/caiatech-website:latest
+        ports:
+        - containerPort: 80
+        - containerPort: 443
+        volumeMounts:
+        - name: ssl-certs
+          mountPath: /etc/ssl/certs
+          readOnly: true
+        - name: ssl-keys
+          mountPath: /etc/ssl/private
+          readOnly: true
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "200m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+      volumes:
+      - name: ssl-certs
+        secret:
+          secretName: caiatech-ssl-secret
+          items:
+          - key: tls.crt
+            path: tls.crt
+      - name: ssl-keys
+        secret:
+          secretName: caiatech-ssl-secret
+          items:
+          - key: tls.key
+            path: tls.key
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: caiatech-website-service
+  namespace: default
+spec:
+  selector:
+    app: caiatech-website
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 80
+    - name: https
+      protocol: TCP
+      port: 443
+      targetPort: 443
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: caiatech-website-ingress
+  namespace: default
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - caiatech.com
+    - www.caiatech.com
+    secretName: caiatech-tls
+  rules:
+  - host: caiatech.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: caiatech-website-service
+            port:
+              number: 80
+  - host: www.caiatech.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: caiatech-website-service
+            port:
+              number: 80

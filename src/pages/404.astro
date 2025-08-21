@@ -1,0 +1,194 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout 
+  title="404 - Page Not Found | Caia Tech" 
+  description="The page you're looking for doesn't exist."
+>
+  <section class="error-page">
+    <div class="container">
+      <div class="terminal-window">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">caia://404</span>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-line">
+            <span class="prompt">$</span>
+            <span class="command">cat /404</span>
+          </div>
+          <div class="terminal-line output">
+            <span class="error">Error:</span> Page not found
+          </div>
+          <div class="terminal-line output">
+            <span class="dim">The requested resource could not be located</span>
+          </div>
+          <div class="terminal-line">
+            <span class="prompt">$</span>
+            <span class="cursor">_</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="actions">
+        <a href="/" class="action-link">
+          <span class="prompt">$</span> cd ~/
+        </a>
+        <a href="/articles/" class="action-link">
+          <span class="prompt">$</span> ls articles/
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .error-page {
+    min-height: calc(100vh - 60px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--color-bg) 0%, #151516 100%);
+    padding: 2rem;
+  }
+  
+  .container {
+    max-width: 600px;
+    width: 100%;
+  }
+  
+  .terminal-window {
+    background: var(--color-surface);
+    border-radius: 0.75rem;
+    border: 1px solid var(--color-border);
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    margin-bottom: 2rem;
+  }
+
+  .terminal-header {
+    background: var(--color-border);
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .terminal-controls {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .control {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+
+  .control.red { background: #ff5f57; }
+  .control.yellow { background: #ffbd2e; }
+  .control.green { background: #28ca42; }
+
+  .terminal-title {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    margin-left: auto;
+  }
+
+  .terminal-body {
+    padding: 2rem;
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+
+  .terminal-line {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .prompt {
+    color: var(--color-accent);
+  }
+
+  .command {
+    color: var(--color-text);
+  }
+
+  .output {
+    color: var(--color-text-secondary);
+  }
+
+  .error {
+    color: #ff5f57;
+    font-weight: 600;
+  }
+
+  .dim {
+    opacity: 0.7;
+  }
+
+  .cursor {
+    color: var(--color-accent);
+    animation: blink 1s infinite;
+  }
+
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+  
+  .actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+  }
+  
+  .action-link {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    padding: 0.75rem 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    text-decoration: none;
+    border-radius: 0.25rem;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .action-link:hover {
+    border-color: var(--color-accent);
+    background: rgba(0, 212, 255, 0.05);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.1);
+  }
+  
+  .action-link:hover .prompt {
+    color: var(--color-accent);
+  }
+
+  @media (max-width: 768px) {
+    .terminal-body {
+      padding: 1.5rem;
+      font-size: 0.9rem;
+    }
+
+    .actions {
+      flex-direction: column;
+    }
+
+    .action-link {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>

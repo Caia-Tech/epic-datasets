@@ -1,0 +1,1060 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CaiatechToolLayout from '../../components/tools/CaiatechToolLayout.astro';
+import ToolAttribution from '../../components/tools/ToolAttribution.astro';
+import PrivacyBadge from '../../components/tools/PrivacyBadge.astro';
+---
+
+<BaseLayout title="Image Optimizer - Caiatech">
+  <CaiatechToolLayout 
+    title="Image Optimizer" 
+    description="Optimize and compress images"
+    icon="🖼">
+    
+    <div slot="header-actions">
+      <PrivacyBadge />
+    </div>
+    
+    <div class="tool-container">
+      <!-- Terminal-style input section -->
+      <div class="terminal-panel input-terminal">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">INPUT://image</span>
+          <div class="terminal-actions">
+            <button class="terminal-action" id="clear-input-btn" title="Clear">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6"/>
+              </svg>
+            </button>
+            <button class="terminal-action" id="paste-btn" title="Paste">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/>
+                <rect x="8" y="2" width="8" height="4" rx="1"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-prompt">
+            <span class="prompt-symbol">$</span>
+            <span class="prompt-text">image</span>
+            <span class="prompt-arrow">→</span>
+          </div>
+          <div class="image-input-section">
+            <div class="input-group">
+              <label for="image-url">Image URL for Analysis:</label>
+              <input 
+                id="image-url" 
+                class="terminal-input text-input"
+                type="url"
+                placeholder="https://example.com/image.jpg"
+                spellcheck="false"
+              />
+            </div>
+            
+            <div class="input-group">
+              <label for="image-width">Width (pixels):</label>
+              <input 
+                id="image-width" 
+                class="terminal-input text-input"
+                type="number"
+                placeholder="e.g., 1920"
+                spellcheck="false"
+              />
+            </div>
+            
+            <div class="input-group">
+              <label for="image-height">Height (pixels):</label>
+              <input 
+                id="image-height" 
+                class="terminal-input text-input"
+                type="number"
+                placeholder="e.g., 1080"
+                spellcheck="false"
+              />
+            </div>
+            
+            <div class="input-group">
+              <label for="file-size">File Size (bytes):</label>
+              <input 
+                id="file-size" 
+                class="terminal-input text-input"
+                type="number"
+                placeholder="e.g., 512000"
+                spellcheck="false"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Control center -->
+      <div class="control-center">
+        <div class="control-grid">
+          <button id="analyze-btn" class="cyber-btn primary">
+            <span class="btn-glow"></span>
+            <span class="btn-text">🖼️ Analyze</span>
+          </button>
+          <button id="clear-btn" class="cyber-btn secondary">
+            <span class="btn-text">Clear All</span>
+          </button>
+          <button id="sample-btn" class="cyber-btn secondary">
+            <span class="btn-text">Load Sample</span>
+          </button>
+          <button id="format-btn" class="cyber-btn secondary" data-format="jpg">
+            <span class="btn-text">Format: JPG</span>
+          </button>
+          <button id="copy-btn" class="cyber-btn secondary">
+            <span class="btn-text">Copy Analysis</span>
+          </button>
+        </div>
+        
+        <!-- Status indicator -->
+        <div class="status-bar">
+          <div class="status-indicator" id="status">
+            <span class="status-dot"></span>
+            <span class="status-text">Ready</span>
+          </div>
+          <div class="stats" id="stats">
+            <span class="stat-item">Input: <span id="input-length">0</span> chars</span>
+            <span class="stat-separator">•</span>
+            <span class="stat-item">Output: <span id="output-length">0</span> chars</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Terminal-style output section -->
+      <div class="terminal-panel output-terminal">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">OUTPUT://image.result</span>
+          <div class="terminal-actions">
+            <button class="terminal-action" id="copy-output-btn" title="Copy">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2"/>
+                <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+              </svg>
+            </button>
+            <button class="terminal-action" id="download-btn" title="Download">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-prompt">
+            <span class="prompt-symbol">></span>
+            <span class="prompt-text">result</span>
+          </div>
+          <pre id="output" class="terminal-output"></pre>
+        </div>
+      </div>
+    </div>
+    
+    <ToolAttribution toolName="Image Optimizer" version="2.0.0" />
+  </CaiatechToolLayout>
+</BaseLayout>
+
+<style>
+  .tool-container {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  /* Terminal panels */
+  .terminal-panel {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 
+      0 10px 40px rgba(0, 0, 0, 0.3),
+      0 0 60px rgba(0, 212, 255, 0.05);
+    transition: all 0.3s ease;
+  }
+
+  .terminal-panel:hover {
+    box-shadow: 
+      0 10px 40px rgba(0, 0, 0, 0.4),
+      0 0 80px rgba(0, 212, 255, 0.1);
+    border-color: rgba(0, 212, 255, 0.3);
+  }
+
+  .terminal-header {
+    background: linear-gradient(90deg, rgba(42, 42, 43, 1) 0%, rgba(26, 26, 27, 1) 100%);
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .terminal-controls {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .control {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    transition: all 0.2s;
+  }
+
+  .control.red { 
+    background: #ff5f57; 
+    box-shadow: 0 0 10px rgba(255, 95, 87, 0.5);
+  }
+  .control.yellow { 
+    background: #ffbd2e; 
+    box-shadow: 0 0 10px rgba(255, 189, 46, 0.5);
+  }
+  .control.green { 
+    background: #28ca42; 
+    box-shadow: 0 0 10px rgba(40, 202, 66, 0.5);
+  }
+
+  .terminal-panel:hover .control {
+    box-shadow: 0 0 15px currentColor;
+  }
+
+  .terminal-title {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-accent);
+    margin-left: auto;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.8;
+  }
+
+  .terminal-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: 1rem;
+  }
+
+  .terminal-action {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--color-text-secondary);
+    padding: 0.25rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .terminal-action:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    background: rgba(0, 212, 255, 0.1);
+  }
+
+  .terminal-body {
+    padding: 1.5rem;
+  }
+
+  .terminal-prompt {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .prompt-symbol {
+    color: var(--color-accent);
+    font-weight: bold;
+  }
+
+  .prompt-text {
+    color: var(--color-text-secondary);
+  }
+
+  .prompt-arrow {
+    color: var(--color-accent);
+    opacity: 0.5;
+  }
+
+  .image-input-section {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .input-group label {
+    color: var(--color-text-secondary);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+  }
+
+  .text-input {
+    min-height: auto;
+    height: auto;
+    padding: 0.75rem;
+  }
+
+  .terminal-input,
+  .terminal-output {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 8px;
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    padding: 1rem;
+    width: 100%;
+    min-height: 200px;
+    resize: vertical;
+    transition: all 0.3s;
+  }
+
+  .terminal-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 
+      0 0 20px rgba(0, 212, 255, 0.2),
+      inset 0 0 20px rgba(0, 212, 255, 0.05);
+  }
+
+  .terminal-output {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.6;
+  }
+
+  /* Control center */
+  .control-center {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.02) 0%, rgba(118, 75, 162, 0.02) 100%);
+    border: 1px solid rgba(0, 212, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+
+  .control-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Cyber buttons */
+  .cyber-btn {
+    position: relative;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+
+  .cyber-btn.primary {
+    border-color: var(--color-accent);
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  }
+
+  .cyber-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0, 212, 255, 0.3);
+  }
+
+  .cyber-btn.primary:hover {
+    border-color: var(--color-accent);
+    box-shadow: 
+      0 5px 30px rgba(0, 212, 255, 0.4),
+      inset 0 0 30px rgba(0, 212, 255, 0.1);
+  }
+
+  .btn-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--color-accent) 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+
+  .cyber-btn:hover .btn-glow {
+    width: 300px;
+    height: 300px;
+    opacity: 0;
+  }
+
+  .btn-text {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  /* Status bar */
+  .status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    border: 1px solid rgba(0, 212, 255, 0.1);
+  }
+
+  .status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { 
+      opacity: 1;
+      box-shadow: 0 0 10px var(--color-accent);
+    }
+    50% { 
+      opacity: 0.5;
+      box-shadow: 0 0 5px var(--color-accent);
+    }
+  }
+
+  .status-text {
+    color: var(--color-text-secondary);
+  }
+
+  .stats {
+    display: flex;
+    gap: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+  }
+
+  .stat-item {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .stat-separator {
+    opacity: 0.3;
+  }
+
+  /* Success/Error states */
+  .status-indicator.success .status-dot {
+    background: #28ca42;
+    animation: success-pulse 1s;
+  }
+
+  .status-indicator.error .status-dot {
+    background: #ff5f57;
+    animation: error-pulse 1s;
+  }
+
+  @keyframes success-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.5); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes error-pulse {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .control-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .stats {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .stat-separator {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // Image Analysis Tool
+  (function() {
+    const imageUrl = document.getElementById('image-url');
+    const imageWidth = document.getElementById('image-width');
+    const imageHeight = document.getElementById('image-height');
+    const fileSize = document.getElementById('file-size');
+    const output = document.getElementById('output');
+    const status = document.getElementById('status');
+    const statusText = status.querySelector('.status-text');
+    const inputLength = document.getElementById('input-length');
+    const outputLength = document.getElementById('output-length');
+    
+    const analyzeBtn = document.getElementById('analyze-btn');
+    const clearBtn = document.getElementById('clear-btn');
+    const sampleBtn = document.getElementById('sample-btn');
+    const formatBtn = document.getElementById('format-btn');
+    const copyBtn = document.getElementById('copy-btn');
+    const copyOutputBtn = document.getElementById('copy-output-btn');
+    const downloadBtn = document.getElementById('download-btn');
+    const pasteBtn = document.getElementById('paste-btn');
+    const clearInputBtn = document.getElementById('clear-input-btn');
+    
+    let currentFormat = 'jpg';
+    
+    function updateStats() {
+      const totalInput = imageUrl.value.length + imageWidth.value.length + imageHeight.value.length + fileSize.value.length;
+      inputLength.textContent = totalInput;
+      outputLength.textContent = output.textContent.length;
+    }
+    
+    function setStatus(text, type = 'normal') {
+      status.className = 'status-indicator ' + type;
+      statusText.textContent = text;
+      
+      if (type !== 'normal') {
+        setTimeout(() => {
+          status.className = 'status-indicator';
+          statusText.textContent = 'Ready';
+        }, 3000);
+      }
+    }
+    
+    function analyzeImage() {
+      const url = imageUrl.value.trim();
+      const width = parseInt(imageWidth.value) || 0;
+      const height = parseInt(imageHeight.value) || 0;
+      const size = parseInt(fileSize.value) || 0;
+      
+      if (!url && !width && !height && !size) {
+        setStatus('Please provide image information to analyze', 'error');
+        return;
+      }
+      
+      try {
+        // Determine format from URL if provided
+        let detectedFormat = currentFormat;
+        if (url) {
+          const extension = url.split('.').pop().toLowerCase();
+          if (['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'svg', 'tiff', 'ico'].includes(extension)) {
+            detectedFormat = extension === 'jpeg' ? 'jpg' : extension;
+          }
+        }
+        
+        const analysis = generateImageAnalysis(url, width, height, size, detectedFormat);
+        output.textContent = analysis;
+        setStatus('Image analysis complete!', 'success');
+        updateStats();
+        
+      } catch (error) {
+        setStatus('Analysis failed: ' + error.message, 'error');
+      }
+    }
+    
+    function generateImageAnalysis(url, width, height, size, format) {
+      let result = '';
+      result += '┌─── IMAGE ANALYSIS TOOL ───┐\\n';
+      result += '│                           │\\n';
+      result += `│ Format: ${format.toUpperCase().padEnd(17)}│\\n`;
+      if (width && height) {
+        result += `│ Resolution: ${(width + 'x' + height).padEnd(13)}│\\n`;
+      }
+      if (size) {
+        result += `│ Size: ${formatFileSize(size).padEnd(19)}│\\n`;
+      }
+      result += '│                           │\\n';
+      result += '└───────────────────────────┘\\n\\n';
+      
+      // Basic image information
+      result += 'IMAGE SPECIFICATIONS:\\n';
+      result += '─'.repeat(50) + '\\n';
+      if (url) {
+        result += `URL: ${url}\\n`;
+        result += `Detected Format: ${format.toUpperCase()}\\n`;
+      }
+      if (width && height) {
+        result += `Dimensions: ${width} × ${height} pixels\\n`;
+        result += `Total Pixels: ${(width * height).toLocaleString()}\\n`;
+        result += `Aspect Ratio: ${calculateAspectRatio(width, height)}\\n`;
+      }
+      if (size) {
+        result += `File Size: ${formatFileSize(size)} (${size.toLocaleString()} bytes)\\n`;
+        if (width && height) {
+          const bitsPerPixel = (size * 8) / (width * height);
+          result += `Bits per Pixel: ${bitsPerPixel.toFixed(2)}\\n`;
+        }
+      }
+      result += '\\n';
+      
+      // Resolution analysis
+      if (width && height) {
+        result += 'RESOLUTION ANALYSIS:\\n';
+        result += '─'.repeat(40) + '\\n';
+        const category = getResolutionCategory(width, height);
+        result += `Category: ${category}\\n`;
+        result += `Orientation: ${width > height ? 'Landscape' : width < height ? 'Portrait' : 'Square'}\\n`;
+        
+        // Common display compatibility
+        const displayCompat = getDisplayCompatibility(width, height);
+        result += `Display Compatibility:\\n`;
+        displayCompat.forEach(display => {
+          result += `  • ${display}\\n`;
+        });
+        result += '\\n';
+      }
+      
+      // File size analysis
+      if (size) {
+        result += 'FILE SIZE ANALYSIS:\\n';
+        result += '─'.repeat(40) + '\\n';
+        result += `Human Readable: ${formatFileSize(size)}\\n`;
+        result += `Binary Size: ${formatBinarySize(size)}\\n`;
+        
+        if (width && height) {
+          const uncompressed = width * height * 3; // RGB
+          const compressionRatio = uncompressed / size;
+          result += `Estimated Compression: ${compressionRatio.toFixed(1)}:1\\n`;
+          result += `Uncompressed RGB: ${formatFileSize(uncompressed)}\\n`;
+        }
+        
+        // Size recommendations
+        result += `\\nSize Category: ${getSizeCategory(size)}\\n`;
+        result += '\\n';
+      }
+      
+      // Format-specific information
+      result += 'FORMAT INFORMATION:\\n';
+      result += '─'.repeat(40) + '\\n';
+      const formatInfo = getFormatInfo(format);
+      result += `Format: ${formatInfo.name}\\n`;
+      result += `Full Name: ${formatInfo.fullName}\\n`;
+      result += `Type: ${formatInfo.type}\\n`;
+      result += `Transparency: ${formatInfo.transparency ? 'Supported' : 'Not supported'}\\n`;
+      result += `Animation: ${formatInfo.animation ? 'Supported' : 'Not supported'}\\n`;
+      result += `Compression: ${formatInfo.compression}\\n`;
+      result += `Best Use Cases:\\n`;
+      formatInfo.useCases.forEach(useCase => {
+        result += `  • ${useCase}\\n`;
+      });
+      result += '\\n';
+      
+      // Optimization recommendations
+      result += 'OPTIMIZATION RECOMMENDATIONS:\\n';
+      result += '─'.repeat(50) + '\\n';
+      if (width && height && size) {
+        const recommendations = getOptimizationRecommendations(width, height, size, format);
+        recommendations.forEach(rec => {
+          result += `• ${rec}\\n`;
+        });
+      } else {
+        result += '• Provide width, height, and file size for optimization tips\\n';
+      }
+      result += '\\n';
+      
+      // Web performance impact
+      if (size) {
+        result += 'WEB PERFORMANCE IMPACT:\\n';
+        result += '─'.repeat(45) + '\\n';
+        const loadTimes = calculateLoadTimes(size);
+        Object.entries(loadTimes).forEach(([connection, time]) => {
+          result += `${connection}: ${time}\\n`;
+        });
+        result += '\\n';
+      }
+      
+      // Tools and resources
+      result += 'RECOMMENDED TOOLS:\\n';
+      result += '─'.repeat(35) + '\\n';
+      result += '• Online: TinyPNG, Squoosh.app, Compressor.io\\n';
+      result += '• Desktop: GIMP, Photoshop, ImageOptim\\n';
+      result += '• CLI: ImageMagick, OptiPNG, JPEGoptim\\n';
+      result += '• Libraries: Sharp (Node.js), Pillow (Python)\\n\\n';
+      
+      result += 'ACCESSIBILITY CONSIDERATIONS:\\n';
+      result += '─'.repeat(45) + '\\n';
+      result += '• Always include alt text for images\\n';
+      result += '• Ensure sufficient color contrast\\n';
+      result += '• Provide text alternatives for informative images\\n';
+      result += '• Consider users with slow connections\\n';
+      result += '• Use responsive images with srcset\\n';
+      
+      return result;
+    }
+    
+    function calculateAspectRatio(width, height) {
+      const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);
+      const divisor = gcd(width, height);
+      const w = width / divisor;
+      const h = height / divisor;
+      
+      // Check for common ratios
+      const commonRatios = {
+        '16:9': [16, 9],
+        '4:3': [4, 3],
+        '3:2': [3, 2],
+        '1:1': [1, 1],
+        '21:9': [21, 9],
+        '5:4': [5, 4]
+      };
+      
+      for (const [ratio, [rw, rh]] of Object.entries(commonRatios)) {
+        if (w === rw && h === rh) {
+          return ratio;
+        }
+      }
+      
+      return `${w}:${h}`;
+    }
+    
+    function getResolutionCategory(width, height) {
+      const totalPixels = width * height;
+      
+      if (totalPixels >= 7680 * 4320) return '8K Ultra HD';
+      if (totalPixels >= 3840 * 2160) return '4K Ultra HD';
+      if (totalPixels >= 2560 * 1440) return '2K/QHD';
+      if (totalPixels >= 1920 * 1080) return 'Full HD (1080p)';
+      if (totalPixels >= 1280 * 720) return 'HD (720p)';
+      if (totalPixels >= 854 * 480) return 'Standard Definition';
+      return 'Low Resolution';
+    }
+    
+    function getDisplayCompatibility(width, height) {
+      const compatibility = [];
+      
+      // Common screen resolutions
+      if (width <= 1920 && height <= 1080) compatibility.push('Standard laptops/desktops');
+      if (width <= 1366 && height <= 768) compatibility.push('Budget laptops');
+      if (width <= 1280 && height <= 800) compatibility.push('Older displays');
+      if (width <= 800 && height <= 600) compatibility.push('Mobile devices (landscape)');
+      if (width <= 600 && height <= 800) compatibility.push('Mobile devices (portrait)');
+      
+      // Specific device categories
+      if (width >= 320 && width <= 480) compatibility.push('Mobile phones');
+      if (width >= 768 && width <= 1024) compatibility.push('Tablets');
+      if (width >= 1024) compatibility.push('Desktop displays');
+      
+      return compatibility.length ? compatibility : ['Custom resolution'];
+    }
+    
+    function getSizeCategory(size) {
+      if (size < 50000) return 'Small (Good for web)';
+      if (size < 200000) return 'Medium (Acceptable for web)';
+      if (size < 500000) return 'Large (Consider optimization)';
+      if (size < 1000000) return 'Very Large (Optimize for web)';
+      return 'Extremely Large (Not suitable for web without optimization)';
+    }
+    
+    function formatFileSize(bytes) {
+      const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+      if (bytes === 0) return '0 Bytes';
+      const i = Math.floor(Math.log(bytes) / Math.log(1024));
+      return Math.round(bytes / Math.pow(1024, i) * 100) / 100 + ' ' + sizes[i];
+    }
+    
+    function formatBinarySize(bytes) {
+      const sizes = ['Bytes', 'KiB', 'MiB', 'GiB'];
+      if (bytes === 0) return '0 Bytes';
+      const i = Math.floor(Math.log(bytes) / Math.log(1024));
+      return Math.round(bytes / Math.pow(1024, i) * 100) / 100 + ' ' + sizes[i];
+    }
+    
+    function getFormatInfo(format) {
+      const formats = {
+        'jpg': {
+          name: 'JPEG',
+          fullName: 'Joint Photographic Experts Group',
+          type: 'Raster',
+          transparency: false,
+          animation: false,
+          compression: 'Lossy',
+          useCases: ['Photographs', 'Complex images', 'Web images', 'Print media']
+        },
+        'png': {
+          name: 'PNG',
+          fullName: 'Portable Network Graphics',
+          type: 'Raster',
+          transparency: true,
+          animation: false,
+          compression: 'Lossless',
+          useCases: ['Logos', 'Graphics with transparency', 'Screenshots', 'Simple illustrations']
+        },
+        'gif': {
+          name: 'GIF',
+          fullName: 'Graphics Interchange Format',
+          type: 'Raster',
+          transparency: true,
+          animation: true,
+          compression: 'Lossless',
+          useCases: ['Simple animations', 'Low-color graphics', 'Memes', 'Simple logos']
+        },
+        'webp': {
+          name: 'WebP',
+          fullName: 'Web Picture format',
+          type: 'Raster',
+          transparency: true,
+          animation: true,
+          compression: 'Both lossy and lossless',
+          useCases: ['Modern web images', 'High-quality compression', 'Replacing JPEG/PNG']
+        },
+        'svg': {
+          name: 'SVG',
+          fullName: 'Scalable Vector Graphics',
+          type: 'Vector',
+          transparency: true,
+          animation: true,
+          compression: 'N/A (XML-based)',
+          useCases: ['Icons', 'Simple illustrations', 'Scalable graphics', 'Web graphics']
+        },
+        'bmp': {
+          name: 'BMP',
+          fullName: 'Bitmap',
+          type: 'Raster',
+          transparency: false,
+          animation: false,
+          compression: 'Uncompressed or lossless',
+          useCases: ['Windows applications', 'Simple graphics', 'Legacy systems']
+        },
+        'tiff': {
+          name: 'TIFF',
+          fullName: 'Tagged Image File Format',
+          type: 'Raster',
+          transparency: true,
+          animation: false,
+          compression: 'Lossless or uncompressed',
+          useCases: ['Professional photography', 'Printing', 'Archival storage', 'High-quality images']
+        },
+        'ico': {
+          name: 'ICO',
+          fullName: 'Icon format',
+          type: 'Raster',
+          transparency: true,
+          animation: false,
+          compression: 'Various',
+          useCases: ['Windows icons', 'Favicons', 'Application icons']
+        }
+      };
+      
+      return formats[format] || {
+        name: format.toUpperCase(),
+        fullName: 'Unknown format',
+        type: 'Unknown',
+        transparency: false,
+        animation: false,
+        compression: 'Unknown',
+        useCases: ['Unknown use cases']
+      };
+    }
+    
+    function getOptimizationRecommendations(width, height, size, format) {
+      const recommendations = [];
+      const pixelDensity = size / (width * height);
+      
+      if (size > 500000) {
+        recommendations.push('Consider compressing the image to reduce file size');
+      }
+      
+      if (format === 'png' && size > 200000) {
+        recommendations.push('Consider converting to JPEG if transparency is not needed');
+      }
+      
+      if (format === 'jpg' && pixelDensity < 0.1) {
+        recommendations.push('Image may be over-compressed, consider higher quality');
+      }
+      
+      if (width > 1920 || height > 1080) {
+        recommendations.push('Consider creating responsive versions for different screen sizes');
+      }
+      
+      if (format === 'gif' && size > 1000000) {
+        recommendations.push('Consider converting to WebP or MP4 for better compression');
+      }
+      
+      recommendations.push('Use WebP format for modern browsers with JPEG/PNG fallback');
+      recommendations.push('Implement lazy loading for images below the fold');
+      recommendations.push('Use appropriate srcset for different screen densities');
+      
+      return recommendations;
+    }
+    
+    function calculateLoadTimes(size) {
+      const connections = {
+        'Slow 3G (0.5 Mbps)': size / (0.5 * 1024 * 1024 / 8),
+        'Fast 3G (1.6 Mbps)': size / (1.6 * 1024 * 1024 / 8),
+        'Slow 4G (9 Mbps)': size / (9 * 1024 * 1024 / 8),
+        'Fast 4G (20 Mbps)': size / (20 * 1024 * 1024 / 8),
+        'Broadband (25 Mbps)': size / (25 * 1024 * 1024 / 8),
+        'Fast Broadband (100 Mbps)': size / (100 * 1024 * 1024 / 8)
+      };
+      
+      const formatted = {};
+      Object.entries(connections).forEach(([name, seconds]) => {
+        if (seconds < 1) {
+          formatted[name] = '<1 second';
+        } else if (seconds < 60) {
+          formatted[name] = `${Math.round(seconds)} seconds`;
+        } else {
+          formatted[name] = `${Math.round(seconds / 60)} minutes`;
+        }
+      });
+      
+      return formatted;
+    }
+    
+    function cycleFormat() {
+      const formats = ['jpg', 'png', 'gif', 'webp', 'svg', 'bmp', 'tiff', 'ico'];
+      const currentIndex = formats.indexOf(currentFormat);
+      currentFormat = formats[(currentIndex + 1) % formats.length];
+      
+      formatBtn.querySelector('.btn-text').textContent = `Format: ${currentFormat.toUpperCase()}`;
+      setStatus(`Format changed to ${currentFormat.toUpperCase()}`, 'success');
+    }
+    
+    function clearAll() {
+      imageUrl.value = '';
+      imageWidth.value = '';
+      imageHeight.value = '';
+      fileSize.value = '';
+      output.textContent = '';
+      updateStats();
+      setStatus('Cleared', 'success');
+    }
+    
+    function clearInput() {
+      imageUrl.value = '';
+      imageWidth.value = '';
+      imageHeight.value = '';
+      fileSize.value = '';
+      updateStats();
+      setStatus('Input cleared', 'success');
+    }
+    
+    async function copyOutput() {
+      const text = output.textContent;
+      if (!text) {
+        setStatus('Nothing to copy', 'error');
+        return;
+      }
+      
+      try {
+        await navigator.clipboard.writeText(text);
+        setStatus('Analysis copied to clipboard', 'success');
+      } catch (error) {
+        setStatus('Copy failed', 'error');
+      }
+    }
+    
+    function downloadOutput() {
+      const text = output.textContent;
+      if (!text) {
+        setStatus('Nothing to download', 'error');
+        return;
+      }
+      
+      const blob = new Blob([text], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'image-analysis-report.txt';
+      a.click();
+      URL.revokeObjectURL(url);
+      setStatus('Downloaded', 'success');
+    }
+    
+    async function pasteInput() {
+      try {
+        const text = await navigator.clipboard.readText();
+        if (text.includes('http')) {
+          imageUrl.value = text;
+        } else if (text.match(/^\\d+$/)) {
+          if (!imageWidth.value) {
+            imageWidth.value = text;
+          } else if (!imageHeight.value) {
+            imageHeight.value = text;
+          } else {
+            fileSize.value = text;
+          }
+        }
+        updateStats();
+        setStatus('Pasted from clipboard', 'success');
+      } catch (error) {
+        setStatus('Paste failed - check permissions', 'error');
+      }
+    }
+    
+    function loadSample() {
+      imageUrl.value = 'https://example.com/sample-image.jpg';
+      imageWidth.value = '1920';
+      imageHeight.value = '1080';
+      fileSize.value = '245760';
+      analyzeImage();
+    }
+    
+    // Event listeners
+    if (analyzeBtn) analyzeBtn.addEventListener('click', analyzeImage);
+    if (clearBtn) clearBtn.addEventListener('click', clearAll);
+    if (clearInputBtn) clearInputBtn.addEventListener('click', clearInput);
+    if (formatBtn) formatBtn.addEventListener('click', cycleFormat);
+    if (sampleBtn) sampleBtn.addEventListener('click', loadSample);
+    if (copyBtn) copyBtn.addEventListener('click', copyOutput);
+    if (copyOutputBtn) copyOutputBtn.addEventListener('click', copyOutput);
+    if (downloadBtn) downloadBtn.addEventListener('click', downloadOutput);
+    if (pasteBtn) pasteBtn.addEventListener('click', pasteInput);
+    
+    // Update stats on input
+    [imageUrl, imageWidth, imageHeight, fileSize].forEach(input => {
+      input.addEventListener('input', updateStats);
+    });
+    
+    // Keyboard shortcuts
+    [imageUrl, imageWidth, imageHeight, fileSize].forEach(input => {
+      input.addEventListener('keydown', function(e) {
+        if (e.ctrlKey || e.metaKey) {
+          if (e.key === 'Enter') {
+            analyzeImage();
+          }
+        }
+      });
+    });
+    
+    // Initial stats
+    updateStats();
+  })();
+</script>

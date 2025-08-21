@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  caiatech-web:
+    build: .
+    ports:
+      - "3000:80"
+    container_name: caiatech-website
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.caiatech.rule=Host(`caiatech.com`,`www.caiatech.com`)"
+      - "traefik.http.routers.caiatech.entrypoints=websecure"
+      - "traefik.http.routers.caiatech.tls.certresolver=lets-encrypt"
+    networks:
+      - web
+
+  # Optional: Add a reverse proxy for SSL
+  traefik:
+    image: traefik:v2.10
+    container_name: traefik
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"  # Traefik dashboard
+    command:
+      - --api.dashboard=true
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --certificatesresolvers.lets-encrypt.acme.email=info@caiatech.com
+      - --certificatesresolvers.lets-encrypt.acme.storage=/acme.json
+      - --certificatesresolvers.lets-encrypt.acme.tlschallenge=true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./acme.json:/acme.json
+    networks:
+      - web
+
+networks:
+  web:
+    external: true

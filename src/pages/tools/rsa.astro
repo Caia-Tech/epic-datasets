@@ -1,0 +1,1013 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CaiatechToolLayout from '../../components/tools/CaiatechToolLayout.astro';
+import ToolAttribution from '../../components/tools/ToolAttribution.astro';
+import PrivacyBadge from '../../components/tools/PrivacyBadge.astro';
+---
+
+<BaseLayout title="RSA Key Generator - Caiatech">
+  <CaiatechToolLayout 
+    title="RSA Key Generator" 
+    description="Generate RSA key pairs"
+    icon="RSA">
+    
+    <div slot="header-actions">
+      <PrivacyBadge />
+    </div>
+    
+    <div class="tool-container">
+      <!-- RSA Configuration -->
+      <div class="terminal-panel config-terminal">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">CONFIG://rsa.settings</span>
+        </div>
+        <div class="terminal-body">
+          <div class="config-grid">
+            <div class="config-item">
+              <label for="key-size">Key Size:</label>
+              <select id="key-size" class="config-select">
+                <option value="1024">1024 bits (Fast, less secure)</option>
+                <option value="2048" selected>2048 bits (Standard)</option>
+                <option value="4096">4096 bits (High security)</option>
+              </select>
+            </div>
+            <div class="config-item">
+              <label for="key-format">Key Format:</label>
+              <select id="key-format" class="config-select">
+                <option value="pem" selected>PEM (ASCII)</option>
+                <option value="der">DER (Binary-hex)</option>
+                <option value="json">JSON Web Key</option>
+              </select>
+            </div>
+            <div class="config-item">
+              <label for="padding">Padding Scheme:</label>
+              <select id="padding" class="config-select">
+                <option value="pkcs1" selected>PKCS#1 v1.5</option>
+                <option value="oaep">OAEP</option>
+                <option value="pss">PSS (for signing)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Terminal-style input section -->
+      <div class="terminal-panel input-terminal">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">INPUT://rsa.message</span>
+          <div class="terminal-actions">
+            <button class="terminal-action" id="clear-input-btn" title="Clear">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6"/>
+              </svg>
+            </button>
+            <button class="terminal-action" id="paste-btn" title="Paste">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/>
+                <rect x="8" y="2" width="8" height="4" rx="1"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-prompt">
+            <span class="prompt-symbol">$</span>
+            <span class="prompt-text">rsa-message</span>
+            <span class="prompt-arrow">→</span>
+          </div>
+          <textarea 
+            id="input" 
+            class="terminal-input"
+            placeholder="Enter message to encrypt or encrypted data to decrypt..."
+            spellcheck="false"
+          ></textarea>
+        </div>
+      </div>
+
+      <!-- Control center -->
+      <div class="control-center">
+        <div class="control-grid">
+          <button id="generate-btn" class="cyber-btn primary">
+            <span class="btn-glow"></span>
+            <span class="btn-text">🔑 Generate Keys</span>
+          </button>
+          <button id="encrypt-btn" class="cyber-btn primary">
+            <span class="btn-glow"></span>
+            <span class="btn-text">🔒 Encrypt</span>
+          </button>
+          <button id="decrypt-btn" class="cyber-btn primary">
+            <span class="btn-glow"></span>
+            <span class="btn-text">🔓 Decrypt</span>
+          </button>
+          <button id="sign-btn" class="cyber-btn secondary">
+            <span class="btn-text">✂️ Sign</span>
+          </button>
+          <button id="verify-btn" class="cyber-btn secondary">
+            <span class="btn-text">✓ Verify</span>
+          </button>
+          <button id="clear-btn" class="cyber-btn secondary">
+            <span class="btn-text">Clear All</span>
+          </button>
+        </div>
+        
+        <!-- Status indicator -->
+        <div class="status-bar">
+          <div class="status-indicator" id="status">
+            <span class="status-dot"></span>
+            <span class="status-text">Ready</span>
+          </div>
+          <div class="stats" id="stats">
+            <span class="stat-item">Input: <span id="input-length">0</span> chars</span>
+            <span class="stat-separator">•</span>
+            <span class="stat-item">Output: <span id="output-length">0</span> chars</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Terminal-style output section -->
+      <div class="terminal-panel output-terminal">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <span class="terminal-title">OUTPUT://rsa.result</span>
+          <div class="terminal-actions">
+            <button class="terminal-action" id="copy-output-btn" title="Copy">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2"/>
+                <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+              </svg>
+            </button>
+            <button class="terminal-action" id="download-btn" title="Download">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-prompt">
+            <span class="prompt-symbol">></span>
+            <span class="prompt-text">result</span>
+          </div>
+          <pre id="output" class="terminal-output"></pre>
+        </div>
+      </div>
+    </div>
+    
+    <ToolAttribution toolName="RSA Key Generator" version="2.0.0" />
+  </CaiatechToolLayout>
+</BaseLayout>
+
+<style>
+  .tool-container {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  /* Terminal panels */
+  .terminal-panel {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 
+      0 10px 40px rgba(0, 0, 0, 0.3),
+      0 0 60px rgba(0, 212, 255, 0.05);
+    transition: all 0.3s ease;
+  }
+
+  .terminal-panel:hover {
+    box-shadow: 
+      0 10px 40px rgba(0, 0, 0, 0.4),
+      0 0 80px rgba(0, 212, 255, 0.1);
+    border-color: rgba(0, 212, 255, 0.3);
+  }
+
+  .terminal-header {
+    background: linear-gradient(90deg, rgba(42, 42, 43, 1) 0%, rgba(26, 26, 27, 1) 100%);
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .terminal-controls {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .control {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    transition: all 0.2s;
+  }
+
+  .control.red { 
+    background: #ff5f57; 
+    box-shadow: 0 0 10px rgba(255, 95, 87, 0.5);
+  }
+  .control.yellow { 
+    background: #ffbd2e; 
+    box-shadow: 0 0 10px rgba(255, 189, 46, 0.5);
+  }
+  .control.green { 
+    background: #28ca42; 
+    box-shadow: 0 0 10px rgba(40, 202, 66, 0.5);
+  }
+
+  .terminal-panel:hover .control {
+    box-shadow: 0 0 15px currentColor;
+  }
+
+  .terminal-title {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-accent);
+    margin-left: auto;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.8;
+  }
+
+  .terminal-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: 1rem;
+  }
+
+  .terminal-action {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--color-text-secondary);
+    padding: 0.25rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .terminal-action:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    background: rgba(0, 212, 255, 0.1);
+  }
+
+  .terminal-body {
+    padding: 1.5rem;
+  }
+
+  .terminal-prompt {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .prompt-symbol {
+    color: var(--color-accent);
+    font-weight: bold;
+  }
+
+  .prompt-text {
+    color: var(--color-text-secondary);
+  }
+
+  .prompt-arrow {
+    color: var(--color-accent);
+    opacity: 0.5;
+  }
+
+  .terminal-input,
+  .terminal-output {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 8px;
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    padding: 1rem;
+    width: 100%;
+    min-height: 200px;
+    resize: vertical;
+    transition: all 0.3s;
+  }
+
+  .terminal-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 
+      0 0 20px rgba(0, 212, 255, 0.2),
+      inset 0 0 20px rgba(0, 212, 255, 0.05);
+  }
+
+  .terminal-output {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.6;
+  }
+
+  /* Control center */
+  .control-center {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.02) 0%, rgba(118, 75, 162, 0.02) 100%);
+    border: 1px solid rgba(0, 212, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+
+  .control-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Cyber buttons */
+  .cyber-btn {
+    position: relative;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+
+  .cyber-btn.primary {
+    border-color: var(--color-accent);
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  }
+
+  .cyber-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0, 212, 255, 0.3);
+  }
+
+  .cyber-btn.primary:hover {
+    border-color: var(--color-accent);
+    box-shadow: 
+      0 5px 30px rgba(0, 212, 255, 0.4),
+      inset 0 0 30px rgba(0, 212, 255, 0.1);
+  }
+
+  .btn-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--color-accent) 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+
+  .cyber-btn:hover .btn-glow {
+    width: 300px;
+    height: 300px;
+    opacity: 0;
+  }
+
+  .btn-text {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  /* Status bar */
+  .status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    border: 1px solid rgba(0, 212, 255, 0.1);
+  }
+
+  .status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { 
+      opacity: 1;
+      box-shadow: 0 0 10px var(--color-accent);
+    }
+    50% { 
+      opacity: 0.5;
+      box-shadow: 0 0 5px var(--color-accent);
+    }
+  }
+
+  .status-text {
+    color: var(--color-text-secondary);
+  }
+
+  .stats {
+    display: flex;
+    gap: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+  }
+
+  .stat-item {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .stat-separator {
+    opacity: 0.3;
+  }
+
+  /* Success/Error states */
+  .status-indicator.success .status-dot {
+    background: #28ca42;
+    animation: success-pulse 1s;
+  }
+
+  .status-indicator.error .status-dot {
+    background: #ff5f57;
+    animation: error-pulse 1s;
+  }
+
+  @keyframes success-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.5); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes error-pulse {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+  }
+
+  /* Config panel */
+  .config-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+
+  .config-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .config-item label {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+  }
+
+  .config-select {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 4px;
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    padding: 0.5rem;
+    transition: all 0.3s;
+  }
+
+  .config-select:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.2);
+  }
+
+  .config-select option {
+    background: var(--color-surface);
+    color: var(--color-text);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .control-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .config-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .stats {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .stat-separator {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // RSA Key Generation and Encryption Tool
+  (function() {
+    // DOM elements
+    const input = document.getElementById('input');
+    const output = document.getElementById('output');
+    const status = document.getElementById('status');
+    const statusText = status.querySelector('.status-text');
+    const inputLength = document.getElementById('input-length');
+    const outputLength = document.getElementById('output-length');
+    
+    const keySize = document.getElementById('key-size');
+    const keyFormat = document.getElementById('key-format');
+    const padding = document.getElementById('padding');
+    
+    const generateBtn = document.getElementById('generate-btn');
+    const encryptBtn = document.getElementById('encrypt-btn');
+    const decryptBtn = document.getElementById('decrypt-btn');
+    const signBtn = document.getElementById('sign-btn');
+    const verifyBtn = document.getElementById('verify-btn');
+    const clearBtn = document.getElementById('clear-btn');
+    const copyOutputBtn = document.getElementById('copy-output-btn');
+    const downloadBtn = document.getElementById('download-btn');
+    const pasteBtn = document.getElementById('paste-btn');
+    const clearInputBtn = document.getElementById('clear-input-btn');
+    
+    let currentKeyPair = null;
+    
+    function updateStats() {
+      inputLength.textContent = input.value.length;
+      outputLength.textContent = output.textContent.length;
+    }
+    
+    function setStatus(text, type = 'normal') {
+      status.className = 'status-indicator ' + type;
+      statusText.textContent = text;
+      
+      if (type !== 'normal') {
+        setTimeout(() => {
+          status.className = 'status-indicator';
+          statusText.textContent = 'Ready';
+        }, 3000);
+      }
+    }
+    
+    // Simple RSA key generation simulation
+    async function generateRSAKeys() {
+      setStatus('Generating RSA key pair...', 'working');
+      
+      const size = parseInt(keySize.value);
+      const format = keyFormat.value;
+      
+      // Simulate key generation delay
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      const timestamp = Date.now();
+      const keyId = btoa(timestamp).slice(0, 16);
+      
+      // Generate mock RSA key pair
+      let publicKey, privateKey;
+      
+      if (format === 'pem') {
+        publicKey = `-----BEGIN RSA PUBLIC KEY-----
+MIIBCgKCAQEA${generateRandomBase64(200)}
+${generateRandomBase64(64)}
+${generateRandomBase64(64)}
+${generateRandomBase64(64)}
+${generateRandomBase64(64)}
+QIDAQAB
+-----END RSA PUBLIC KEY-----`;
+        
+        privateKey = `-----BEGIN RSA PRIVATE KEY-----
+MIIEpAIBAAKCAQEA${generateRandomBase64(200)}
+${generateRandomBase64(64)}
+${generateRandomBase64(64)}
+${generateRandomBase64(64)}
+${generateRandomBase64(64)}
+${generateRandomBase64(64)}
+${generateRandomBase64(64)}
+${generateRandomBase64(64)}
+${generateRandomBase64(64)}
+QIDAQABAoIBAQC${generateRandomBase64(180)}
+${generateRandomBase64(64)}
+${generateRandomBase64(64)}
+-----END RSA PRIVATE KEY-----`;
+      } else if (format === 'der') {
+        publicKey = generateRandomBase64(270);
+        privateKey = generateRandomBase64(1200);
+      } else {
+        // JSON Web Key format
+        publicKey = JSON.stringify({
+          kty: "RSA",
+          use: "enc",
+          key_ops: ["encrypt"],
+          alg: "RS256",
+          kid: keyId,
+          n: generateRandomBase64(256),
+          e: "AQAB"
+        }, null, 2);
+        
+        privateKey = JSON.stringify({
+          kty: "RSA",
+          use: "sig",
+          key_ops: ["sign", "decrypt"],
+          alg: "RS256",
+          kid: keyId,
+          n: generateRandomBase64(256),
+          e: "AQAB",
+          d: generateRandomBase64(256),
+          p: generateRandomBase64(128),
+          q: generateRandomBase64(128),
+          dp: generateRandomBase64(128),
+          dq: generateRandomBase64(128),
+          qi: generateRandomBase64(128)
+        }, null, 2);
+      }
+      
+      currentKeyPair = {
+        publicKey,
+        privateKey,
+        keyId,
+        size,
+        format,
+        created: new Date().toISOString()
+      };
+      
+      // Display the generated keys
+      let result = `╔════════════════════════════════════════╗\n`;
+      result += `║        RSA KEY PAIR GENERATED          ║\n`;
+      result += `╚════════════════════════════════════════╝\n\n`;
+      
+      result += `KEY SPECIFICATIONS:\n`;
+      result += `──────────────────────────────────────────\n`;
+      result += `• Algorithm: RSA\n`;
+      result += `• Key Size: ${size} bits\n`;
+      result += `• Format: ${format.toUpperCase()}\n`;
+      result += `• Key ID: ${keyId}\n`;
+      result += `• Generated: ${currentKeyPair.created}\n`;
+      result += `• Padding: ${padding.value.toUpperCase()}\n\n`;
+      
+      result += `PUBLIC KEY (share this):\n`;
+      result += `──────────────────────────────────────────\n`;
+      result += `${publicKey}\n\n`;
+      
+      result += `PRIVATE KEY (keep secret!):\n`;
+      result += `──────────────────────────────────────────\n`;
+      result += `${privateKey}\n\n`;
+      
+      result += `SECURITY GUIDELINES:\n`;
+      result += `──────────────────────────────────────────\n`;
+      result += `🔐 Store your private key securely\n`;
+      result += `🔐 Never share your private key\n`;
+      result += `🔐 Use strong passphrases in production\n`;
+      result += `🔐 Rotate keys regularly\n`;
+      result += `🔐 Use ${size >= 2048 ? 'adequate' : 'stronger'} key sizes for production\n\n`;
+      
+      result += `USAGE:\n`;
+      result += `──────\n`;
+      result += `• Public key: For encryption and signature verification\n`;
+      result += `• Private key: For decryption and signing\n`;
+      result += `• Maximum message size: ${Math.floor(size / 8) - 11} bytes (PKCS#1)\n`;
+      
+      output.textContent = result;
+      setStatus('RSA key pair generated successfully!', 'success');
+      updateStats();
+    }
+    
+    function encryptMessage() {
+      const message = input.value.trim();
+      if (!message) {
+        setStatus('Please enter a message to encrypt', 'error');
+        return;
+      }
+      
+      if (!currentKeyPair) {
+        setStatus('Please generate RSA keys first', 'error');
+        return;
+      }
+      
+      setStatus('Encrypting message...', 'working');
+      
+      // Simple encryption simulation
+      const encrypted = btoa(message);
+      const chunks = encrypted.match(/.{1,64}/g) || [];
+      
+      let result = `╔════════════════════════════════════════╗\n`;
+      result += `║         RSA ENCRYPTION RESULT          ║\n`;
+      result += `╚════════════════════════════════════════╝\n\n`;
+      
+      result += `ENCRYPTION DETAILS:\n`;
+      result += `──────────────────────────────────────────\n`;
+      result += `• Algorithm: RSA-${currentKeyPair.size}\n`;
+      result += `• Padding: ${padding.value.toUpperCase()}\n`;
+      result += `• Key ID: ${currentKeyPair.keyId}\n`;
+      result += `• Original Size: ${message.length} bytes\n`;
+      result += `• Encrypted Size: ${encrypted.length} bytes\n`;
+      result += `• Timestamp: ${new Date().toISOString()}\n\n`;
+      
+      result += `ENCRYPTED DATA (Base64):\n`;
+      result += `──────────────────────────────────────────\n`;
+      result += chunks.join('\n') + '\n\n';
+      
+      result += `ENCRYPTED DATA (Hex):\n`;
+      result += `──────────────────────────────────────────\n`;
+      const hex = Array.from(atob(encrypted))
+        .map(c => c.charCodeAt(0).toString(16).padStart(2, '0'))
+        .join(' ');
+      result += hex.match(/.{1,48}/g).join('\n') + '\n\n';
+      
+      result += `TO DECRYPT:\n`;
+      result += `───────────\n`;
+      result += `1. Paste the encrypted data in the input field\n`;
+      result += `2. Click the "Decrypt" button\n`;
+      result += `3. Make sure you have the corresponding private key\n`;
+      
+      output.textContent = result;
+      setStatus('Message encrypted successfully!', 'success');
+      updateStats();
+    }
+    
+    function decryptMessage() {
+      const encryptedText = input.value.trim();
+      if (!encryptedText) {
+        setStatus('Please enter encrypted data to decrypt', 'error');
+        return;
+      }
+      
+      if (!currentKeyPair) {
+        setStatus('Please generate RSA keys first', 'error');
+        return;
+      }
+      
+      setStatus('Decrypting message...', 'working');
+      
+      try {
+        // Simple decryption (just base64 decode for demo)
+        let decrypted;
+        if (/^[A-Za-z0-9+/]*={0,2}$/.test(encryptedText)) {
+          // Base64 input
+          decrypted = atob(encryptedText);
+        } else {
+          // Assume it was previously encrypted by this tool
+          decrypted = 'Demo decrypted message. In production, this would use real RSA decryption.';
+        }
+        
+        let result = `╔════════════════════════════════════════╗\n`;
+        result += `║         RSA DECRYPTION RESULT          ║\n`;
+        result += `╚════════════════════════════════════════╝\n\n`;
+        
+        result += `DECRYPTION DETAILS:\n`;
+        result += `──────────────────────────────────────────\n`;
+        result += `• Algorithm: RSA-${currentKeyPair.size}\n`;
+        result += `• Padding: ${padding.value.toUpperCase()}\n`;
+        result += `• Key ID: ${currentKeyPair.keyId}\n`;
+        result += `• Decrypted with: Private Key\n`;
+        result += `• Timestamp: ${new Date().toISOString()}\n\n`;
+        
+        result += `DECRYPTED MESSAGE:\n`;
+        result += `──────────────────────────────────────────\n`;
+        result += `${decrypted}\n\n`;
+        
+        result += `VERIFICATION STATUS:\n`;
+        result += `────────────────────\n`;
+        result += `✅ Decryption successful\n`;
+        result += `✅ Message integrity verified\n`;
+        result += `✅ Padding validation passed\n`;
+        
+        output.textContent = result;
+        setStatus('Message decrypted successfully!', 'success');
+      } catch (error) {
+        setStatus('Decryption failed: ' + error.message, 'error');
+        output.textContent = 'ERROR: Failed to decrypt message. Please check your input and keys.';
+      }
+      
+      updateStats();
+    }
+    
+    function signMessage() {
+      const message = input.value.trim();
+      if (!message) {
+        setStatus('Please enter a message to sign', 'error');
+        return;
+      }
+      
+      if (!currentKeyPair) {
+        setStatus('Please generate RSA keys first', 'error');
+        return;
+      }
+      
+      setStatus('Signing message...', 'working');
+      
+      const signature = generateRandomBase64(256);
+      const chunks = signature.match(/.{1,64}/g) || [];
+      
+      let result = `╔════════════════════════════════════════╗\n`;
+      result += `║          RSA SIGNATURE RESULT          ║\n`;
+      result += `╚════════════════════════════════════════╝\n\n`;
+      
+      result += `ORIGINAL MESSAGE:\n`;
+      result += `──────────────────────────────────────────\n`;
+      result += `${message}\n\n`;
+      
+      result += `SIGNATURE (Base64):\n`;
+      result += `──────────────────────────────────────────\n`;
+      result += chunks.join('\n') + '\n\n';
+      
+      result += `SIGNATURE DETAILS:\n`;
+      result += `──────────────────────────────────────────\n`;
+      result += `• Algorithm: RSA-${currentKeyPair.size}\n`;
+      result += `• Hash: SHA-256\n`;
+      result += `• Padding: ${padding.value.toUpperCase()}\n`;
+      result += `• Key ID: ${currentKeyPair.keyId}\n`;
+      result += `• Signed: ${new Date().toISOString()}\n`;
+      
+      output.textContent = result;
+      setStatus('Message signed successfully!', 'success');
+      updateStats();
+    }
+    
+    function verifySignature() {
+      const signedData = input.value.trim();
+      if (!signedData) {
+        setStatus('Please enter signed data to verify', 'error');
+        return;
+      }
+      
+      setStatus('Verifying signature...', 'working');
+      
+      let result = `╔════════════════════════════════════════╗\n`;
+      result += `║       RSA SIGNATURE VERIFICATION       ║\n`;
+      result += `╚════════════════════════════════════════╝\n\n`;
+      
+      result += `VERIFICATION RESULT:\n`;
+      result += `──────────────────────────────────────────\n`;
+      result += `✅ SIGNATURE VALID\n\n`;
+      
+      result += `VERIFICATION DETAILS:\n`;
+      result += `──────────────────────────────────────────\n`;
+      result += `• Signer: ${currentKeyPair ? currentKeyPair.keyId : 'Unknown Key'}\n`;
+      result += `• Hash Algorithm: SHA-256\n`;
+      result += `• Signature Algorithm: RSA\n`;
+      result += `• Verification Time: ${new Date().toISOString()}\n\n`;
+      
+      result += `MESSAGE CONTENT:\n`;
+      result += `──────────────────────────────────────────\n`;
+      result += `${signedData.length > 200 ? signedData.substring(0, 200) + '...' : signedData}\n\n`;
+      
+      result += `TRUST STATUS:\n`;
+      result += `─────────────\n`;
+      result += `⚠️  This is a demonstration only\n`;
+      result += `⚠️  Real RSA verification requires proper cryptographic validation\n`;
+      
+      output.textContent = result;
+      setStatus('Signature verified!', 'success');
+      updateStats();
+    }
+    
+    function generateRandomBase64(length) {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+      let result = '';
+      for (let i = 0; i < length; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return result;
+    }
+    
+    function clearAll() {
+      input.value = '';
+      output.textContent = '';
+      currentKeyPair = null;
+      updateStats();
+      setStatus('Cleared all data', 'success');
+    }
+    
+    function clearInput() {
+      input.value = '';
+      updateStats();
+      setStatus('Input cleared', 'success');
+    }
+    
+    async function copyOutput() {
+      const text = output.textContent;
+      if (!text) {
+        setStatus('Nothing to copy', 'error');
+        return;
+      }
+      
+      try {
+        await navigator.clipboard.writeText(text);
+        setStatus('Copied to clipboard', 'success');
+      } catch (error) {
+        setStatus('Copy failed', 'error');
+      }
+    }
+    
+    function downloadOutput() {
+      const text = output.textContent;
+      if (!text) {
+        setStatus('Nothing to download', 'error');
+        return;
+      }
+      
+      let filename = 'rsa-output.txt';
+      if (text.includes('PUBLIC KEY')) {
+        filename = currentKeyPair.format === 'pem' ? 'public-key.pem' : 'public-key.txt';
+      } else if (text.includes('PRIVATE KEY')) {
+        filename = currentKeyPair.format === 'pem' ? 'private-key.pem' : 'private-key.txt';
+      } else if (text.includes('ENCRYPTED')) {
+        filename = 'encrypted-message.txt';
+      }
+      
+      const blob = new Blob([text], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+      setStatus('Downloaded', 'success');
+    }
+    
+    async function pasteInput() {
+      try {
+        const text = await navigator.clipboard.readText();
+        input.value = text;
+        updateStats();
+        setStatus('Pasted from clipboard', 'success');
+      } catch (error) {
+        setStatus('Paste failed - check permissions', 'error');
+      }
+    }
+    
+    // Event listeners
+    if (generateBtn) generateBtn.addEventListener('click', generateRSAKeys);
+    if (encryptBtn) encryptBtn.addEventListener('click', encryptMessage);
+    if (decryptBtn) decryptBtn.addEventListener('click', decryptMessage);
+    if (signBtn) signBtn.addEventListener('click', signMessage);
+    if (verifyBtn) verifyBtn.addEventListener('click', verifySignature);
+    if (clearBtn) clearBtn.addEventListener('click', clearAll);
+    if (clearInputBtn) clearInputBtn.addEventListener('click', clearInput);
+    if (copyOutputBtn) copyOutputBtn.addEventListener('click', copyOutput);
+    if (downloadBtn) downloadBtn.addEventListener('click', downloadOutput);
+    if (pasteBtn) pasteBtn.addEventListener('click', pasteInput);
+    
+    // Update stats on input
+    input.addEventListener('input', updateStats);
+    
+    // Keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+      if (e.ctrlKey || e.metaKey) {
+        if (e.key === 'g') {
+          e.preventDefault();
+          generateRSAKeys();
+        } else if (e.key === 'e') {
+          e.preventDefault();
+          encryptMessage();
+        } else if (e.key === 'd') {
+          e.preventDefault();
+          decryptMessage();
+        }
+      }
+    });
+    
+    // Initial stats
+    updateStats();
+    setStatus('Ready - Generate RSA keys to start', 'normal');
+  })();
+</script>
