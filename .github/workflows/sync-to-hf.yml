@@ -25,7 +25,7 @@ jobs:
       - name: Install huggingface-hub
         run: pip install huggingface-hub
       
-      - name: Create HF repository - ${{ matrix.dataset }}
+      - name: Create HF repository
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
@@ -46,14 +46,12 @@ except Exception as e:
     exit(1)
 "
       
-      - name: Push to Hugging Face - ${{ matrix.dataset }}
+      - name: Push to Hugging Face
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          # Create a temporary directory for the HF dataset
           mkdir -p /tmp/hf-dataset
           
-          # Copy dataset folder contents (exclude unwanted files)
           if [ -f "${{ matrix.dataset }}/${{ matrix.dataset }}.jsonl" ]; then
             cp "${{ matrix.dataset }}/${{ matrix.dataset }}.jsonl" /tmp/hf-dataset/
           else
@@ -62,22 +60,18 @@ except Exception as e:
           fi
           cp LICENSE /tmp/hf-dataset/
           
-          # Initialize git in the temp directory
           cd /tmp/hf-dataset
           git init -b main
           git config user.name "GitHub Action"
           git config user.email "action@github.com"
           
-          # Install and configure Git LFS
           git lfs install
           git lfs track "*.parquet"
           git lfs track "*.jsonl"
           git add .gitattributes
           
-          # Add and commit the files
           git add .
-          git commit -m "Sync from GitHub: ${{ github.sha }}"
+          git commit -m "Sync from GitHub"
           
-          # Push to Hugging Face
           git remote add hf https://CaiaTech:$HF_TOKEN@huggingface.co/datasets/CaiaTech/${{ matrix.dataset }}
           git push hf main --force
