@@ -49,16 +49,18 @@ jobs:
       - name: Create HF repository
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          DATASET_NAME: ${{ matrix.dataset }}
         run: |
-          python3 -c "
+          cat > create_repo.py << 'EOF'
 import os
 from huggingface_hub import HfApi
 
-print('Creating repository for ${{ matrix.dataset }}')
+dataset_name = os.environ['DATASET_NAME']
+print(f'Creating repository for {dataset_name}')
 api = HfApi()
 try:
     result = api.create_repo(
-        repo_id='CaiaTech/${{ matrix.dataset }}',
+        repo_id=f'CaiaTech/{dataset_name}',
         token=os.environ['HF_TOKEN'],
         repo_type='dataset',
         exist_ok=True
@@ -69,7 +71,8 @@ except Exception as e:
     import traceback
     traceback.print_exc()
     exit(1)
-"
+EOF
+          python3 create_repo.py
       
       - name: Push to Hugging Face
         env:
