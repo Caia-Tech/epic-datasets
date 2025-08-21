@@ -17,6 +17,16 @@ jobs:
           fetch-depth: 0
           lfs: true
       
+      - name: Debug - Check files
+        run: |
+          echo "=== Debugging workflow for ${{ matrix.dataset }} ==="
+          pwd
+          ls -la
+          echo "Checking for dataset file:"
+          ls -la "${{ matrix.dataset }}/${{ matrix.dataset }}.jsonl" || echo "FILE NOT FOUND!"
+          echo "LICENSE file:"
+          ls -la LICENSE || echo "LICENSE NOT FOUND!"
+      
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
@@ -25,6 +35,17 @@ jobs:
       - name: Install huggingface-hub
         run: pip install huggingface-hub
       
+      - name: Check HF_TOKEN
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          if [ -z "$HF_TOKEN" ]; then
+            echo "ERROR: HF_TOKEN secret is not set!"
+            exit 1
+          else
+            echo "HF_TOKEN is set (length: ${#HF_TOKEN})"
+          fi
+      
       - name: Create HF repository
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
@@ -32,17 +53,21 @@ jobs:
           python3 -c "
 import os
 from huggingface_hub import HfApi
+
+print('Creating repository for ${{ matrix.dataset }}')
 api = HfApi()
 try:
-    api.create_repo(
+    result = api.create_repo(
         repo_id='CaiaTech/${{ matrix.dataset }}',
         token=os.environ['HF_TOKEN'],
         repo_type='dataset',
         exist_ok=True
     )
-    print('Repository created or already exists')
+    print(f'Repository created or already exists: {result}')
 except Exception as e:
-    print(f'Error: {e}')
+    print(f'Error creating repository: {e}')
+    import traceback
+    traceback.print_exc()
     exit(1)
 "
       
@@ -50,28 +75,45 @@ except Exception as e:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
+          echo "=== Starting push process for ${{ matrix.dataset }} ==="
           mkdir -p /tmp/hf-dataset
           
+          # Copy dataset file
           if [ -f "${{ matrix.dataset }}/${{ matrix.dataset }}.jsonl" ]; then
+            echo "Copying ${{ matrix.dataset }}.jsonl"
             cp "${{ matrix.dataset }}/${{ matrix.dataset }}.jsonl" /tmp/hf-dataset/
+            ls -la /tmp/hf-dataset/
           else
-            echo "Error: Dataset file ${{ matrix.dataset }}/${{ matrix.dataset }}.jsonl not found"
+            echo "ERROR: Dataset file ${{ matrix.dataset }}/${{ matrix.dataset }}.jsonl not found"
+            ls -la "${{ matrix.dataset }}/"
             exit 1
           fi
-          cp LICENSE /tmp/hf-dataset/
           
+          # Copy LICENSE
+          if [ -f "LICENSE" ]; then
+            cp LICENSE /tmp/hf-dataset/
+          else
+            echo "WARNING: LICENSE file not found"
+          fi
+          
+          # Setup git repo
           cd /tmp/hf-dataset
           git init -b main
           git config user.name "GitHub Action"
           git config user.email "action@github.com"
           
+          # Setup Git LFS
           git lfs install
           git lfs track "*.parquet"
           git lfs track "*.jsonl"
           git add .gitattributes
           
+          # Add and commit files
           git add .
-          git commit -m "Sync from GitHub"
+          git status
+          git commit -m "Sync from GitHub: ${{ github.sha }}"
           
+          # Push to Hugging Face
+          echo "Pushing to HuggingFace repository CaiaTech/${{ matrix.dataset }}"
           git remote add hf https://CaiaTech:$HF_TOKEN@huggingface.co/datasets/CaiaTech/${{ matrix.dataset }}
           git push hf main --force
