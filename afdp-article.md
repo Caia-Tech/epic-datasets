@@ -624,8 +624,6 @@ The theater is ending. The future is forensic. The only question is whether you'
 
 ---
 
-*Marvin Tutt is the Chief Executive Officer of Caia Tech, developing forensic intelligence infrastructure for the post-theater era.*
-
 **Learn More:**
 - AFDP Documentation: [github.com/Caia-Tech/afdp](https://github.com/Caia-Tech/afdp)
 - Git Forensics: [gitforensics.org](https://gitforensics.org)

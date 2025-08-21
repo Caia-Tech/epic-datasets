@@ -276,5 +276,3 @@ Compared to "all‑in‑one" MLOps suites, this pattern covers 80–90% of audit
 Every day, teams ship AI that can change behavior without a code change—and then scramble when a regulator, customer, or incident demands an explanation. Git already solved the core of this problem in 2005. Treat your prompts, configs, models, and data manifests like code. Make CI the gate. Log decisions with pointers back to that exact state in immutable storage, and be disciplined about out‑of‑band changes. You'll get a tamper‑evident, legally defensible audit trail that's cheaper, simpler, and more reliable than yet another platform—and you can start this week.
 
 ---
-
-*Marvin Tutt is the Chief Executive Officer of Caia Tech, developing forensic intelligence infrastructure for the post-theater era.*
