@@ -29,20 +29,22 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          python -c "
-          from huggingface_hub import HfApi
-          api = HfApi()
-          try:
-              api.create_repo(
-                  repo_id='CaiaTech/${{ matrix.dataset }}',
-                  token='$HF_TOKEN',
-                  repo_type='dataset',
-                  exist_ok=True
-              )
-              print('Repository created or already exists')
-          except Exception as e:
-              print(f'Error: {e}')
-          "
+          python3 -c "
+import os
+from huggingface_hub import HfApi
+api = HfApi()
+try:
+    api.create_repo(
+        repo_id='CaiaTech/${{ matrix.dataset }}',
+        token=os.environ['HF_TOKEN'],
+        repo_type='dataset',
+        exist_ok=True
+    )
+    print('Repository created or already exists')
+except Exception as e:
+    print(f'Error: {e}')
+    exit(1)
+"
       
       - name: Push to Hugging Face - ${{ matrix.dataset }}
         env:
@@ -52,7 +54,12 @@ jobs:
           mkdir -p /tmp/hf-dataset
           
           # Copy dataset folder contents (exclude unwanted files)
-          find ${{ matrix.dataset }} -name "*.jsonl" -exec cp {} /tmp/hf-dataset/ \;
+          if [ -f "${{ matrix.dataset }}/${{ matrix.dataset }}.jsonl" ]; then
+            cp "${{ matrix.dataset }}/${{ matrix.dataset }}.jsonl" /tmp/hf-dataset/
+          else
+            echo "Error: Dataset file ${{ matrix.dataset }}/${{ matrix.dataset }}.jsonl not found"
+            exit 1
+          fi
           cp LICENSE /tmp/hf-dataset/
           
           # Initialize git in the temp directory
