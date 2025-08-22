@@ -36,12 +36,23 @@ jobs:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
           mkdir -p /tmp/hf-dataset
-          cp ${{ matrix.dataset }}/${{ matrix.dataset }}.jsonl /tmp/hf-dataset/
-          cp ${{ matrix.dataset }}/${{ matrix.dataset }}.json /tmp/hf-dataset/
-          cp ${{ matrix.dataset }}/${{ matrix.dataset }}.parquet /tmp/hf-dataset/
+          
+          # Copy data files if they exist
+          if [ -f "${{ matrix.dataset }}/${{ matrix.dataset }}.jsonl" ]; then
+            cp ${{ matrix.dataset }}/${{ matrix.dataset }}.jsonl /tmp/hf-dataset/
+          fi
+          if [ -f "${{ matrix.dataset }}/${{ matrix.dataset }}.json" ]; then
+            cp ${{ matrix.dataset }}/${{ matrix.dataset }}.json /tmp/hf-dataset/
+          fi
+          if [ -f "${{ matrix.dataset }}/${{ matrix.dataset }}.parquet" ]; then
+            cp ${{ matrix.dataset }}/${{ matrix.dataset }}.parquet /tmp/hf-dataset/
+          fi
+          
+          # Copy README if it exists
           if [ -f "${{ matrix.dataset }}/README.md" ]; then
             cp ${{ matrix.dataset }}/README.md /tmp/hf-dataset/
           fi
+          
           cp LICENSE /tmp/hf-dataset/
           cd /tmp/hf-dataset
           git init -b main
