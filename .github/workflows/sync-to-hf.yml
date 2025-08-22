@@ -37,6 +37,11 @@ jobs:
         run: |
           mkdir -p /tmp/hf-dataset
           cp ${{ matrix.dataset }}/${{ matrix.dataset }}.jsonl /tmp/hf-dataset/
+          cp ${{ matrix.dataset }}/${{ matrix.dataset }}.json /tmp/hf-dataset/
+          cp ${{ matrix.dataset }}/${{ matrix.dataset }}.parquet /tmp/hf-dataset/
+          if [ -f "${{ matrix.dataset }}/README.md" ]; then
+            cp ${{ matrix.dataset }}/README.md /tmp/hf-dataset/
+          fi
           cp LICENSE /tmp/hf-dataset/
           cd /tmp/hf-dataset
           git init -b main
@@ -44,6 +49,8 @@ jobs:
           git config user.email "action@github.com"
           git lfs install
           git lfs track "*.jsonl"
+          git lfs track "*.json"
+          git lfs track "*.parquet"
           git add .gitattributes
           git add .
           git commit -m "Sync from GitHub"
