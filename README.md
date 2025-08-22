@@ -20,6 +20,7 @@
    | System architecture & design |
   | [caia-math](https://huggingface.co/datasets/CaiaTech/caia-math) | 2.0MB | 131 | Mathematical
   reasoning |
+| [qa-epic](https://huggingface.co/datasets/CaiaTech/qa-epic) | 280KB | 1,242 | General question answering, arithmetic, science, computer science, geography, U.S. history, world history, psychology, medical, human anatomy, and English grammar |
 
   ## Coming Soon
 
@@ -29,6 +30,6 @@
   - Machine Learning
   - And more...
 
-  ## License
+## License
 
-  Creative Commons - Open Source
+CC0 1.0 Universal

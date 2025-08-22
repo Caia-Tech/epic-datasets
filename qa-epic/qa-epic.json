@@ -1,0 +1,6212 @@
+[
+  {
+    "id": 1,
+    "question": "What is the capital of France?",
+    "answer": "Paris"
+  },
+  {
+    "id": 2,
+    "question": "Who wrote the play 'Hamlet'?",
+    "answer": "William Shakespeare"
+  },
+  {
+    "id": 3,
+    "question": "What is the largest planet in our solar system?",
+    "answer": "Jupiter"
+  },
+  {
+    "id": 4,
+    "question": "Who painted the Mona Lisa?",
+    "answer": "Leonardo da Vinci"
+  },
+  {
+    "id": 5,
+    "question": "In what year did the Titanic sink?",
+    "answer": "1912"
+  },
+  {
+    "id": 6,
+    "question": "What is the chemical symbol for gold?",
+    "answer": "Au"
+  },
+  {
+    "id": 7,
+    "question": "Which organ pumps blood through the body?",
+    "answer": "Heart"
+  },
+  {
+    "id": 8,
+    "question": "Who wrote 'Pride and Prejudice'?",
+    "answer": "Jane Austen"
+  },
+  {
+    "id": 9,
+    "question": "What is the hardest natural substance?",
+    "answer": "Diamond"
+  },
+  {
+    "id": 10,
+    "question": "Which gas do plants primarily absorb during photosynthesis?",
+    "answer": "Carbon dioxide"
+  },
+  {
+    "id": 11,
+    "question": "What is the tallest mountain in the world?",
+    "answer": "Mount Everest"
+  },
+  {
+    "id": 12,
+    "question": "Who developed the theory of relativity?",
+    "answer": "Albert Einstein"
+  },
+  {
+    "id": 13,
+    "question": "What is the fastest land animal?",
+    "answer": "Cheetah"
+  },
+  {
+    "id": 14,
+    "question": "Which planet is known as the Red Planet?",
+    "answer": "Mars"
+  },
+  {
+    "id": 15,
+    "question": "What is the capital city of Japan?",
+    "answer": "Tokyo"
+  },
+  {
+    "id": 16,
+    "question": "Who is known as the father of computers?",
+    "answer": "Charles Babbage"
+  },
+  {
+    "id": 17,
+    "question": "Which element has the atomic number 1?",
+    "answer": "Hydrogen"
+  },
+  {
+    "id": 18,
+    "question": "In which continent is the Sahara Desert located?",
+    "answer": "Africa"
+  },
+  {
+    "id": 19,
+    "question": "What is the largest ocean on Earth?",
+    "answer": "Pacific Ocean"
+  },
+  {
+    "id": 20,
+    "question": "Who discovered penicillin?",
+    "answer": "Alexander Fleming"
+  },
+  {
+    "id": 21,
+    "question": "What language has the most native speakers worldwide?",
+    "answer": "Mandarin Chinese"
+  },
+  {
+    "id": 22,
+    "question": "Which country hosted the 2016 Summer Olympics?",
+    "answer": "Brazil"
+  },
+  {
+    "id": 23,
+    "question": "What is the square root of 81?",
+    "answer": "9"
+  },
+  {
+    "id": 24,
+    "question": "Who was the first person to walk on the Moon?",
+    "answer": "Neil Armstrong"
+  },
+  {
+    "id": 25,
+    "question": "Which planet has the most moons?",
+    "answer": "Saturn"
+  },
+  {
+    "id": 26,
+    "question": "What is the capital of Canada?",
+    "answer": "Ottawa"
+  },
+  {
+    "id": 27,
+    "question": "Which metal is liquid at room temperature?",
+    "answer": "Mercury"
+  },
+  {
+    "id": 28,
+    "question": "What is the longest river in the world?",
+    "answer": "Nile River"
+  },
+  {
+    "id": 29,
+    "question": "Who composed the Four Seasons?",
+    "answer": "Antonio Vivaldi"
+  },
+  {
+    "id": 30,
+    "question": "What is the currency of the United Kingdom?",
+    "answer": "Pound sterling"
+  },
+  {
+    "id": 31,
+    "question": "Which country is known as the Land of the Rising Sun?",
+    "answer": "Japan"
+  },
+  {
+    "id": 32,
+    "question": "What is the primary language of Brazil?",
+    "answer": "Portuguese"
+  },
+  {
+    "id": 33,
+    "question": "Who wrote '1984'?",
+    "answer": "George Orwell"
+  },
+  {
+    "id": 34,
+    "question": "What is the chemical formula for water?",
+    "answer": "H2O"
+  },
+  {
+    "id": 35,
+    "question": "Which planet is closest to the Sun?",
+    "answer": "Mercury"
+  },
+  {
+    "id": 36,
+    "question": "What is the largest mammal on Earth?",
+    "answer": "Blue whale"
+  },
+  {
+    "id": 37,
+    "question": "Which city hosted the first modern Olympics?",
+    "answer": "Athens"
+  },
+  {
+    "id": 38,
+    "question": "Who invented the telephone?",
+    "answer": "Alexander Graham Bell"
+  },
+  {
+    "id": 39,
+    "question": "In which country would you find the Great Barrier Reef?",
+    "answer": "Australia"
+  },
+  {
+    "id": 40,
+    "question": "What is the tallest building in the world as of 2023?",
+    "answer": "Burj Khalifa"
+  },
+  {
+    "id": 41,
+    "question": "Which organ is primarily responsible for detoxification?",
+    "answer": "Liver"
+  },
+  {
+    "id": 42,
+    "question": "What is the smallest prime number?",
+    "answer": "2"
+  },
+  {
+    "id": 43,
+    "question": "Who was the first female Prime Minister of the United Kingdom?",
+    "answer": "Margaret Thatcher"
+  },
+  {
+    "id": 44,
+    "question": "What is the chemical symbol for sodium?",
+    "answer": "Na"
+  },
+  {
+    "id": 45,
+    "question": "In what year did World War II end?",
+    "answer": "1945"
+  },
+  {
+    "id": 46,
+    "question": "What is the main ingredient in guacamole?",
+    "answer": "Avocado"
+  },
+  {
+    "id": 47,
+    "question": "Which animal is known as the King of the Jungle?",
+    "answer": "Lion"
+  },
+  {
+    "id": 48,
+    "question": "Who painted the ceiling of the Sistine Chapel?",
+    "answer": "Michelangelo"
+  },
+  {
+    "id": 49,
+    "question": "What is the freezing point of water in Celsius?",
+    "answer": "0"
+  },
+  {
+    "id": 50,
+    "question": "Which U.S. state is known as the Sunshine State?",
+    "answer": "Florida"
+  },
+  {
+    "id": 51,
+    "question": "What is the most widely spoken language in South America?",
+    "answer": "Spanish"
+  },
+  {
+    "id": 52,
+    "question": "Who wrote 'To Kill a Mockingbird'?",
+    "answer": "Harper Lee"
+  },
+  {
+    "id": 53,
+    "question": "What is the capital of Italy?",
+    "answer": "Rome"
+  },
+  {
+    "id": 54,
+    "question": "Which scientist proposed the laws of motion?",
+    "answer": "Isaac Newton"
+  },
+  {
+    "id": 55,
+    "question": "What gas do humans need to breathe?",
+    "answer": "Oxygen"
+  },
+  {
+    "id": 56,
+    "question": "Which continent has the most countries?",
+    "answer": "Africa"
+  },
+  {
+    "id": 57,
+    "question": "What is the longest muscle in the human body?",
+    "answer": "Sartorius"
+  },
+  {
+    "id": 58,
+    "question": "Who was the first president of the United States?",
+    "answer": "George Washington"
+  },
+  {
+    "id": 59,
+    "question": "Which instrument has keys, pedals, and strings?",
+    "answer": "Piano"
+  },
+  {
+    "id": 60,
+    "question": "What is the process by which plants make their food?",
+    "answer": "Photosynthesis"
+  },
+  {
+    "id": 61,
+    "question": "Which country is the origin of the sushi dish?",
+    "answer": "Japan"
+  },
+  {
+    "id": 62,
+    "question": "What is the smallest country in the world?",
+    "answer": "Vatican City"
+  },
+  {
+    "id": 63,
+    "question": "Who developed the polio vaccine?",
+    "answer": "Jonas Salk"
+  },
+  {
+    "id": 64,
+    "question": "Which river runs through Baghdad?",
+    "answer": "Tigris"
+  },
+  {
+    "id": 65,
+    "question": "What is the largest desert in the world?",
+    "answer": "Antarctic Desert"
+  },
+  {
+    "id": 66,
+    "question": "Which planet has a day longer than its year?",
+    "answer": "Venus"
+  },
+  {
+    "id": 67,
+    "question": "Who is the author of 'The Odyssey'?",
+    "answer": "Homer"
+  },
+  {
+    "id": 68,
+    "question": "What is the currency of Japan?",
+    "answer": "Yen"
+  },
+  {
+    "id": 69,
+    "question": "Which element is needed for strong bones and teeth?",
+    "answer": "Calcium"
+  },
+  {
+    "id": 70,
+    "question": "What is the capital of Egypt?",
+    "answer": "Cairo"
+  },
+  {
+    "id": 71,
+    "question": "Which physicist formulated the uncertainty principle?",
+    "answer": "Werner Heisenberg"
+  },
+  {
+    "id": 72,
+    "question": "Which country gifted the Statue of Liberty to the United States?",
+    "answer": "France"
+  },
+  {
+    "id": 73,
+    "question": "What is the nearest star to Earth?",
+    "answer": "Sun"
+  },
+  {
+    "id": 74,
+    "question": "Which animal can sleep standing up?",
+    "answer": "Horse"
+  },
+  {
+    "id": 75,
+    "question": "Who was known as the Maid of Orléans?",
+    "answer": "Joan of Arc"
+  },
+  {
+    "id": 76,
+    "question": "What is the basic unit of life?",
+    "answer": "Cell"
+  },
+  {
+    "id": 77,
+    "question": "Which country has the maple leaf on its flag?",
+    "answer": "Canada"
+  },
+  {
+    "id": 78,
+    "question": "What is the coldest planet in our solar system?",
+    "answer": "Neptune"
+  },
+  {
+    "id": 79,
+    "question": "Who painted 'Starry Night'?",
+    "answer": "Vincent van Gogh"
+  },
+  {
+    "id": 80,
+    "question": "What is the longest bone in the human body?",
+    "answer": "Femur"
+  },
+  {
+    "id": 81,
+    "question": "Who wrote 'The Divine Comedy'?",
+    "answer": "Dante Alighieri"
+  },
+  {
+    "id": 82,
+    "question": "What is the capital city of Spain?",
+    "answer": "Madrid"
+  },
+  {
+    "id": 83,
+    "question": "Which continent is home to the Amazon Rainforest?",
+    "answer": "South America"
+  },
+  {
+    "id": 84,
+    "question": "What is the largest freshwater lake by volume?",
+    "answer": "Lake Baikal"
+  },
+  {
+    "id": 85,
+    "question": "Who invented the World Wide Web?",
+    "answer": "Tim Berners-Lee"
+  },
+  {
+    "id": 86,
+    "question": "Which animal is known for its black and white stripes?",
+    "answer": "Zebra"
+  },
+  {
+    "id": 87,
+    "question": "What is the primary gas found in Earth's atmosphere?",
+    "answer": "Nitrogen"
+  },
+  {
+    "id": 88,
+    "question": "Who was the first woman in space?",
+    "answer": "Valentina Tereshkova"
+  },
+  {
+    "id": 89,
+    "question": "Which country is home to the pyramids of Giza?",
+    "answer": "Egypt"
+  },
+  {
+    "id": 90,
+    "question": "What is the capital of South Korea?",
+    "answer": "Seoul"
+  },
+  {
+    "id": 91,
+    "question": "Which planet is known for its Great Red Spot?",
+    "answer": "Jupiter"
+  },
+  {
+    "id": 92,
+    "question": "Who wrote 'Moby-Dick'?",
+    "answer": "Herman Melville"
+  },
+  {
+    "id": 93,
+    "question": "What is the main language spoken in Argentina?",
+    "answer": "Spanish"
+  },
+  {
+    "id": 94,
+    "question": "Which city is known as the Big Apple?",
+    "answer": "New York City"
+  },
+  {
+    "id": 95,
+    "question": "What is the largest land animal?",
+    "answer": "African bush elephant"
+  },
+  {
+    "id": 96,
+    "question": "Which instrument is also known as the fiddle?",
+    "answer": "Violin"
+  },
+  {
+    "id": 97,
+    "question": "Who was the British naturalist who developed the theory of evolution by natural selection?",
+    "answer": "Charles Darwin"
+  },
+  {
+    "id": 98,
+    "question": "What is the boiling point of water in Fahrenheit?",
+    "answer": "212"
+  },
+  {
+    "id": 99,
+    "question": "Which continent is the Gobi Desert located in?",
+    "answer": "Asia"
+  },
+  {
+    "id": 100,
+    "question": "Who was the ancient Greek god of the sea?",
+    "answer": "Poseidon"
+  },
+  {
+    "id": 101,
+    "question": "What is the largest moon in the solar system?",
+    "answer": "Ganymede"
+  },
+  {
+    "id": 102,
+    "question": "What is the capital of Australia?",
+    "answer": "Canberra"
+  },
+  {
+    "id": 103,
+    "question": "What is 24 * 17?",
+    "answer": "408"
+  },
+  {
+    "id": 104,
+    "question": "What is 80 / 16?",
+    "answer": "5"
+  },
+  {
+    "id": 105,
+    "question": "What is 2^5?",
+    "answer": "32"
+  },
+  {
+    "id": 106,
+    "question": "What is 140 / 20?",
+    "answer": "7"
+  },
+  {
+    "id": 107,
+    "question": "What is 68 * 2?",
+    "answer": "136"
+  },
+  {
+    "id": 108,
+    "question": "What is 360 / 18?",
+    "answer": "20"
+  },
+  {
+    "id": 109,
+    "question": "What is (1 + 1) * 18?",
+    "answer": "36"
+  },
+  {
+    "id": 110,
+    "question": "What is 8^5?",
+    "answer": "32768"
+  },
+  {
+    "id": 111,
+    "question": "What is 64 * 20?",
+    "answer": "1280"
+  },
+  {
+    "id": 112,
+    "question": "What is 204 + 107?",
+    "answer": "311"
+  },
+  {
+    "id": 113,
+    "question": "What is 494 - 412?",
+    "answer": "82"
+  },
+  {
+    "id": 114,
+    "question": "What is 72 / 4?",
+    "answer": "18"
+  },
+  {
+    "id": 115,
+    "question": "What is 188 - 97?",
+    "answer": "91"
+  },
+  {
+    "id": 116,
+    "question": "What is 6^3?",
+    "answer": "216"
+  },
+  {
+    "id": 117,
+    "question": "What is 374 - 24?",
+    "answer": "350"
+  },
+  {
+    "id": 118,
+    "question": "What is 9^3?",
+    "answer": "729"
+  },
+  {
+    "id": 119,
+    "question": "What is 350 + 192?",
+    "answer": "542"
+  },
+  {
+    "id": 120,
+    "question": "What is 304 / 19?",
+    "answer": "16"
+  },
+  {
+    "id": 121,
+    "question": "What is 114 / 6?",
+    "answer": "19"
+  },
+  {
+    "id": 122,
+    "question": "What is 229 + 264?",
+    "answer": "493"
+  },
+  {
+    "id": 123,
+    "question": "What is 137 + 319?",
+    "answer": "456"
+  },
+  {
+    "id": 124,
+    "question": "What is 169 - 6?",
+    "answer": "163"
+  },
+  {
+    "id": 125,
+    "question": "What is 132 / 12?",
+    "answer": "11"
+  },
+  {
+    "id": 126,
+    "question": "What is 112 / 7?",
+    "answer": "16"
+  },
+  {
+    "id": 127,
+    "question": "What is 72 / 12?",
+    "answer": "6"
+  },
+  {
+    "id": 128,
+    "question": "What is 192 / 12?",
+    "answer": "16"
+  },
+  {
+    "id": 129,
+    "question": "What is 8 * 6?",
+    "answer": "48"
+  },
+  {
+    "id": 130,
+    "question": "What is 162 / 9?",
+    "answer": "18"
+  },
+  {
+    "id": 131,
+    "question": "What is 150 + 309?",
+    "answer": "459"
+  },
+  {
+    "id": 132,
+    "question": "What is 166 - 41?",
+    "answer": "125"
+  },
+  {
+    "id": 133,
+    "question": "What is (18 + 1) * 16?",
+    "answer": "304"
+  },
+  {
+    "id": 134,
+    "question": "What is 436 - 8?",
+    "answer": "428"
+  },
+  {
+    "id": 135,
+    "question": "What is 96 / 16?",
+    "answer": "6"
+  },
+  {
+    "id": 136,
+    "question": "What is (9 + 1) * 8?",
+    "answer": "80"
+  },
+  {
+    "id": 137,
+    "question": "What is 96 - 59?",
+    "answer": "37"
+  },
+  {
+    "id": 138,
+    "question": "What is 79 * 15?",
+    "answer": "1185"
+  },
+  {
+    "id": 139,
+    "question": "What is (3 + 18) * 15?",
+    "answer": "315"
+  },
+  {
+    "id": 140,
+    "question": "What is 300 - 2?",
+    "answer": "298"
+  },
+  {
+    "id": 141,
+    "question": "What is 202 - 19?",
+    "answer": "183"
+  },
+  {
+    "id": 142,
+    "question": "What is 98 * 12?",
+    "answer": "1176"
+  },
+  {
+    "id": 143,
+    "question": "What is 5^4?",
+    "answer": "625"
+  },
+  {
+    "id": 144,
+    "question": "What is (16 + 6) * 11?",
+    "answer": "242"
+  },
+  {
+    "id": 145,
+    "question": "What is 4^3?",
+    "answer": "64"
+  },
+  {
+    "id": 146,
+    "question": "What is 92 * 5?",
+    "answer": "460"
+  },
+  {
+    "id": 147,
+    "question": "What is 29 * 7?",
+    "answer": "203"
+  },
+  {
+    "id": 148,
+    "question": "What is 198 / 18?",
+    "answer": "11"
+  },
+  {
+    "id": 149,
+    "question": "What is 80 / 10?",
+    "answer": "8"
+  },
+  {
+    "id": 150,
+    "question": "What is (18 + 12) * 5?",
+    "answer": "150"
+  },
+  {
+    "id": 151,
+    "question": "What is 405 + 159?",
+    "answer": "564"
+  },
+  {
+    "id": 152,
+    "question": "What is 28 / 14?",
+    "answer": "2"
+  },
+  {
+    "id": 153,
+    "question": "What is 3^4?",
+    "answer": "81"
+  },
+  {
+    "id": 154,
+    "question": "What is 392 - 209?",
+    "answer": "183"
+  },
+  {
+    "id": 155,
+    "question": "What is 133 + 426?",
+    "answer": "559"
+  },
+  {
+    "id": 156,
+    "question": "What is 237 - 49?",
+    "answer": "188"
+  },
+  {
+    "id": 157,
+    "question": "What is 3 * 5?",
+    "answer": "15"
+  },
+  {
+    "id": 158,
+    "question": "What is 120 / 6?",
+    "answer": "20"
+  },
+  {
+    "id": 159,
+    "question": "What is 48 * 6?",
+    "answer": "288"
+  },
+  {
+    "id": 160,
+    "question": "What is 96 / 12?",
+    "answer": "8"
+  },
+  {
+    "id": 161,
+    "question": "What is 7^2?",
+    "answer": "49"
+  },
+  {
+    "id": 162,
+    "question": "What is 2 * 20?",
+    "answer": "40"
+  },
+  {
+    "id": 163,
+    "question": "What is (3 + 9) * 3?",
+    "answer": "36"
+  },
+  {
+    "id": 164,
+    "question": "What is 98 * 14?",
+    "answer": "1372"
+  },
+  {
+    "id": 165,
+    "question": "What is 6^4?",
+    "answer": "1296"
+  },
+  {
+    "id": 166,
+    "question": "What is 270 / 18?",
+    "answer": "15"
+  },
+  {
+    "id": 167,
+    "question": "What is 14 * 15?",
+    "answer": "210"
+  },
+  {
+    "id": 168,
+    "question": "What is (2 + 18) * 10?",
+    "answer": "200"
+  },
+  {
+    "id": 169,
+    "question": "What is (4 + 18) * 13?",
+    "answer": "286"
+  },
+  {
+    "id": 170,
+    "question": "What is 306 / 18?",
+    "answer": "17"
+  },
+  {
+    "id": 171,
+    "question": "What is 115 - 47?",
+    "answer": "68"
+  },
+  {
+    "id": 172,
+    "question": "What is 329 + 347?",
+    "answer": "676"
+  },
+  {
+    "id": 173,
+    "question": "What is 420 + 247?",
+    "answer": "667"
+  },
+  {
+    "id": 174,
+    "question": "What is 10 + 354?",
+    "answer": "364"
+  },
+  {
+    "id": 175,
+    "question": "What is 318 - 91?",
+    "answer": "227"
+  },
+  {
+    "id": 176,
+    "question": "What is 102 / 6?",
+    "answer": "17"
+  },
+  {
+    "id": 177,
+    "question": "What is 250 + 340?",
+    "answer": "590"
+  },
+  {
+    "id": 178,
+    "question": "What is 12 * 11?",
+    "answer": "132"
+  },
+  {
+    "id": 179,
+    "question": "What is 240 - 160?",
+    "answer": "80"
+  },
+  {
+    "id": 180,
+    "question": "What is 49 * 19?",
+    "answer": "931"
+  },
+  {
+    "id": 181,
+    "question": "What is 6^5?",
+    "answer": "7776"
+  },
+  {
+    "id": 182,
+    "question": "What is (18 + 1) * 13?",
+    "answer": "247"
+  },
+  {
+    "id": 183,
+    "question": "What is 37 * 5?",
+    "answer": "185"
+  },
+  {
+    "id": 184,
+    "question": "What is (12 + 12) * 4?",
+    "answer": "96"
+  },
+  {
+    "id": 185,
+    "question": "What is 148 + 36?",
+    "answer": "184"
+  },
+  {
+    "id": 186,
+    "question": "What is (7 + 17) * 16?",
+    "answer": "384"
+  },
+  {
+    "id": 187,
+    "question": "What is (16 + 3) * 16?",
+    "answer": "304"
+  },
+  {
+    "id": 188,
+    "question": "What is 52 * 5?",
+    "answer": "260"
+  },
+  {
+    "id": 189,
+    "question": "What is 429 + 95?",
+    "answer": "524"
+  },
+  {
+    "id": 190,
+    "question": "What is 30 / 10?",
+    "answer": "3"
+  },
+  {
+    "id": 191,
+    "question": "What is (3 + 9) * 4?",
+    "answer": "48"
+  },
+  {
+    "id": 192,
+    "question": "What is 398 + 168?",
+    "answer": "566"
+  },
+  {
+    "id": 193,
+    "question": "What is 282 + 73?",
+    "answer": "355"
+  },
+  {
+    "id": 194,
+    "question": "What is 24 / 2?",
+    "answer": "12"
+  },
+  {
+    "id": 195,
+    "question": "What is (19 + 3) * 12?",
+    "answer": "264"
+  },
+  {
+    "id": 196,
+    "question": "What is 463 + 242?",
+    "answer": "705"
+  },
+  {
+    "id": 197,
+    "question": "What is 251 - 110?",
+    "answer": "141"
+  },
+  {
+    "id": 198,
+    "question": "What is 86 * 19?",
+    "answer": "1634"
+  },
+  {
+    "id": 199,
+    "question": "What is 39 / 13?",
+    "answer": "3"
+  },
+  {
+    "id": 200,
+    "question": "What is 4 * 9?",
+    "answer": "36"
+  },
+  {
+    "id": 201,
+    "question": "What is 55 * 14?",
+    "answer": "770"
+  },
+  {
+    "id": 202,
+    "question": "What is 474 + 133?",
+    "answer": "607"
+  },
+  {
+    "id": 203,
+    "question": "What is the powerhouse of the cell?",
+    "answer": "Mitochondria"
+  },
+  {
+    "id": 204,
+    "question": "What planet is known for its prominent ring system?",
+    "answer": "Saturn"
+  },
+  {
+    "id": 205,
+    "question": "What gas do animals exhale during respiration?",
+    "answer": "Carbon dioxide"
+  },
+  {
+    "id": 206,
+    "question": "What is the basic unit of heredity?",
+    "answer": "Gene"
+  },
+  {
+    "id": 207,
+    "question": "What force keeps planets in orbit around the Sun?",
+    "answer": "Gravity"
+  },
+  {
+    "id": 208,
+    "question": "What is the chemical formula for table salt?",
+    "answer": "NaCl"
+  },
+  {
+    "id": 209,
+    "question": "What part of the atom has a positive charge?",
+    "answer": "Proton"
+  },
+  {
+    "id": 210,
+    "question": "What process do plants use to convert sunlight into chemical energy?",
+    "answer": "Photosynthesis"
+  },
+  {
+    "id": 211,
+    "question": "What is the center of our solar system?",
+    "answer": "The Sun"
+  },
+  {
+    "id": 212,
+    "question": "What organ in the human body filters blood to produce urine?",
+    "answer": "Kidneys"
+  },
+  {
+    "id": 213,
+    "question": "What is the process by which liquid water becomes water vapor?",
+    "answer": "Evaporation"
+  },
+  {
+    "id": 214,
+    "question": "What is the phase change from gas to liquid called?",
+    "answer": "Condensation"
+  },
+  {
+    "id": 215,
+    "question": "What particle carries a negative electric charge?",
+    "answer": "Electron"
+  },
+  {
+    "id": 216,
+    "question": "What blood cells are responsible for carrying oxygen?",
+    "answer": "Red blood cells"
+  },
+  {
+    "id": 217,
+    "question": "What is the chemical symbol for potassium?",
+    "answer": "K"
+  },
+  {
+    "id": 218,
+    "question": "What branch of science studies fossils?",
+    "answer": "Paleontology"
+  },
+  {
+    "id": 219,
+    "question": "What is the hottest planet in our solar system?",
+    "answer": "Venus"
+  },
+  {
+    "id": 220,
+    "question": "What is the most abundant gas in Earth's atmosphere?",
+    "answer": "Nitrogen"
+  },
+  {
+    "id": 221,
+    "question": "What device measures atmospheric pressure?",
+    "answer": "Barometer"
+  },
+  {
+    "id": 222,
+    "question": "What is the primary gas found on the surface of the Sun?",
+    "answer": "Hydrogen"
+  },
+  {
+    "id": 223,
+    "question": "What phenomenon causes the bending of light as it passes from one medium to another?",
+    "answer": "Refraction"
+  },
+  {
+    "id": 224,
+    "question": "What organelle contains chlorophyll in plant cells?",
+    "answer": "Chloroplast"
+  },
+  {
+    "id": 225,
+    "question": "What is the term for animals that eat both plants and meat?",
+    "answer": "Omnivores"
+  },
+  {
+    "id": 226,
+    "question": "What element has the chemical symbol Fe?",
+    "answer": "Iron"
+  },
+  {
+    "id": 227,
+    "question": "What is the process by which plants lose water vapor through their leaves?",
+    "answer": "Transpiration"
+  },
+  {
+    "id": 228,
+    "question": "What is the main gas responsible for global warming?",
+    "answer": "Carbon dioxide"
+  },
+  {
+    "id": 229,
+    "question": "What instrument is used to measure temperature?",
+    "answer": "Thermometer"
+  },
+  {
+    "id": 230,
+    "question": "What part of the cell contains genetic material?",
+    "answer": "Nucleus"
+  },
+  {
+    "id": 231,
+    "question": "What is the largest organ in the human body?",
+    "answer": "Skin"
+  },
+  {
+    "id": 232,
+    "question": "What is the name of the galaxy that contains our Solar System?",
+    "answer": "Milky Way"
+  },
+  {
+    "id": 233,
+    "question": "What is the chemical symbol for mercury?",
+    "answer": "Hg"
+  },
+  {
+    "id": 234,
+    "question": "What phenomenon causes tides on Earth?",
+    "answer": "Gravitational pull of the Moon"
+  },
+  {
+    "id": 235,
+    "question": "What is the process of water soaking into the ground called?",
+    "answer": "Infiltration"
+  },
+  {
+    "id": 236,
+    "question": "What vitamin is produced when skin is exposed to sunlight?",
+    "answer": "Vitamin D"
+  },
+  {
+    "id": 237,
+    "question": "What is the pH value of pure water at 25 degrees Celsius?",
+    "answer": "7"
+  },
+  {
+    "id": 238,
+    "question": "What blood type is known as the universal donor?",
+    "answer": "O negative"
+  },
+  {
+    "id": 239,
+    "question": "What kind of bond involves the sharing of electron pairs between atoms?",
+    "answer": "Covalent bond"
+  },
+  {
+    "id": 240,
+    "question": "What is the primary organ of the human respiratory system?",
+    "answer": "Lungs"
+  },
+  {
+    "id": 241,
+    "question": "What is the term for animals that maintain a constant body temperature?",
+    "answer": "Endotherms"
+  },
+  {
+    "id": 242,
+    "question": "What is the term for the number of protons in an atom?",
+    "answer": "Atomic number"
+  },
+  {
+    "id": 243,
+    "question": "What is the effect that causes moving air to rotate due to Earth's spin?",
+    "answer": "Coriolis effect"
+  },
+  {
+    "id": 244,
+    "question": "What is the phenomenon where white light splits into colors through a prism?",
+    "answer": "Dispersion"
+  },
+  {
+    "id": 245,
+    "question": "What is the main function of white blood cells?",
+    "answer": "Fighting infections"
+  },
+  {
+    "id": 246,
+    "question": "What is the standard unit of electrical resistance?",
+    "answer": "Ohm"
+  },
+  {
+    "id": 247,
+    "question": "What natural satellite orbits the Earth?",
+    "answer": "The Moon"
+  },
+  {
+    "id": 248,
+    "question": "What is the term for an organism's ability to maintain internal balance?",
+    "answer": "Homeostasis"
+  },
+  {
+    "id": 249,
+    "question": "What is the SI unit of force?",
+    "answer": "Newton"
+  },
+  {
+    "id": 250,
+    "question": "What scientist is known for the laws of planetary motion?",
+    "answer": "Johannes Kepler"
+  },
+  {
+    "id": 251,
+    "question": "What is the most abundant element in the universe?",
+    "answer": "Hydrogen"
+  },
+  {
+    "id": 252,
+    "question": "What is the term for a change directly from solid to gas?",
+    "answer": "Sublimation"
+  },
+  {
+    "id": 253,
+    "question": "What planet is known as Earth's twin due to similar size?",
+    "answer": "Venus"
+  },
+  {
+    "id": 254,
+    "question": "What is the main pigment used in photosynthesis?",
+    "answer": "Chlorophyll"
+  },
+  {
+    "id": 255,
+    "question": "What is the term for a species' role in its ecosystem?",
+    "answer": "Niche"
+  },
+  {
+    "id": 256,
+    "question": "What type of energy is stored in the bonds of molecules?",
+    "answer": "Chemical energy"
+  },
+  {
+    "id": 257,
+    "question": "What is the name of the process that converts sugar into energy in cells?",
+    "answer": "Cellular respiration"
+  },
+  {
+    "id": 258,
+    "question": "What is the most common blood type in humans worldwide?",
+    "answer": "O positive"
+  },
+  {
+    "id": 259,
+    "question": "What is the scientific study of earthquakes called?",
+    "answer": "Seismology"
+  },
+  {
+    "id": 260,
+    "question": "What is the chemical symbol for lead?",
+    "answer": "Pb"
+  },
+  {
+    "id": 261,
+    "question": "What is the layer of Earth's atmosphere closest to the surface?",
+    "answer": "Troposphere"
+  },
+  {
+    "id": 262,
+    "question": "What is the largest internal organ in the human body?",
+    "answer": "Liver"
+  },
+  {
+    "id": 263,
+    "question": "What organelle is responsible for protein synthesis?",
+    "answer": "Ribosome"
+  },
+  {
+    "id": 264,
+    "question": "What is the unit of frequency?",
+    "answer": "Hertz"
+  },
+  {
+    "id": 265,
+    "question": "What process describes the breaking down of rocks by wind, water, and ice?",
+    "answer": "Weathering"
+  },
+  {
+    "id": 266,
+    "question": "What is the closest planet to the Sun?",
+    "answer": "Mercury"
+  },
+  {
+    "id": 267,
+    "question": "What is the study of weather called?",
+    "answer": "Meteorology"
+  },
+  {
+    "id": 268,
+    "question": "What type of eclipse occurs when the Moon passes between Earth and the Sun?",
+    "answer": "Solar eclipse"
+  },
+  {
+    "id": 269,
+    "question": "Why do we see lightning before hearing thunder?",
+    "answer": "Because light travels faster than sound"
+  },
+  {
+    "id": 270,
+    "question": "What part of the brain is responsible for balance and coordination?",
+    "answer": "Cerebellum"
+  },
+  {
+    "id": 271,
+    "question": "What gas protects Earth from harmful solar radiation in the stratosphere?",
+    "answer": "Ozone"
+  },
+  {
+    "id": 272,
+    "question": "What is the term for the layer of cells that lines the inner surface of blood vessels?",
+    "answer": "Endothelium"
+  },
+  {
+    "id": 273,
+    "question": "What is the smallest unit of life?",
+    "answer": "Cell"
+  },
+  {
+    "id": 274,
+    "question": "What type of rock is formed from cooled lava?",
+    "answer": "Igneous rock"
+  },
+  {
+    "id": 275,
+    "question": "What term describes organisms that make their own food from inorganic substances?",
+    "answer": "Autotrophs"
+  },
+  {
+    "id": 276,
+    "question": "What is the speed of light in a vacuum in meters per second?",
+    "answer": "299,792,458 meters per second"
+  },
+  {
+    "id": 277,
+    "question": "What is the study of insects called?",
+    "answer": "Entomology"
+  },
+  {
+    "id": 278,
+    "question": "What is the energy associated with motion?",
+    "answer": "Kinetic energy"
+  },
+  {
+    "id": 279,
+    "question": "What is the main function of hemoglobin?",
+    "answer": "Transporting oxygen"
+  },
+  {
+    "id": 280,
+    "question": "What is the main gas found in balloons for lift?",
+    "answer": "Helium"
+  },
+  {
+    "id": 281,
+    "question": "What is the term for sound frequencies above human hearing?",
+    "answer": "Ultrasound"
+  },
+  {
+    "id": 282,
+    "question": "What is the study of the universe beyond Earth's atmosphere called?",
+    "answer": "Astronomy"
+  },
+  {
+    "id": 283,
+    "question": "What type of cell division results in two identical daughter cells?",
+    "answer": "Mitosis"
+  },
+  {
+    "id": 284,
+    "question": "What type of bond is formed by the transfer of electrons?",
+    "answer": "Ionic bond"
+  },
+  {
+    "id": 285,
+    "question": "What is the main function of the large intestine?",
+    "answer": "Absorbing water"
+  },
+  {
+    "id": 286,
+    "question": "What is the unit of electric current?",
+    "answer": "Ampere"
+  },
+  {
+    "id": 287,
+    "question": "What is the process of cell division that produces gametes?",
+    "answer": "Meiosis"
+  },
+  {
+    "id": 288,
+    "question": "What is the common name for the patella?",
+    "answer": "Kneecap"
+  },
+  {
+    "id": 289,
+    "question": "What is the formula representing Newton's second law of motion?",
+    "answer": "F = ma"
+  },
+  {
+    "id": 290,
+    "question": "What is the branch of science that deals with the study of fungi?",
+    "answer": "Mycology"
+  },
+  {
+    "id": 291,
+    "question": "What is the temperature at which water boils at sea level?",
+    "answer": "100 degrees Celsius"
+  },
+  {
+    "id": 292,
+    "question": "What is the study of ancient human societies through material remains?",
+    "answer": "Archaeology"
+  },
+  {
+    "id": 293,
+    "question": "What major gas besides carbon dioxide contributes to the greenhouse effect?",
+    "answer": "Methane"
+  },
+  {
+    "id": 294,
+    "question": "What term describes a solution with a pH less than 7?",
+    "answer": "Acidic"
+  },
+  {
+    "id": 295,
+    "question": "What is the term for the study of the structure of the body?",
+    "answer": "Anatomy"
+  },
+  {
+    "id": 296,
+    "question": "What is the primary function of the roots of a plant?",
+    "answer": "Absorbing water and nutrients"
+  },
+  {
+    "id": 297,
+    "question": "What is the Earth's primary source of energy?",
+    "answer": "The Sun"
+  },
+  {
+    "id": 298,
+    "question": "What is the process of heat transfer through direct contact?",
+    "answer": "Conduction"
+  },
+  {
+    "id": 299,
+    "question": "What is the chemical symbol for silver?",
+    "answer": "Ag"
+  },
+  {
+    "id": 300,
+    "question": "What type of simple machine is a ramp?",
+    "answer": "Inclined plane"
+  },
+  {
+    "id": 301,
+    "question": "What is the smallest bone in the human body?",
+    "answer": "Stapes"
+  },
+  {
+    "id": 302,
+    "question": "What is the ability of a material to return to its original shape after deformation?",
+    "answer": "Elasticity"
+  },
+  {
+    "id": 303,
+    "question": "What does CPU stand for?",
+    "answer": "Central Processing Unit"
+  },
+  {
+    "id": 304,
+    "question": "What data structure uses FIFO order?",
+    "answer": "Queue"
+  },
+  {
+    "id": 305,
+    "question": "What is the worst-case time complexity of quicksort?",
+    "answer": "O(n^2)"
+  },
+  {
+    "id": 306,
+    "question": "What protocol is used to send web pages over the internet?",
+    "answer": "HTTP"
+  },
+  {
+    "id": 307,
+    "question": "What does RAM stand for?",
+    "answer": "Random Access Memory"
+  },
+  {
+    "id": 308,
+    "question": "Which layer of the OSI model deals with routing?",
+    "answer": "Network layer"
+  },
+  {
+    "id": 309,
+    "question": "What is the primary key in a database?",
+    "answer": "A unique identifier for records"
+  },
+  {
+    "id": 310,
+    "question": "Which data structure uses LIFO?",
+    "answer": "Stack"
+  },
+  {
+    "id": 311,
+    "question": "What is the main responsibility of the operating system kernel?",
+    "answer": "Managing hardware resources"
+  },
+  {
+    "id": 312,
+    "question": "What does SQL stand for?",
+    "answer": "Structured Query Language"
+  },
+  {
+    "id": 313,
+    "question": "What is the default port for HTTPS?",
+    "answer": "443"
+  },
+  {
+    "id": 314,
+    "question": "What is the average-case time complexity of inserting into a hash table?",
+    "answer": "O(1)"
+  },
+  {
+    "id": 315,
+    "question": "Which sorting algorithm is stable and has O(n log n) worst-case?",
+    "answer": "Merge sort"
+  },
+  {
+    "id": 316,
+    "question": "What is polymorphism in object-oriented programming?",
+    "answer": "Ability of objects to take many forms"
+  },
+  {
+    "id": 317,
+    "question": "What command is used to list files in Unix?",
+    "answer": "ls"
+  },
+  {
+    "id": 318,
+    "question": "What algorithm finds the shortest path in a graph with non-negative edge weights?",
+    "answer": "Dijkstra's algorithm"
+  },
+  {
+    "id": 319,
+    "question": "What does GPU stand for?",
+    "answer": "Graphics Processing Unit"
+  },
+  {
+    "id": 320,
+    "question": "What is the binary representation of decimal 5?",
+    "answer": "101"
+  },
+  {
+    "id": 321,
+    "question": "What is recursion?",
+    "answer": "A function calling itself"
+  },
+  {
+    "id": 322,
+    "question": "Which structure is best for implementing a priority queue?",
+    "answer": "Heap"
+  },
+  {
+    "id": 323,
+    "question": "What does IDE stand for?",
+    "answer": "Integrated Development Environment"
+  },
+  {
+    "id": 324,
+    "question": "What is normalization in databases?",
+    "answer": "Process of organizing data to reduce redundancy"
+  },
+  {
+    "id": 325,
+    "question": "What does HTTP stand for?",
+    "answer": "Hypertext Transfer Protocol"
+  },
+  {
+    "id": 326,
+    "question": "What is the purpose of a firewall?",
+    "answer": "To control network traffic for security"
+  },
+  {
+    "id": 327,
+    "question": "What is an IPv4 address length?",
+    "answer": "32 bits"
+  },
+  {
+    "id": 328,
+    "question": "What is garbage collection?",
+    "answer": "Automatic memory management"
+  },
+  {
+    "id": 329,
+    "question": "What does API stand for?",
+    "answer": "Application Programming Interface"
+  },
+  {
+    "id": 330,
+    "question": "What is multithreading?",
+    "answer": "Running multiple threads concurrently"
+  },
+  {
+    "id": 331,
+    "question": "What structure is used for breadth-first search?",
+    "answer": "Queue"
+  },
+  {
+    "id": 332,
+    "question": "What is SSL used for?",
+    "answer": "Encrypting data over networks"
+  },
+  {
+    "id": 333,
+    "question": "What is a compiler?",
+    "answer": "A program that translates source code to machine code"
+  },
+  {
+    "id": 334,
+    "question": "Which database command retrieves data?",
+    "answer": "SELECT"
+  },
+  {
+    "id": 335,
+    "question": "What is Big O notation used to describe?",
+    "answer": "Algorithmic time or space complexity"
+  },
+  {
+    "id": 336,
+    "question": "What does DNS stand for?",
+    "answer": "Domain Name System"
+  },
+  {
+    "id": 337,
+    "question": "What is the kernel of an operating system?",
+    "answer": "Core part managing resources"
+  },
+  {
+    "id": 338,
+    "question": "What is a stack overflow?",
+    "answer": "Excessive use of stack memory"
+  },
+  {
+    "id": 339,
+    "question": "Which company developed the Java programming language?",
+    "answer": "Sun Microsystems"
+  },
+  {
+    "id": 340,
+    "question": "What is the output of 1 << 3 in binary?",
+    "answer": "1000"
+  },
+  {
+    "id": 341,
+    "question": "What is a deadlock?",
+    "answer": "State where processes wait indefinitely for resources"
+  },
+  {
+    "id": 342,
+    "question": "What protocol does email use to send messages?",
+    "answer": "SMTP"
+  },
+  {
+    "id": 343,
+    "question": "What is object-oriented encapsulation?",
+    "answer": "Bundling data with methods"
+  },
+  {
+    "id": 344,
+    "question": "What does HTML stand for?",
+    "answer": "HyperText Markup Language"
+  },
+  {
+    "id": 345,
+    "question": "What is latency in networking?",
+    "answer": "Delay before data transfer begins"
+  },
+  {
+    "id": 346,
+    "question": "What is the purpose of an index in a database?",
+    "answer": "To speed up queries"
+  },
+  {
+    "id": 347,
+    "question": "What is an operating system?",
+    "answer": "Software managing hardware and software resources"
+  },
+  {
+    "id": 348,
+    "question": "What is the difference between TCP and UDP?",
+    "answer": "TCP is connection-oriented; UDP is connectionless"
+  },
+  {
+    "id": 349,
+    "question": "What is the base of hexadecimal?",
+    "answer": "16"
+  },
+  {
+    "id": 350,
+    "question": "What is virtual memory?",
+    "answer": "Memory management technique using disk space as RAM"
+  },
+  {
+    "id": 351,
+    "question": "What is a linked list?",
+    "answer": "A sequence of nodes connected by pointers"
+  },
+  {
+    "id": 352,
+    "question": "What is the command to change directories in Unix?",
+    "answer": "cd"
+  },
+  {
+    "id": 353,
+    "question": "What is the term for code that runs on different operating systems without modification?",
+    "answer": "Cross-platform"
+  },
+  {
+    "id": 354,
+    "question": "What does JSON stand for?",
+    "answer": "JavaScript Object Notation"
+  },
+  {
+    "id": 355,
+    "question": "What is the maximum value of an 8-bit unsigned integer?",
+    "answer": "255"
+  },
+  {
+    "id": 356,
+    "question": "What is the difference between GET and POST in HTTP?",
+    "answer": "GET retrieves data; POST submits data"
+  },
+  {
+    "id": 357,
+    "question": "What is a bit?",
+    "answer": "Smallest unit of data in computing"
+  },
+  {
+    "id": 358,
+    "question": "What is the purpose of a cache?",
+    "answer": "To store frequently accessed data for quick retrieval"
+  },
+  {
+    "id": 359,
+    "question": "What is a binary tree?",
+    "answer": "Tree data structure with at most two children per node"
+  },
+  {
+    "id": 360,
+    "question": "What is open-source software?",
+    "answer": "Software with publicly available source code"
+  },
+  {
+    "id": 361,
+    "question": "What is a foreign key?",
+    "answer": "A field referencing a primary key in another table"
+  },
+  {
+    "id": 362,
+    "question": "What is the function of DNS?",
+    "answer": "Translating domain names to IP addresses"
+  },
+  {
+    "id": 363,
+    "question": "What is a REST API?",
+    "answer": "API using Representational State Transfer principles"
+  },
+  {
+    "id": 364,
+    "question": "What is concurrency?",
+    "answer": "Multiple computations happening at the same time"
+  },
+  {
+    "id": 365,
+    "question": "What is the main difference between list and tuple in Python?",
+    "answer": "Lists are mutable; tuples are immutable"
+  },
+  {
+    "id": 366,
+    "question": "What is the purpose of the TCP three-way handshake?",
+    "answer": "To establish a reliable connection"
+  },
+  {
+    "id": 367,
+    "question": "What is an algorithm?",
+    "answer": "A step-by-step procedure for solving a problem"
+  },
+  {
+    "id": 368,
+    "question": "What is binary search?",
+    "answer": "Searching a sorted list by repeatedly halving the search interval"
+  },
+  {
+    "id": 369,
+    "question": "What is an IP address?",
+    "answer": "Numeric label identifying a device on a network"
+  },
+  {
+    "id": 370,
+    "question": "What is the term for hiding internal details and showing only functionality?",
+    "answer": "Abstraction"
+  },
+  {
+    "id": 371,
+    "question": "What is a package manager for Python?",
+    "answer": "pip"
+  },
+  {
+    "id": 372,
+    "question": "What is a mutex?",
+    "answer": "Mutual exclusion object to prevent concurrent access"
+  },
+  {
+    "id": 373,
+    "question": "What is the value of an uninitialized pointer in C?",
+    "answer": "Indeterminate value"
+  },
+  {
+    "id": 374,
+    "question": "What does CSS stand for?",
+    "answer": "Cascading Style Sheets"
+  },
+  {
+    "id": 375,
+    "question": "What is the main advantage of a binary search tree?",
+    "answer": "Efficient search, insert, and delete operations"
+  },
+  {
+    "id": 376,
+    "question": "What is UDP primarily used for?",
+    "answer": "Low-latency, loss-tolerant connections"
+  },
+  {
+    "id": 377,
+    "question": "What is a macro in programming?",
+    "answer": "Preprocessor directive that replaces code"
+  },
+  {
+    "id": 378,
+    "question": "What is machine learning?",
+    "answer": "Field of study that gives computers ability to learn from data"
+  },
+  {
+    "id": 379,
+    "question": "What is an exception?",
+    "answer": "Error detected during program execution"
+  },
+  {
+    "id": 380,
+    "question": "What is version control?",
+    "answer": "System for tracking changes to files"
+  },
+  {
+    "id": 381,
+    "question": "What is the purpose of the OSI model?",
+    "answer": "To standardize networking communication"
+  },
+  {
+    "id": 382,
+    "question": "What is a null pointer?",
+    "answer": "Pointer that does not point to any object or function"
+  },
+  {
+    "id": 383,
+    "question": "What is continuous integration?",
+    "answer": "Practice of frequently merging code into a shared repository"
+  },
+  {
+    "id": 384,
+    "question": "What does LAN stand for?",
+    "answer": "Local Area Network"
+  },
+  {
+    "id": 385,
+    "question": "What is a database transaction?",
+    "answer": "A unit of work that is either fully completed or not executed at all"
+  },
+  {
+    "id": 386,
+    "question": "What is an array?",
+    "answer": "Ordered collection of elements of the same type"
+  },
+  {
+    "id": 387,
+    "question": "What is the purpose of the `git commit` command?",
+    "answer": "To record changes in a repository"
+  },
+  {
+    "id": 388,
+    "question": "What is software testing?",
+    "answer": "Process of evaluating software to detect defects"
+  },
+  {
+    "id": 389,
+    "question": "What is the main use of a CDN?",
+    "answer": "To deliver content with low latency by using distributed servers"
+  },
+  {
+    "id": 390,
+    "question": "What is the difference between class and object?",
+    "answer": "Class is a blueprint; object is an instance of a class"
+  },
+  {
+    "id": 391,
+    "question": "What is pointer arithmetic?",
+    "answer": "Operations on memory addresses in languages like C"
+  },
+  {
+    "id": 392,
+    "question": "What is a shell?",
+    "answer": "Interface to interact with operating system services"
+  },
+  {
+    "id": 393,
+    "question": "What notation describes constant time?",
+    "answer": "O(1)"
+  },
+  {
+    "id": 394,
+    "question": "What is the purpose of a source code compiler optimization?",
+    "answer": "To improve performance or reduce resource usage"
+  },
+  {
+    "id": 395,
+    "question": "What is a process ID in operating systems?",
+    "answer": "Unique identifier for a running process"
+  },
+  {
+    "id": 396,
+    "question": "What is the purpose of load balancing?",
+    "answer": "To distribute workload across resources"
+  },
+  {
+    "id": 397,
+    "question": "What is the term for a network covering a large geographic area?",
+    "answer": "WAN"
+  },
+  {
+    "id": 398,
+    "question": "What is a unit test?",
+    "answer": "Test verifying a small piece of code works as expected"
+  },
+  {
+    "id": 399,
+    "question": "What does BIOS stand for?",
+    "answer": "Basic Input/Output System"
+  },
+  {
+    "id": 400,
+    "question": "What is a database schema?",
+    "answer": "Structure describing the organization of data in a database"
+  },
+  {
+    "id": 401,
+    "question": "What is the role of DHCP?",
+    "answer": "Assigning IP addresses dynamically"
+  },
+  {
+    "id": 402,
+    "question": "What is recursion depth?",
+    "answer": "Number of times a recursive function calls itself before terminating"
+  },
+  {
+    "id": 403,
+    "question": "What is the capital of Alabama?",
+    "answer": "Montgomery"
+  },
+  {
+    "id": 404,
+    "question": "What is the capital of Alaska?",
+    "answer": "Juneau"
+  },
+  {
+    "id": 405,
+    "question": "What is the capital of Arizona?",
+    "answer": "Phoenix"
+  },
+  {
+    "id": 406,
+    "question": "What is the capital of Arkansas?",
+    "answer": "Little Rock"
+  },
+  {
+    "id": 407,
+    "question": "What is the capital of California?",
+    "answer": "Sacramento"
+  },
+  {
+    "id": 408,
+    "question": "What is the capital of Colorado?",
+    "answer": "Denver"
+  },
+  {
+    "id": 409,
+    "question": "What is the capital of Connecticut?",
+    "answer": "Hartford"
+  },
+  {
+    "id": 410,
+    "question": "What is the capital of Delaware?",
+    "answer": "Dover"
+  },
+  {
+    "id": 411,
+    "question": "What is the capital of Florida?",
+    "answer": "Tallahassee"
+  },
+  {
+    "id": 412,
+    "question": "What is the capital of the U.S. state of Georgia?",
+    "answer": "Atlanta"
+  },
+  {
+    "id": 413,
+    "question": "What is the capital of Hawaii?",
+    "answer": "Honolulu"
+  },
+  {
+    "id": 414,
+    "question": "What is the capital of Idaho?",
+    "answer": "Boise"
+  },
+  {
+    "id": 415,
+    "question": "What is the capital of Illinois?",
+    "answer": "Springfield"
+  },
+  {
+    "id": 416,
+    "question": "What is the capital of Indiana?",
+    "answer": "Indianapolis"
+  },
+  {
+    "id": 417,
+    "question": "What is the capital of Iowa?",
+    "answer": "Des Moines"
+  },
+  {
+    "id": 418,
+    "question": "What is the capital of Kansas?",
+    "answer": "Topeka"
+  },
+  {
+    "id": 419,
+    "question": "What is the capital of Kentucky?",
+    "answer": "Frankfort"
+  },
+  {
+    "id": 420,
+    "question": "What is the capital of Louisiana?",
+    "answer": "Baton Rouge"
+  },
+  {
+    "id": 421,
+    "question": "What is the capital of Maine?",
+    "answer": "Augusta"
+  },
+  {
+    "id": 422,
+    "question": "What is the capital of Maryland?",
+    "answer": "Annapolis"
+  },
+  {
+    "id": 423,
+    "question": "What is the capital of Massachusetts?",
+    "answer": "Boston"
+  },
+  {
+    "id": 424,
+    "question": "What is the capital of Michigan?",
+    "answer": "Lansing"
+  },
+  {
+    "id": 425,
+    "question": "What is the capital of Minnesota?",
+    "answer": "Saint Paul"
+  },
+  {
+    "id": 426,
+    "question": "What is the capital of Mississippi?",
+    "answer": "Jackson"
+  },
+  {
+    "id": 427,
+    "question": "What is the capital of Missouri?",
+    "answer": "Jefferson City"
+  },
+  {
+    "id": 428,
+    "question": "What is the capital of Montana?",
+    "answer": "Helena"
+  },
+  {
+    "id": 429,
+    "question": "What is the capital of Nebraska?",
+    "answer": "Lincoln"
+  },
+  {
+    "id": 430,
+    "question": "What is the capital of Nevada?",
+    "answer": "Carson City"
+  },
+  {
+    "id": 431,
+    "question": "What is the capital of New Hampshire?",
+    "answer": "Concord"
+  },
+  {
+    "id": 432,
+    "question": "What is the capital of New Jersey?",
+    "answer": "Trenton"
+  },
+  {
+    "id": 433,
+    "question": "What is the capital of New Mexico?",
+    "answer": "Santa Fe"
+  },
+  {
+    "id": 434,
+    "question": "What is the capital of New York?",
+    "answer": "Albany"
+  },
+  {
+    "id": 435,
+    "question": "What is the capital of North Carolina?",
+    "answer": "Raleigh"
+  },
+  {
+    "id": 436,
+    "question": "What is the capital of North Dakota?",
+    "answer": "Bismarck"
+  },
+  {
+    "id": 437,
+    "question": "What is the capital of Ohio?",
+    "answer": "Columbus"
+  },
+  {
+    "id": 438,
+    "question": "What is the capital of Oklahoma?",
+    "answer": "Oklahoma City"
+  },
+  {
+    "id": 439,
+    "question": "What is the capital of Oregon?",
+    "answer": "Salem"
+  },
+  {
+    "id": 440,
+    "question": "What is the capital of Pennsylvania?",
+    "answer": "Harrisburg"
+  },
+  {
+    "id": 441,
+    "question": "What is the capital of Rhode Island?",
+    "answer": "Providence"
+  },
+  {
+    "id": 442,
+    "question": "What is the capital of South Carolina?",
+    "answer": "Columbia"
+  },
+  {
+    "id": 443,
+    "question": "What is the capital of South Dakota?",
+    "answer": "Pierre"
+  },
+  {
+    "id": 444,
+    "question": "What is the capital of Tennessee?",
+    "answer": "Nashville"
+  },
+  {
+    "id": 445,
+    "question": "What is the capital of Texas?",
+    "answer": "Austin"
+  },
+  {
+    "id": 446,
+    "question": "What is the capital of Utah?",
+    "answer": "Salt Lake City"
+  },
+  {
+    "id": 447,
+    "question": "What is the capital of Vermont?",
+    "answer": "Montpelier"
+  },
+  {
+    "id": 448,
+    "question": "What is the capital of Virginia?",
+    "answer": "Richmond"
+  },
+  {
+    "id": 449,
+    "question": "What is the capital of Washington?",
+    "answer": "Olympia"
+  },
+  {
+    "id": 450,
+    "question": "What is the capital of West Virginia?",
+    "answer": "Charleston"
+  },
+  {
+    "id": 451,
+    "question": "What is the capital of Wisconsin?",
+    "answer": "Madison"
+  },
+  {
+    "id": 452,
+    "question": "What is the capital of Wyoming?",
+    "answer": "Cheyenne"
+  },
+  {
+    "id": 453,
+    "question": "What is the capital of Afghanistan?",
+    "answer": "Kabul"
+  },
+  {
+    "id": 454,
+    "question": "What is the capital of Albania?",
+    "answer": "Tirana"
+  },
+  {
+    "id": 455,
+    "question": "What is the capital of Algeria?",
+    "answer": "Algiers"
+  },
+  {
+    "id": 456,
+    "question": "What is the capital of Andorra?",
+    "answer": "Andorra la Vella"
+  },
+  {
+    "id": 457,
+    "question": "What is the capital of Angola?",
+    "answer": "Luanda"
+  },
+  {
+    "id": 458,
+    "question": "What is the capital of Antigua and Barbuda?",
+    "answer": "St. John's"
+  },
+  {
+    "id": 459,
+    "question": "What is the capital of Argentina?",
+    "answer": "Buenos Aires"
+  },
+  {
+    "id": 460,
+    "question": "What is the capital of Armenia?",
+    "answer": "Yerevan"
+  },
+  {
+    "id": 461,
+    "question": "What is the capital of Austria?",
+    "answer": "Vienna"
+  },
+  {
+    "id": 462,
+    "question": "What is the capital of Azerbaijan?",
+    "answer": "Baku"
+  },
+  {
+    "id": 463,
+    "question": "What is the capital of Bahamas?",
+    "answer": "Nassau"
+  },
+  {
+    "id": 464,
+    "question": "What is the capital of Bahrain?",
+    "answer": "Manama"
+  },
+  {
+    "id": 465,
+    "question": "What is the capital of Bangladesh?",
+    "answer": "Dhaka"
+  },
+  {
+    "id": 466,
+    "question": "What is the capital of Barbados?",
+    "answer": "Bridgetown"
+  },
+  {
+    "id": 467,
+    "question": "What is the capital of Belarus?",
+    "answer": "Minsk"
+  },
+  {
+    "id": 468,
+    "question": "What is the capital of Belgium?",
+    "answer": "Brussels"
+  },
+  {
+    "id": 469,
+    "question": "What is the capital of Belize?",
+    "answer": "Belmopan"
+  },
+  {
+    "id": 470,
+    "question": "What is the capital of Benin?",
+    "answer": "Porto-Novo"
+  },
+  {
+    "id": 471,
+    "question": "What is the capital of Bhutan?",
+    "answer": "Thimphu"
+  },
+  {
+    "id": 472,
+    "question": "What is the capital of Bolivia?",
+    "answer": "Sucre"
+  },
+  {
+    "id": 473,
+    "question": "What is the capital of Bosnia and Herzegovina?",
+    "answer": "Sarajevo"
+  },
+  {
+    "id": 474,
+    "question": "What is the capital of Botswana?",
+    "answer": "Gaborone"
+  },
+  {
+    "id": 475,
+    "question": "What is the capital of Brazil?",
+    "answer": "Brasília"
+  },
+  {
+    "id": 476,
+    "question": "What is the capital of Brunei?",
+    "answer": "Bandar Seri Begawan"
+  },
+  {
+    "id": 477,
+    "question": "What is the capital of Bulgaria?",
+    "answer": "Sofia"
+  },
+  {
+    "id": 478,
+    "question": "What is the capital of Burkina Faso?",
+    "answer": "Ouagadougou"
+  },
+  {
+    "id": 479,
+    "question": "What is the capital of Burundi?",
+    "answer": "Gitega"
+  },
+  {
+    "id": 480,
+    "question": "What is the capital of Cabo Verde?",
+    "answer": "Praia"
+  },
+  {
+    "id": 481,
+    "question": "What is the capital of Cambodia?",
+    "answer": "Phnom Penh"
+  },
+  {
+    "id": 482,
+    "question": "What is the capital of Cameroon?",
+    "answer": "Yaoundé"
+  },
+  {
+    "id": 483,
+    "question": "What is the capital of Central African Republic?",
+    "answer": "Bangui"
+  },
+  {
+    "id": 484,
+    "question": "What is the capital of Chad?",
+    "answer": "N'Djamena"
+  },
+  {
+    "id": 485,
+    "question": "What is the capital of Chile?",
+    "answer": "Santiago"
+  },
+  {
+    "id": 486,
+    "question": "What is the capital of China?",
+    "answer": "Beijing"
+  },
+  {
+    "id": 487,
+    "question": "What is the capital of Colombia?",
+    "answer": "Bogotá"
+  },
+  {
+    "id": 488,
+    "question": "What is the capital of Comoros?",
+    "answer": "Moroni"
+  },
+  {
+    "id": 489,
+    "question": "What is the capital of Costa Rica?",
+    "answer": "San José"
+  },
+  {
+    "id": 490,
+    "question": "What is the capital of Croatia?",
+    "answer": "Zagreb"
+  },
+  {
+    "id": 491,
+    "question": "What is the capital of Cuba?",
+    "answer": "Havana"
+  },
+  {
+    "id": 492,
+    "question": "What is the capital of Cyprus?",
+    "answer": "Nicosia"
+  },
+  {
+    "id": 493,
+    "question": "What is the capital of Czech Republic?",
+    "answer": "Prague"
+  },
+  {
+    "id": 494,
+    "question": "What is the capital of Democratic Republic of the Congo?",
+    "answer": "Kinshasa"
+  },
+  {
+    "id": 495,
+    "question": "What is the capital of Denmark?",
+    "answer": "Copenhagen"
+  },
+  {
+    "id": 496,
+    "question": "What is the capital of Djibouti?",
+    "answer": "Djibouti"
+  },
+  {
+    "id": 497,
+    "question": "What is the capital of Dominica?",
+    "answer": "Roseau"
+  },
+  {
+    "id": 498,
+    "question": "What is the capital of Dominican Republic?",
+    "answer": "Santo Domingo"
+  },
+  {
+    "id": 499,
+    "question": "What is the capital of Ecuador?",
+    "answer": "Quito"
+  },
+  {
+    "id": 500,
+    "question": "What is the capital of El Salvador?",
+    "answer": "San Salvador"
+  },
+  {
+    "id": 501,
+    "question": "What is the capital of Equatorial Guinea?",
+    "answer": "Malabo"
+  },
+  {
+    "id": 502,
+    "question": "What is the capital of Eritrea?",
+    "answer": "Asmara"
+  },
+  {
+    "id": 503,
+    "question": "What is the capital of Estonia?",
+    "answer": "Tallinn"
+  },
+  {
+    "id": 504,
+    "question": "What is the capital of Eswatini?",
+    "answer": "Mbabane"
+  },
+  {
+    "id": 505,
+    "question": "What is the capital of Ethiopia?",
+    "answer": "Addis Ababa"
+  },
+  {
+    "id": 506,
+    "question": "What is the capital of Fiji?",
+    "answer": "Suva"
+  },
+  {
+    "id": 507,
+    "question": "What is the capital of Finland?",
+    "answer": "Helsinki"
+  },
+  {
+    "id": 508,
+    "question": "What is the capital of Gabon?",
+    "answer": "Libreville"
+  },
+  {
+    "id": 509,
+    "question": "What is the capital of Gambia?",
+    "answer": "Banjul"
+  },
+  {
+    "id": 510,
+    "question": "What is the capital of Georgia?",
+    "answer": "Tbilisi"
+  },
+  {
+    "id": 511,
+    "question": "What is the capital of Germany?",
+    "answer": "Berlin"
+  },
+  {
+    "id": 512,
+    "question": "What is the capital of Ghana?",
+    "answer": "Accra"
+  },
+  {
+    "id": 513,
+    "question": "What is the capital of Greece?",
+    "answer": "Athens"
+  },
+  {
+    "id": 514,
+    "question": "What is the capital of Grenada?",
+    "answer": "St. George's"
+  },
+  {
+    "id": 515,
+    "question": "What is the capital of Guatemala?",
+    "answer": "Guatemala City"
+  },
+  {
+    "id": 516,
+    "question": "What is the capital of Guinea?",
+    "answer": "Conakry"
+  },
+  {
+    "id": 517,
+    "question": "What is the capital of Guinea-Bissau?",
+    "answer": "Bissau"
+  },
+  {
+    "id": 518,
+    "question": "What is the capital of Guyana?",
+    "answer": "Georgetown"
+  },
+  {
+    "id": 519,
+    "question": "What is the capital of Haiti?",
+    "answer": "Port-au-Prince"
+  },
+  {
+    "id": 520,
+    "question": "What is the capital of Honduras?",
+    "answer": "Tegucigalpa"
+  },
+  {
+    "id": 521,
+    "question": "What is the capital of Hungary?",
+    "answer": "Budapest"
+  },
+  {
+    "id": 522,
+    "question": "What is the capital of Iceland?",
+    "answer": "Reykjavík"
+  },
+  {
+    "id": 523,
+    "question": "What is the capital of India?",
+    "answer": "New Delhi"
+  },
+  {
+    "id": 524,
+    "question": "What is the capital of Indonesia?",
+    "answer": "Jakarta"
+  },
+  {
+    "id": 525,
+    "question": "What is the capital of Iran?",
+    "answer": "Tehran"
+  },
+  {
+    "id": 526,
+    "question": "What is the capital of Iraq?",
+    "answer": "Baghdad"
+  },
+  {
+    "id": 527,
+    "question": "What is the capital of Ireland?",
+    "answer": "Dublin"
+  },
+  {
+    "id": 528,
+    "question": "What is the capital of Israel?",
+    "answer": "Jerusalem"
+  },
+  {
+    "id": 529,
+    "question": "What is the capital of Jamaica?",
+    "answer": "Kingston"
+  },
+  {
+    "id": 530,
+    "question": "What is the capital of Japan?",
+    "answer": "Tokyo"
+  },
+  {
+    "id": 531,
+    "question": "What is the capital of Jordan?",
+    "answer": "Amman"
+  },
+  {
+    "id": 532,
+    "question": "What is the capital of Kazakhstan?",
+    "answer": "Astana"
+  },
+  {
+    "id": 533,
+    "question": "What is the capital of Kenya?",
+    "answer": "Nairobi"
+  },
+  {
+    "id": 534,
+    "question": "What is the capital of Kiribati?",
+    "answer": "South Tarawa"
+  },
+  {
+    "id": 535,
+    "question": "What is the capital of Kuwait?",
+    "answer": "Kuwait City"
+  },
+  {
+    "id": 536,
+    "question": "What is the capital of Kyrgyzstan?",
+    "answer": "Bishkek"
+  },
+  {
+    "id": 537,
+    "question": "What is the capital of Laos?",
+    "answer": "Vientiane"
+  },
+  {
+    "id": 538,
+    "question": "What is the capital of Latvia?",
+    "answer": "Riga"
+  },
+  {
+    "id": 539,
+    "question": "What is the capital of Lebanon?",
+    "answer": "Beirut"
+  },
+  {
+    "id": 540,
+    "question": "What is the capital of Lesotho?",
+    "answer": "Maseru"
+  },
+  {
+    "id": 541,
+    "question": "What is the capital of Liberia?",
+    "answer": "Monrovia"
+  },
+  {
+    "id": 542,
+    "question": "What is the capital of Libya?",
+    "answer": "Tripoli"
+  },
+  {
+    "id": 543,
+    "question": "What is the capital of Liechtenstein?",
+    "answer": "Vaduz"
+  },
+  {
+    "id": 544,
+    "question": "What is the capital of Lithuania?",
+    "answer": "Vilnius"
+  },
+  {
+    "id": 545,
+    "question": "What is the capital of Luxembourg?",
+    "answer": "Luxembourg"
+  },
+  {
+    "id": 546,
+    "question": "What is the capital of Madagascar?",
+    "answer": "Antananarivo"
+  },
+  {
+    "id": 547,
+    "question": "What is the capital of Malawi?",
+    "answer": "Lilongwe"
+  },
+  {
+    "id": 548,
+    "question": "What is the capital of Malaysia?",
+    "answer": "Kuala Lumpur"
+  },
+  {
+    "id": 549,
+    "question": "What is the capital of Maldives?",
+    "answer": "Malé"
+  },
+  {
+    "id": 550,
+    "question": "What is the capital of Mali?",
+    "answer": "Bamako"
+  },
+  {
+    "id": 551,
+    "question": "What is the capital of Malta?",
+    "answer": "Valletta"
+  },
+  {
+    "id": 552,
+    "question": "What is the capital of Marshall Islands?",
+    "answer": "Majuro"
+  },
+  {
+    "id": 553,
+    "question": "What is the capital of Mauritania?",
+    "answer": "Nouakchott"
+  },
+  {
+    "id": 554,
+    "question": "What is the capital of Mauritius?",
+    "answer": "Port Louis"
+  },
+  {
+    "id": 555,
+    "question": "What is the capital of Mexico?",
+    "answer": "Mexico City"
+  },
+  {
+    "id": 556,
+    "question": "What is the capital of Micronesia?",
+    "answer": "Palikir"
+  },
+  {
+    "id": 557,
+    "question": "What is the capital of Moldova?",
+    "answer": "Chișinău"
+  },
+  {
+    "id": 558,
+    "question": "What is the capital of Monaco?",
+    "answer": "Monaco"
+  },
+  {
+    "id": 559,
+    "question": "What is the capital of Mongolia?",
+    "answer": "Ulaanbaatar"
+  },
+  {
+    "id": 560,
+    "question": "What is the capital of Montenegro?",
+    "answer": "Podgorica"
+  },
+  {
+    "id": 561,
+    "question": "What is the capital of Morocco?",
+    "answer": "Rabat"
+  },
+  {
+    "id": 562,
+    "question": "What is the capital of Mozambique?",
+    "answer": "Maputo"
+  },
+  {
+    "id": 563,
+    "question": "What is the capital of Myanmar?",
+    "answer": "Naypyidaw"
+  },
+  {
+    "id": 564,
+    "question": "What is the capital of Namibia?",
+    "answer": "Windhoek"
+  },
+  {
+    "id": 565,
+    "question": "What is the capital of Nauru?",
+    "answer": "Yaren"
+  },
+  {
+    "id": 566,
+    "question": "What is the capital of Nepal?",
+    "answer": "Kathmandu"
+  },
+  {
+    "id": 567,
+    "question": "What is the capital of Netherlands?",
+    "answer": "Amsterdam"
+  },
+  {
+    "id": 568,
+    "question": "What is the capital of New Zealand?",
+    "answer": "Wellington"
+  },
+  {
+    "id": 569,
+    "question": "What is the capital of Nicaragua?",
+    "answer": "Managua"
+  },
+  {
+    "id": 570,
+    "question": "What is the capital of Niger?",
+    "answer": "Niamey"
+  },
+  {
+    "id": 571,
+    "question": "What is the capital of Nigeria?",
+    "answer": "Abuja"
+  },
+  {
+    "id": 572,
+    "question": "What is the capital of North Korea?",
+    "answer": "Pyongyang"
+  },
+  {
+    "id": 573,
+    "question": "What is the capital of North Macedonia?",
+    "answer": "Skopje"
+  },
+  {
+    "id": 574,
+    "question": "What is the capital of Norway?",
+    "answer": "Oslo"
+  },
+  {
+    "id": 575,
+    "question": "What is the capital of Oman?",
+    "answer": "Muscat"
+  },
+  {
+    "id": 576,
+    "question": "What is the capital of Pakistan?",
+    "answer": "Islamabad"
+  },
+  {
+    "id": 577,
+    "question": "What is the capital of Palau?",
+    "answer": "Ngerulmud"
+  },
+  {
+    "id": 578,
+    "question": "What is the capital of Palestine?",
+    "answer": "Ramallah"
+  },
+  {
+    "id": 579,
+    "question": "What is the capital of Panama?",
+    "answer": "Panama City"
+  },
+  {
+    "id": 580,
+    "question": "What is the capital of Papua New Guinea?",
+    "answer": "Port Moresby"
+  },
+  {
+    "id": 581,
+    "question": "What is the capital of Paraguay?",
+    "answer": "Asunción"
+  },
+  {
+    "id": 582,
+    "question": "What is the capital of Peru?",
+    "answer": "Lima"
+  },
+  {
+    "id": 583,
+    "question": "What is the capital of Philippines?",
+    "answer": "Manila"
+  },
+  {
+    "id": 584,
+    "question": "What is the capital of Poland?",
+    "answer": "Warsaw"
+  },
+  {
+    "id": 585,
+    "question": "What is the capital of Portugal?",
+    "answer": "Lisbon"
+  },
+  {
+    "id": 586,
+    "question": "What is the capital of Qatar?",
+    "answer": "Doha"
+  },
+  {
+    "id": 587,
+    "question": "What is the capital of Republic of the Congo?",
+    "answer": "Brazzaville"
+  },
+  {
+    "id": 588,
+    "question": "What is the capital of Romania?",
+    "answer": "Bucharest"
+  },
+  {
+    "id": 589,
+    "question": "What is the capital of Russia?",
+    "answer": "Moscow"
+  },
+  {
+    "id": 590,
+    "question": "What is the capital of Rwanda?",
+    "answer": "Kigali"
+  },
+  {
+    "id": 591,
+    "question": "What is the capital of Saint Kitts and Nevis?",
+    "answer": "Basseterre"
+  },
+  {
+    "id": 592,
+    "question": "What is the capital of Saint Lucia?",
+    "answer": "Castries"
+  },
+  {
+    "id": 593,
+    "question": "What is the capital of Saint Vincent and the Grenadines?",
+    "answer": "Kingstown"
+  },
+  {
+    "id": 594,
+    "question": "What is the capital of Samoa?",
+    "answer": "Apia"
+  },
+  {
+    "id": 595,
+    "question": "What is the capital of San Marino?",
+    "answer": "San Marino"
+  },
+  {
+    "id": 596,
+    "question": "What is the capital of Sao Tome and Principe?",
+    "answer": "São Tomé"
+  },
+  {
+    "id": 597,
+    "question": "What is the capital of Saudi Arabia?",
+    "answer": "Riyadh"
+  },
+  {
+    "id": 598,
+    "question": "What is the capital of Senegal?",
+    "answer": "Dakar"
+  },
+  {
+    "id": 599,
+    "question": "What is the capital of Serbia?",
+    "answer": "Belgrade"
+  },
+  {
+    "id": 600,
+    "question": "What is the capital of Seychelles?",
+    "answer": "Victoria"
+  },
+  {
+    "id": 601,
+    "question": "What is the capital of Sierra Leone?",
+    "answer": "Freetown"
+  },
+  {
+    "id": 602,
+    "question": "What is the capital of Singapore?",
+    "answer": "Singapore"
+  },
+  {
+    "id": 603,
+    "question": "What is the capital of Slovakia?",
+    "answer": "Bratislava"
+  },
+  {
+    "id": 604,
+    "question": "What is the capital of Slovenia?",
+    "answer": "Ljubljana"
+  },
+  {
+    "id": 605,
+    "question": "What is the capital of Solomon Islands?",
+    "answer": "Honiara"
+  },
+  {
+    "id": 606,
+    "question": "What is the capital of Somalia?",
+    "answer": "Mogadishu"
+  },
+  {
+    "id": 607,
+    "question": "What is the capital of South Africa?",
+    "answer": "Pretoria"
+  },
+  {
+    "id": 608,
+    "question": "What is the capital of South Sudan?",
+    "answer": "Juba"
+  },
+  {
+    "id": 609,
+    "question": "What is the capital of Spain?",
+    "answer": "Madrid"
+  },
+  {
+    "id": 610,
+    "question": "What is the capital of Sri Lanka?",
+    "answer": "Sri Jayawardenepura Kotte"
+  },
+  {
+    "id": 611,
+    "question": "What is the capital of Sudan?",
+    "answer": "Khartoum"
+  },
+  {
+    "id": 612,
+    "question": "What is the capital of Suriname?",
+    "answer": "Paramaribo"
+  },
+  {
+    "id": 613,
+    "question": "What is the capital of Sweden?",
+    "answer": "Stockholm"
+  },
+  {
+    "id": 614,
+    "question": "What is the capital of Switzerland?",
+    "answer": "Bern"
+  },
+  {
+    "id": 615,
+    "question": "What is the capital of Syria?",
+    "answer": "Damascus"
+  },
+  {
+    "id": 616,
+    "question": "What is the capital of Taiwan?",
+    "answer": "Taipei"
+  },
+  {
+    "id": 617,
+    "question": "What is the capital of Tajikistan?",
+    "answer": "Dushanbe"
+  },
+  {
+    "id": 618,
+    "question": "What is the capital of Tanzania?",
+    "answer": "Dodoma"
+  },
+  {
+    "id": 619,
+    "question": "What is the capital of Thailand?",
+    "answer": "Bangkok"
+  },
+  {
+    "id": 620,
+    "question": "What is the capital of Togo?",
+    "answer": "Lomé"
+  },
+  {
+    "id": 621,
+    "question": "What is the capital of Tonga?",
+    "answer": "Nuku'alofa"
+  },
+  {
+    "id": 622,
+    "question": "What is the capital of Trinidad and Tobago?",
+    "answer": "Port of Spain"
+  },
+  {
+    "id": 623,
+    "question": "What is the capital of Tunisia?",
+    "answer": "Tunis"
+  },
+  {
+    "id": 624,
+    "question": "What is the capital of Turkey?",
+    "answer": "Ankara"
+  },
+  {
+    "id": 625,
+    "question": "What is the capital of Turkmenistan?",
+    "answer": "Ashgabat"
+  },
+  {
+    "id": 626,
+    "question": "What is the capital of Tuvalu?",
+    "answer": "Funafuti"
+  },
+  {
+    "id": 627,
+    "question": "What is the capital of Uganda?",
+    "answer": "Kampala"
+  },
+  {
+    "id": 628,
+    "question": "What is the capital of Ukraine?",
+    "answer": "Kyiv"
+  },
+  {
+    "id": 629,
+    "question": "What is the capital of United Arab Emirates?",
+    "answer": "Abu Dhabi"
+  },
+  {
+    "id": 630,
+    "question": "What is the capital of United Kingdom?",
+    "answer": "London"
+  },
+  {
+    "id": 631,
+    "question": "What is the capital of United States?",
+    "answer": "Washington, D.C."
+  },
+  {
+    "id": 632,
+    "question": "What is the capital of Uruguay?",
+    "answer": "Montevideo"
+  },
+  {
+    "id": 633,
+    "question": "What is the capital of Uzbekistan?",
+    "answer": "Tashkent"
+  },
+  {
+    "id": 634,
+    "question": "What is the capital of Vanuatu?",
+    "answer": "Port Vila"
+  },
+  {
+    "id": 635,
+    "question": "What is the capital of Vatican City?",
+    "answer": "Vatican City"
+  },
+  {
+    "id": 636,
+    "question": "What is the capital of Venezuela?",
+    "answer": "Caracas"
+  },
+  {
+    "id": 637,
+    "question": "What is the capital of Vietnam?",
+    "answer": "Hanoi"
+  },
+  {
+    "id": 638,
+    "question": "What is the capital of Yemen?",
+    "answer": "Sana'a"
+  },
+  {
+    "id": 639,
+    "question": "What is the capital of Zambia?",
+    "answer": "Lusaka"
+  },
+  {
+    "id": 640,
+    "question": "What is the capital of Zimbabwe?",
+    "answer": "Harare"
+  },
+  {
+    "id": 641,
+    "question": "What is the capital of Côte d'Ivoire?",
+    "answer": "Yamoussoukro"
+  },
+  {
+    "id": 642,
+    "question": "What is the capital of Timor-Leste?",
+    "answer": "Dili"
+  },
+  {
+    "id": 643,
+    "question": "Who was the first President of the United States?",
+    "answer": "George Washington"
+  },
+  {
+    "id": 644,
+    "question": "In what year was the Declaration of Independence signed?",
+    "answer": "1776"
+  },
+  {
+    "id": 645,
+    "question": "What war was fought between the North and South from 1861 to 1865?",
+    "answer": "The American Civil War"
+  },
+  {
+    "id": 646,
+    "question": "Who issued the Emancipation Proclamation?",
+    "answer": "Abraham Lincoln"
+  },
+  {
+    "id": 647,
+    "question": "Which amendment abolished slavery in the United States?",
+    "answer": "The 13th Amendment"
+  },
+  {
+    "id": 648,
+    "question": "What was the first permanent English settlement in America?",
+    "answer": "Jamestown"
+  },
+  {
+    "id": 649,
+    "question": "Who is known as the Father of the Constitution?",
+    "answer": "James Madison"
+  },
+  {
+    "id": 650,
+    "question": "Which purchase doubled the size of the United States in 1803?",
+    "answer": "The Louisiana Purchase"
+  },
+  {
+    "id": 651,
+    "question": "Who wrote the Declaration of Independence?",
+    "answer": "Thomas Jefferson"
+  },
+  {
+    "id": 652,
+    "question": "Which U.S. president served four terms?",
+    "answer": "Franklin D. Roosevelt"
+  },
+  {
+    "id": 653,
+    "question": "In which year did women gain the right to vote in the United States?",
+    "answer": "1920"
+  },
+  {
+    "id": 654,
+    "question": "What movement sought to end racial segregation in the 1950s and 1960s?",
+    "answer": "The Civil Rights Movement"
+  },
+  {
+    "id": 655,
+    "question": "Who delivered the \"I Have a Dream\" speech?",
+    "answer": "Martin Luther King Jr."
+  },
+  {
+    "id": 656,
+    "question": "Which Supreme Court case declared \"separate but equal\" unconstitutional?",
+    "answer": "Brown v. Board of Education"
+  },
+  {
+    "id": 657,
+    "question": "What 1804 expedition explored the Louisiana Purchase?",
+    "answer": "The Lewis and Clark Expedition"
+  },
+  {
+    "id": 658,
+    "question": "What trail did many pioneers follow to reach the West Coast in the 1800s?",
+    "answer": "The Oregon Trail"
+  },
+  {
+    "id": 659,
+    "question": "What event triggered the start of the Great Depression?",
+    "answer": "The Stock Market Crash of 1929"
+  },
+  {
+    "id": 660,
+    "question": "What was the U.S. policy to rebuild Europe after World War II?",
+    "answer": "The Marshall Plan"
+  },
+  {
+    "id": 661,
+    "question": "Which U.S. president resigned due to the Watergate scandal?",
+    "answer": "Richard Nixon"
+  },
+  {
+    "id": 662,
+    "question": "What year did the United States land the first humans on the moon?",
+    "answer": "1969"
+  },
+  {
+    "id": 663,
+    "question": "Which act in 1862 granted land for public universities?",
+    "answer": "The Morrill Act"
+  },
+  {
+    "id": 664,
+    "question": "What 1823 doctrine warned European powers against colonization in the Americas?",
+    "answer": "The Monroe Doctrine"
+  },
+  {
+    "id": 665,
+    "question": "Which 19th-century movement was founded at Seneca Falls?",
+    "answer": "The Women's Rights Movement"
+  },
+  {
+    "id": 666,
+    "question": "Who was the first woman to fly solo across the Atlantic Ocean?",
+    "answer": "Amelia Earhart"
+  },
+  {
+    "id": 667,
+    "question": "In what year did the United States enter World War I?",
+    "answer": "1917"
+  },
+  {
+    "id": 668,
+    "question": "Who was president during the Cuban Missile Crisis?",
+    "answer": "John F. Kennedy"
+  },
+  {
+    "id": 669,
+    "question": "What 1954 Senate hearings targeted alleged communists?",
+    "answer": "The Army-McCarthy hearings"
+  },
+  {
+    "id": 670,
+    "question": "What 1960s program aimed to reduce poverty under Lyndon B. Johnson?",
+    "answer": "The Great Society"
+  },
+  {
+    "id": 671,
+    "question": "Which territory became the 50th state in 1959?",
+    "answer": "Hawaii"
+  },
+  {
+    "id": 672,
+    "question": "Which U.S. president proposed the Fourteen Points?",
+    "answer": "Woodrow Wilson"
+  },
+  {
+    "id": 673,
+    "question": "Where was the \"shot heard 'round the world\" fired?",
+    "answer": "Lexington and Concord"
+  },
+  {
+    "id": 674,
+    "question": "What was the name of the ship on which the Pilgrims sailed to America?",
+    "answer": "The Mayflower"
+  },
+  {
+    "id": 675,
+    "question": "Who authored \"Common Sense\"?",
+    "answer": "Thomas Paine"
+  },
+  {
+    "id": 676,
+    "question": "What was the name given to the forced relocation of the Cherokee in 1838?",
+    "answer": "The Trail of Tears"
+  },
+  {
+    "id": 677,
+    "question": "Which battle was the turning point of the American Revolution?",
+    "answer": "The Battle of Saratoga"
+  },
+  {
+    "id": 678,
+    "question": "What invention by Eli Whitney increased cotton production?",
+    "answer": "The cotton gin"
+  },
+  {
+    "id": 679,
+    "question": "What was the first federal capital of the United States?",
+    "answer": "New York City"
+  },
+  {
+    "id": 680,
+    "question": "Which U.S. state was founded as a refuge for Catholics?",
+    "answer": "Maryland"
+  },
+  {
+    "id": 681,
+    "question": "Who assassinated Abraham Lincoln?",
+    "answer": "John Wilkes Booth"
+  },
+  {
+    "id": 682,
+    "question": "What was the main route for cattle drives from Texas to Kansas?",
+    "answer": "The Chisholm Trail"
+  },
+  {
+    "id": 683,
+    "question": "Which 20th-century program created Social Security?",
+    "answer": "The New Deal"
+  },
+  {
+    "id": 684,
+    "question": "What 1898 war marked the United States as a world power?",
+    "answer": "The Spanish-American War"
+  },
+  {
+    "id": 685,
+    "question": "Who was the commander of the Confederate army?",
+    "answer": "Robert E. Lee"
+  },
+  {
+    "id": 686,
+    "question": "What 1955 act granted federal funding for interstate highways?",
+    "answer": "The Federal-Aid Highway Act"
+  },
+  {
+    "id": 687,
+    "question": "Who became the first African American Supreme Court Justice?",
+    "answer": "Thurgood Marshall"
+  },
+  {
+    "id": 688,
+    "question": "Which 1970s scandal involved a break-in at Democratic headquarters?",
+    "answer": "Watergate"
+  },
+  {
+    "id": 689,
+    "question": "What 1849 event led to mass migration to California?",
+    "answer": "The Gold Rush"
+  },
+  {
+    "id": 690,
+    "question": "Which amendment gave 18-year-olds the right to vote?",
+    "answer": "The 26th Amendment"
+  },
+  {
+    "id": 691,
+    "question": "Who wrote the Star-Spangled Banner?",
+    "answer": "Francis Scott Key"
+  },
+  {
+    "id": 692,
+    "question": "What 1857 Supreme Court case said African Americans could not be citizens?",
+    "answer": "Dred Scott v. Sandford"
+  },
+  {
+    "id": 693,
+    "question": "Which law in 1882 restricted immigration from a specific country?",
+    "answer": "The Chinese Exclusion Act"
+  },
+  {
+    "id": 694,
+    "question": "What term describes the journey of enslaved Africans to America?",
+    "answer": "The Middle Passage"
+  },
+  {
+    "id": 695,
+    "question": "What policy aimed to keep communism from spreading?",
+    "answer": "Containment"
+  },
+  {
+    "id": 696,
+    "question": "Who was the first Secretary of the Treasury?",
+    "answer": "Alexander Hamilton"
+  },
+  {
+    "id": 697,
+    "question": "What 1819 acquisition gave Florida to the United States?",
+    "answer": "The Adams-Onís Treaty"
+  },
+  {
+    "id": 698,
+    "question": "Which Supreme Court case established judicial review?",
+    "answer": "Marbury v. Madison"
+  },
+  {
+    "id": 699,
+    "question": "Who published the anti-slavery newspaper \"The Liberator\"?",
+    "answer": "William Lloyd Garrison"
+  },
+  {
+    "id": 700,
+    "question": "What 1973 Supreme Court case legalized abortion nationwide?",
+    "answer": "Roe v. Wade"
+  },
+  {
+    "id": 701,
+    "question": "What project built the first atomic bombs?",
+    "answer": "The Manhattan Project"
+  },
+  {
+    "id": 702,
+    "question": "Which amendment guarantees freedom of speech?",
+    "answer": "The First Amendment"
+  },
+  {
+    "id": 703,
+    "question": "What 1836 battle became a rallying cry for Texas independence?",
+    "answer": "The Alamo"
+  },
+  {
+    "id": 704,
+    "question": "Which colonial region relied heavily on plantations?",
+    "answer": "The Southern Colonies"
+  },
+  {
+    "id": 705,
+    "question": "What city served as the capital of the Confederacy?",
+    "answer": "Richmond, Virginia"
+  },
+  {
+    "id": 706,
+    "question": "Who was the main author of the Bill of Rights?",
+    "answer": "James Madison"
+  },
+  {
+    "id": 707,
+    "question": "What movement sought to ban alcohol and led to Prohibition?",
+    "answer": "The Temperance Movement"
+  },
+  {
+    "id": 708,
+    "question": "Which Native American leader won at Little Bighorn?",
+    "answer": "Sitting Bull"
+  },
+  {
+    "id": 709,
+    "question": "What winter encampment tested the Continental Army in 1777-78?",
+    "answer": "Valley Forge"
+  },
+  {
+    "id": 710,
+    "question": "Which 1906 book led to the Pure Food and Drug Act?",
+    "answer": "The Jungle"
+  },
+  {
+    "id": 711,
+    "question": "Who delivered the Gettysburg Address?",
+    "answer": "Abraham Lincoln"
+  },
+  {
+    "id": 712,
+    "question": "What 1862 law gave settlers 160 acres of land?",
+    "answer": "The Homestead Act"
+  },
+  {
+    "id": 713,
+    "question": "Who was president when the Great Depression began?",
+    "answer": "Herbert Hoover"
+  },
+  {
+    "id": 714,
+    "question": "Which Supreme Court case upheld segregation in 1896?",
+    "answer": "Plessy v. Ferguson"
+  },
+  {
+    "id": 715,
+    "question": "What scandal involved trading arms for hostages in the 1980s?",
+    "answer": "The Iran-Contra Affair"
+  },
+  {
+    "id": 716,
+    "question": "Who was the only U.S. president to serve non-consecutive terms?",
+    "answer": "Grover Cleveland"
+  },
+  {
+    "id": 717,
+    "question": "What 1994 agreement created a trade bloc with Canada and Mexico?",
+    "answer": "NAFTA"
+  },
+  {
+    "id": 718,
+    "question": "Which 17th-century event saw the execution of women as witches in Massachusetts?",
+    "answer": "The Salem Witch Trials"
+  },
+  {
+    "id": 719,
+    "question": "Who led American troops in Europe during World War I?",
+    "answer": "John J. Pershing"
+  },
+  {
+    "id": 720,
+    "question": "What 1963 event featured a march on Washington for jobs and freedom?",
+    "answer": "The March on Washington"
+  },
+  {
+    "id": 721,
+    "question": "Which colony was founded by William Penn?",
+    "answer": "Pennsylvania"
+  },
+  {
+    "id": 722,
+    "question": "What 1890 event marked the end of armed Native American resistance?",
+    "answer": "The Wounded Knee Massacre"
+  },
+  {
+    "id": 723,
+    "question": "Who wrote \"Uncle Tom's Cabin\"?",
+    "answer": "Harriet Beecher Stowe"
+  },
+  {
+    "id": 724,
+    "question": "Which U.S. president initiated the policy of détente with the Soviet Union?",
+    "answer": "Richard Nixon"
+  },
+  {
+    "id": 725,
+    "question": "In what year did the United States enter World War II?",
+    "answer": "1941"
+  },
+  {
+    "id": 726,
+    "question": "What term refers to the forced relocation of Japanese Americans during World War II?",
+    "answer": "Internment"
+  },
+  {
+    "id": 727,
+    "question": "What was the main cash crop of the Jamestown colony?",
+    "answer": "Tobacco"
+  },
+  {
+    "id": 728,
+    "question": "Who was the first African American woman elected to Congress?",
+    "answer": "Shirley Chisholm"
+  },
+  {
+    "id": 729,
+    "question": "What 18th-century rebellion was led by farmers against a whiskey tax?",
+    "answer": "The Whiskey Rebellion"
+  },
+  {
+    "id": 730,
+    "question": "Which 1831 slave rebellion was led by a preacher?",
+    "answer": "Nat Turner's Rebellion"
+  },
+  {
+    "id": 731,
+    "question": "What 19th-century belief justified U.S. westward expansion?",
+    "answer": "Manifest Destiny"
+  },
+  {
+    "id": 732,
+    "question": "Which act allowed settlers to determine slavery by popular vote in Kansas and Nebraska?",
+    "answer": "The Kansas-Nebraska Act"
+  },
+  {
+    "id": 733,
+    "question": "What 1773 protest involved dumping tea into Boston Harbor?",
+    "answer": "The Boston Tea Party"
+  },
+  {
+    "id": 734,
+    "question": "Who was the primary author of the Federalist Papers along with Madison and Jay?",
+    "answer": "Alexander Hamilton"
+  },
+  {
+    "id": 735,
+    "question": "Which 1820 agreement attempted to balance slave and free states?",
+    "answer": "The Missouri Compromise"
+  },
+  {
+    "id": 736,
+    "question": "What was the first U.S. satellite launched into space?",
+    "answer": "Explorer 1"
+  },
+  {
+    "id": 737,
+    "question": "Who was president during the Bay of Pigs invasion?",
+    "answer": "John F. Kennedy"
+  },
+  {
+    "id": 738,
+    "question": "Which 19th-century party opposed Andrew Jackson and supported Henry Clay?",
+    "answer": "The Whig Party"
+  },
+  {
+    "id": 739,
+    "question": "What 1850 law required the return of escaped enslaved people?",
+    "answer": "The Fugitive Slave Act"
+  },
+  {
+    "id": 740,
+    "question": "Who was the first U.S. Secretary of State?",
+    "answer": "Thomas Jefferson"
+  },
+  {
+    "id": 741,
+    "question": "What 1863 battle is considered the turning point of the Civil War?",
+    "answer": "The Battle of Gettysburg"
+  },
+  {
+    "id": 742,
+    "question": "Which 1970 event saw four students killed at an anti-war protest?",
+    "answer": "The Kent State shootings"
+  },
+  {
+    "id": 743,
+    "question": "Who was the first Emperor of Rome?",
+    "answer": "Augustus"
+  },
+  {
+    "id": 744,
+    "question": "In what year did the Berlin Wall fall?",
+    "answer": "1989"
+  },
+  {
+    "id": 745,
+    "question": "What is the ancient Egyptian writing system called?",
+    "answer": "Hieroglyphics"
+  },
+  {
+    "id": 746,
+    "question": "Who led the Mongol Empire?",
+    "answer": "Genghis Khan"
+  },
+  {
+    "id": 747,
+    "question": "Which war was triggered by the assassination of Archduke Franz Ferdinand?",
+    "answer": "World War I"
+  },
+  {
+    "id": 748,
+    "question": "Which civilization built Machu Picchu?",
+    "answer": "The Inca"
+  },
+  {
+    "id": 749,
+    "question": "Who proposed the laws of planetary motion?",
+    "answer": "Johannes Kepler"
+  },
+  {
+    "id": 750,
+    "question": "What event began the French Revolution?",
+    "answer": "The Storming of the Bastille"
+  },
+  {
+    "id": 751,
+    "question": "Who was the first woman Prime Minister of the United Kingdom?",
+    "answer": "Margaret Thatcher"
+  },
+  {
+    "id": 752,
+    "question": "In which city did the Renaissance begin?",
+    "answer": "Florence"
+  },
+  {
+    "id": 753,
+    "question": "Who was the leader of Nazi Germany during World War II?",
+    "answer": "Adolf Hitler"
+  },
+  {
+    "id": 754,
+    "question": "What trade route connected China with the Mediterranean?",
+    "answer": "The Silk Road"
+  },
+  {
+    "id": 755,
+    "question": "Which empire was ruled by Suleiman the Magnificent?",
+    "answer": "The Ottoman Empire"
+  },
+  {
+    "id": 756,
+    "question": "What invention is Johannes Gutenberg famous for?",
+    "answer": "The printing press"
+  },
+  {
+    "id": 757,
+    "question": "Who was the first to circumnavigate the globe?",
+    "answer": "Ferdinand Magellan"
+  },
+  {
+    "id": 758,
+    "question": "In which year did India gain independence from Britain?",
+    "answer": "1947"
+  },
+  {
+    "id": 759,
+    "question": "Which Chinese philosopher wrote the Analects?",
+    "answer": "Confucius"
+  },
+  {
+    "id": 760,
+    "question": "Which Russian empress was known as 'the Great'?",
+    "answer": "Catherine the Great"
+  },
+  {
+    "id": 761,
+    "question": "What ancient wonder was located in Babylon?",
+    "answer": "The Hanging Gardens"
+  },
+  {
+    "id": 762,
+    "question": "Which European country colonized Brazil?",
+    "answer": "Portugal"
+  },
+  {
+    "id": 763,
+    "question": "Who was the last Tsar of Russia?",
+    "answer": "Nicholas II"
+  },
+  {
+    "id": 764,
+    "question": "What revolution led to the rise of factories and machines?",
+    "answer": "The Industrial Revolution"
+  },
+  {
+    "id": 765,
+    "question": "Who founded the religion of Islam?",
+    "answer": "Muhammad"
+  },
+  {
+    "id": 766,
+    "question": "Which battle marked Napoleon's final defeat?",
+    "answer": "Waterloo"
+  },
+  {
+    "id": 767,
+    "question": "What pandemic devastated Europe in the 14th century?",
+    "answer": "The Black Death"
+  },
+  {
+    "id": 768,
+    "question": "Who was the first emperor of China?",
+    "answer": "Qin Shi Huang"
+  },
+  {
+    "id": 769,
+    "question": "Which war was fought between Britain and China over trade and opium?",
+    "answer": "The Opium War"
+  },
+  {
+    "id": 770,
+    "question": "Which explorer reached the Cape of Good Hope in 1488?",
+    "answer": "Bartolomeu Dias"
+  },
+  {
+    "id": 771,
+    "question": "Who was the South African leader who fought apartheid and became president?",
+    "answer": "Nelson Mandela"
+  },
+  {
+    "id": 772,
+    "question": "What ancient Mesopotamian king is known for a code of laws?",
+    "answer": "Hammurabi"
+  },
+  {
+    "id": 773,
+    "question": "Which empire built the Colosseum?",
+    "answer": "The Roman Empire"
+  },
+  {
+    "id": 774,
+    "question": "What was the trade system across the Sahara linking West Africa with the Mediterranean?",
+    "answer": "The Trans-Saharan trade"
+  },
+  {
+    "id": 775,
+    "question": "Who led the Soviet Union during World War II?",
+    "answer": "Joseph Stalin"
+  },
+  {
+    "id": 776,
+    "question": "What treaty ended World War I?",
+    "answer": "The Treaty of Versailles"
+  },
+  {
+    "id": 777,
+    "question": "What is the sacred book of Islam?",
+    "answer": "The Quran"
+  },
+  {
+    "id": 778,
+    "question": "Which empire was ruled by Mansa Musa?",
+    "answer": "The Mali Empire"
+  },
+  {
+    "id": 779,
+    "question": "In which year did the Titanic sink?",
+    "answer": "1912"
+  },
+  {
+    "id": 780,
+    "question": "Who was the queen of ancient Egypt known for her beauty?",
+    "answer": "Cleopatra"
+  },
+  {
+    "id": 781,
+    "question": "What conflict on the Korean Peninsula lasted from 1950 to 1953?",
+    "answer": "The Korean War"
+  },
+  {
+    "id": 782,
+    "question": "Who wrote \"The Communist Manifesto\"?",
+    "answer": "Karl Marx"
+  },
+  {
+    "id": 783,
+    "question": "Which ancient city was buried by the eruption of Mount Vesuvius?",
+    "answer": "Pompeii"
+  },
+  {
+    "id": 784,
+    "question": "What economic system dominated medieval Europe involving lords and vassals?",
+    "answer": "Feudalism"
+  },
+  {
+    "id": 785,
+    "question": "Who led the nonviolent movement for India's independence?",
+    "answer": "Mahatma Gandhi"
+  },
+  {
+    "id": 786,
+    "question": "Which country built the Berlin Wall?",
+    "answer": "East Germany"
+  },
+  {
+    "id": 787,
+    "question": "Which empire was ruled by Charlemagne?",
+    "answer": "The Carolingian Empire"
+  },
+  {
+    "id": 788,
+    "question": "In which battle did the Spartans fight to the last man against the Persians?",
+    "answer": "The Battle of Thermopylae"
+  },
+  {
+    "id": 789,
+    "question": "Who was the British monarch during World War II?",
+    "answer": "King George VI"
+  },
+  {
+    "id": 790,
+    "question": "What was the religion of the ancient Persian Empire featuring dualistic beliefs?",
+    "answer": "Zoroastrianism"
+  },
+  {
+    "id": 791,
+    "question": "Which empire created the famous Terracotta Army?",
+    "answer": "The Qin Dynasty"
+  },
+  {
+    "id": 792,
+    "question": "What 17th-century conflict in England led to the execution of a king?",
+    "answer": "The English Civil War"
+  },
+  {
+    "id": 793,
+    "question": "Who was the leader of the Soviet Union during the Cuban Missile Crisis?",
+    "answer": "Nikita Khrushchev"
+  },
+  {
+    "id": 794,
+    "question": "Which civilization developed cuneiform writing?",
+    "answer": "The Sumerians"
+  },
+  {
+    "id": 795,
+    "question": "Which explorer first reached the Americas in 1492?",
+    "answer": "Christopher Columbus"
+  },
+  {
+    "id": 796,
+    "question": "Which empire was ruled by Montezuma II when the Spanish arrived?",
+    "answer": "The Aztec Empire"
+  },
+  {
+    "id": 797,
+    "question": "What 17th-century intellectual movement emphasized reason and science?",
+    "answer": "The Enlightenment"
+  },
+  {
+    "id": 798,
+    "question": "Who was the first emperor of the Mughal Empire?",
+    "answer": "Babur"
+  },
+  {
+    "id": 799,
+    "question": "Which French military leader became emperor in 1804?",
+    "answer": "Napoleon Bonaparte"
+  },
+  {
+    "id": 800,
+    "question": "Which pandemic in 1918 killed millions worldwide?",
+    "answer": "The Spanish Flu"
+  },
+  {
+    "id": 801,
+    "question": "Who was the first woman to win a Nobel Prize?",
+    "answer": "Marie Curie"
+  },
+  {
+    "id": 802,
+    "question": "What is the oldest known written language?",
+    "answer": "Sumerian"
+  },
+  {
+    "id": 803,
+    "question": "Who was the founder of Buddhism?",
+    "answer": "Siddhartha Gautama"
+  },
+  {
+    "id": 804,
+    "question": "Which civilization in Mesoamerica was known for its step pyramids?",
+    "answer": "The Maya civilization"
+  },
+  {
+    "id": 805,
+    "question": "Which 1066 battle changed English history?",
+    "answer": "The Battle of Hastings"
+  },
+  {
+    "id": 806,
+    "question": "What building in India was constructed by Shah Jahan in memory of his wife?",
+    "answer": "The Taj Mahal"
+  },
+  {
+    "id": 807,
+    "question": "Who wrote \"The Prince\"?",
+    "answer": "Niccolò Machiavelli"
+  },
+  {
+    "id": 808,
+    "question": "Which war was fought between the houses of Lancaster and York?",
+    "answer": "The Wars of the Roses"
+  },
+  {
+    "id": 809,
+    "question": "What Chinese philosophical system emphasizes harmony with nature and was founded by Laozi?",
+    "answer": "Taoism"
+  },
+  {
+    "id": 810,
+    "question": "Who was the leader of the Bolsheviks during the Russian Revolution?",
+    "answer": "Vladimir Lenin"
+  },
+  {
+    "id": 811,
+    "question": "What event in 1929 triggered a global economic crisis?",
+    "answer": "The Wall Street Crash"
+  },
+  {
+    "id": 812,
+    "question": "Which explorer led the first European expedition to reach the Pacific Ocean overland in the Americas?",
+    "answer": "Vasco Núñez de Balboa"
+  },
+  {
+    "id": 813,
+    "question": "What is the term for Japanese military rulers before the Meiji Restoration?",
+    "answer": "Shoguns"
+  },
+  {
+    "id": 814,
+    "question": "Which African kingdom was ruled by King Lalibela known for rock-hewn churches?",
+    "answer": "Ethiopia"
+  },
+  {
+    "id": 815,
+    "question": "Who was the first emperor of the Holy Roman Empire?",
+    "answer": "Charlemagne"
+  },
+  {
+    "id": 816,
+    "question": "What 1494 agreement divided new lands between Spain and Portugal?",
+    "answer": "The Treaty of Tordesillas"
+  },
+  {
+    "id": 817,
+    "question": "What international organization was founded in 1945 to promote peace?",
+    "answer": "The United Nations"
+  },
+  {
+    "id": 818,
+    "question": "Who was the Macedonian king who created one of the largest empires by age 30?",
+    "answer": "Alexander the Great"
+  },
+  {
+    "id": 819,
+    "question": "Which canal opened in 1869 linking the Mediterranean and Red Seas?",
+    "answer": "The Suez Canal"
+  },
+  {
+    "id": 820,
+    "question": "What period in European history followed the fall of the Roman Empire?",
+    "answer": "The Middle Ages"
+  },
+  {
+    "id": 821,
+    "question": "Who led the Spanish conquest of the Aztec Empire?",
+    "answer": "Hernán Cortés"
+  },
+  {
+    "id": 822,
+    "question": "Which treaty ended the American Revolutionary War?",
+    "answer": "The Treaty of Paris of 1783"
+  },
+  {
+    "id": 823,
+    "question": "Which empire constructed the Royal Road across Persia?",
+    "answer": "The Achaemenid Empire"
+  },
+  {
+    "id": 824,
+    "question": "Who was the famous Greek philosopher who taught Alexander the Great?",
+    "answer": "Aristotle"
+  },
+  {
+    "id": 825,
+    "question": "Which war divided Vietnam into North and South?",
+    "answer": "The Vietnam War"
+  },
+  {
+    "id": 826,
+    "question": "Which Chinese innovation used a magnetized needle for navigation?",
+    "answer": "The magnetic compass"
+  },
+  {
+    "id": 827,
+    "question": "Who was the leader of Cuba during the Cuban Revolution?",
+    "answer": "Fidel Castro"
+  },
+  {
+    "id": 828,
+    "question": "Which empire built Angkor Wat?",
+    "answer": "The Khmer Empire"
+  },
+  {
+    "id": 829,
+    "question": "What conflict from 1853 to 1856 involved Russia against an alliance of Britain, France, and the Ottoman Empire?",
+    "answer": "The Crimean War"
+  },
+  {
+    "id": 830,
+    "question": "Who was the pioneer of modern nursing during the Crimean War?",
+    "answer": "Florence Nightingale"
+  },
+  {
+    "id": 831,
+    "question": "Which Chinese dynasty built the Forbidden City?",
+    "answer": "The Ming Dynasty"
+  },
+  {
+    "id": 832,
+    "question": "What event is commemorated on July 14th in France?",
+    "answer": "Bastille Day"
+  },
+  {
+    "id": 833,
+    "question": "Who was the last queen of France before the French Revolution?",
+    "answer": "Marie Antoinette"
+  },
+  {
+    "id": 834,
+    "question": "What post-World War II process saw many African nations gain independence?",
+    "answer": "Decolonization"
+  },
+  {
+    "id": 835,
+    "question": "Who proposed the heliocentric model of the solar system?",
+    "answer": "Nicolaus Copernicus"
+  },
+  {
+    "id": 836,
+    "question": "Which treaty established the European Union in 1993?",
+    "answer": "The Maastricht Treaty"
+  },
+  {
+    "id": 837,
+    "question": "Who was the leader of the Chinese Communist Party during the Long March?",
+    "answer": "Mao Zedong"
+  },
+  {
+    "id": 838,
+    "question": "What 17th-century event in England restored the monarchy under Charles II?",
+    "answer": "The Restoration"
+  },
+  {
+    "id": 839,
+    "question": "Which war between 1701 and 1714 was fought over the succession to the Spanish throne?",
+    "answer": "The War of the Spanish Succession"
+  },
+  {
+    "id": 840,
+    "question": "Who was the first woman pharaoh of Egypt?",
+    "answer": "Hatshepsut"
+  },
+  {
+    "id": 841,
+    "question": "What 1815 meeting reorganized Europe after Napoleon's defeat?",
+    "answer": "The Congress of Vienna"
+  },
+  {
+    "id": 842,
+    "question": "Which conflict from 1939 to 1945 involved the Allied and Axis powers?",
+    "answer": "World War II"
+  },
+  {
+    "id": 843,
+    "question": "What is the study of the mind and behavior called?",
+    "answer": "Psychology"
+  },
+  {
+    "id": 844,
+    "question": "Who is considered the father of psychoanalysis?",
+    "answer": "Sigmund Freud"
+  },
+  {
+    "id": 845,
+    "question": "What term describes learning by observing others?",
+    "answer": "Observational learning"
+  },
+  {
+    "id": 846,
+    "question": "Which part of the brain is responsible for regulating emotions?",
+    "answer": "Amygdala"
+  },
+  {
+    "id": 847,
+    "question": "What is the psychological effect where people perform better in the presence of others?",
+    "answer": "Social facilitation"
+  },
+  {
+    "id": 848,
+    "question": "What memory system holds information briefly for processing?",
+    "answer": "Short-term memory"
+  },
+  {
+    "id": 849,
+    "question": "What is the branch of psychology focused on mental disorders?",
+    "answer": "Clinical psychology"
+  },
+  {
+    "id": 850,
+    "question": "Who proposed the hierarchy of needs theory?",
+    "answer": "Abraham Maslow"
+  },
+  {
+    "id": 851,
+    "question": "What is the term for the gap between neurons?",
+    "answer": "Synapse"
+  },
+  {
+    "id": 852,
+    "question": "What kind of conditioning did Ivan Pavlov study?",
+    "answer": "Classical conditioning"
+  },
+  {
+    "id": 853,
+    "question": "What is the tendency to attribute successes to internal factors and failures to external ones?",
+    "answer": "Self-serving bias"
+  },
+  {
+    "id": 854,
+    "question": "What psychological disorder is characterized by chronic worry?",
+    "answer": "Generalized anxiety disorder"
+  },
+  {
+    "id": 855,
+    "question": "What is the process of transferring information from short-term to long-term memory called?",
+    "answer": "Consolidation"
+  },
+  {
+    "id": 856,
+    "question": "Who developed the concept of operant conditioning?",
+    "answer": "B.F. Skinner"
+  },
+  {
+    "id": 857,
+    "question": "What is the phenomenon where repeated exposure increases liking?",
+    "answer": "Mere-exposure effect"
+  },
+  {
+    "id": 858,
+    "question": "What is the ability to understand and share another's feelings called?",
+    "answer": "Empathy"
+  },
+  {
+    "id": 859,
+    "question": "Which psychologist is known for the stages of cognitive development?",
+    "answer": "Jean Piaget"
+  },
+  {
+    "id": 860,
+    "question": "What is the term for the discomfort from holding conflicting beliefs?",
+    "answer": "Cognitive dissonance"
+  },
+  {
+    "id": 861,
+    "question": "Which memory retrieval phenomenon explains why the first and last items are remembered best?",
+    "answer": "Serial position effect"
+  },
+  {
+    "id": 862,
+    "question": "What is the fear of social situations called?",
+    "answer": "Social anxiety disorder"
+  },
+  {
+    "id": 863,
+    "question": "What is the approach that emphasizes positive growth and human potential?",
+    "answer": "Humanistic psychology"
+  },
+  {
+    "id": 864,
+    "question": "Which sleep disorder involves sudden attacks of REM sleep?",
+    "answer": "Narcolepsy"
+  },
+  {
+    "id": 865,
+    "question": "What is the psychological test involving inkblots called?",
+    "answer": "Rorschach test"
+  },
+  {
+    "id": 866,
+    "question": "What is the theory that emotion results from interpreting physiological reactions?",
+    "answer": "James-Lange theory"
+  },
+  {
+    "id": 867,
+    "question": "Who coined the term 'collective unconscious'?",
+    "answer": "Carl Jung"
+  },
+  {
+    "id": 868,
+    "question": "What is the belief in one's ability to succeed called?",
+    "answer": "Self-efficacy"
+  },
+  {
+    "id": 869,
+    "question": "Which disorder involves alternating periods of mania and depression?",
+    "answer": "Bipolar disorder"
+  },
+  {
+    "id": 870,
+    "question": "What kind of memory involves skills and tasks?",
+    "answer": "Procedural memory"
+  },
+  {
+    "id": 871,
+    "question": "What is the tendency to conform to group pressure?",
+    "answer": "Conformity"
+  },
+  {
+    "id": 872,
+    "question": "Which psychologist conducted the obedience experiment with electric shocks?",
+    "answer": "Stanley Milgram"
+  },
+  {
+    "id": 873,
+    "question": "What is the persistent feeling of sadness and loss of interest called?",
+    "answer": "Depression"
+  },
+  {
+    "id": 874,
+    "question": "Which reinforcement schedule rewards after a fixed number of responses?",
+    "answer": "Fixed ratio"
+  },
+  {
+    "id": 875,
+    "question": "What is the tendency to recall information presented last best called?",
+    "answer": "Recency effect"
+  },
+  {
+    "id": 876,
+    "question": "Who introduced the concept of the unconscious mind?",
+    "answer": "Sigmund Freud"
+  },
+  {
+    "id": 877,
+    "question": "What is the ability to produce novel and valuable ideas called?",
+    "answer": "Creativity"
+  },
+  {
+    "id": 878,
+    "question": "Which therapy focuses on changing distorted thinking patterns?",
+    "answer": "Cognitive behavioral therapy"
+  },
+  {
+    "id": 879,
+    "question": "What is the mental shortcut that helps us make quick judgments?",
+    "answer": "Heuristic"
+  },
+  {
+    "id": 880,
+    "question": "Who developed the strange situation experiment to study attachment?",
+    "answer": "Mary Ainsworth"
+  },
+  {
+    "id": 881,
+    "question": "What is the term for forgetting events that occurred before a trauma?",
+    "answer": "Retrograde amnesia"
+  },
+  {
+    "id": 882,
+    "question": "Which type of conflict involves choosing between two desirable options?",
+    "answer": "Approach-approach conflict"
+  },
+  {
+    "id": 883,
+    "question": "What is the perception of having no control over outcomes called?",
+    "answer": "Learned helplessness"
+  },
+  {
+    "id": 884,
+    "question": "What disorder involves intrusive memories of a traumatic event?",
+    "answer": "Post-traumatic stress disorder"
+  },
+  {
+    "id": 885,
+    "question": "Which stage in Erikson's theory focuses on trust versus mistrust?",
+    "answer": "The first stage"
+  },
+  {
+    "id": 886,
+    "question": "What is the process of selecting, organizing, and interpreting sensory information?",
+    "answer": "Perception"
+  },
+  {
+    "id": 887,
+    "question": "What is the fear of being away from home or a safe place called?",
+    "answer": "Agoraphobia"
+  },
+  {
+    "id": 888,
+    "question": "Who proposed the triarchic theory of intelligence?",
+    "answer": "Robert Sternberg"
+  },
+  {
+    "id": 889,
+    "question": "What is the diminished response to a repeated stimulus called?",
+    "answer": "Habituation"
+  },
+  {
+    "id": 890,
+    "question": "Which brain structure is crucial for forming new memories?",
+    "answer": "Hippocampus"
+  },
+  {
+    "id": 891,
+    "question": "What is the term for attributing one's own unacceptable thoughts to others?",
+    "answer": "Projection"
+  },
+  {
+    "id": 892,
+    "question": "What psychological phenomenon occurs when people ignore information that contradicts their beliefs?",
+    "answer": "Confirmation bias"
+  },
+  {
+    "id": 893,
+    "question": "What is the personality trait characterized by sociability and talkativeness?",
+    "answer": "Extraversion"
+  },
+  {
+    "id": 894,
+    "question": "Who founded client-centered therapy?",
+    "answer": "Carl Rogers"
+  },
+  {
+    "id": 895,
+    "question": "What is the term for a false sensory perception without external stimulus?",
+    "answer": "Hallucination"
+  },
+  {
+    "id": 896,
+    "question": "Which developmental disorder affects communication and social interaction?",
+    "answer": "Autism spectrum disorder"
+  },
+  {
+    "id": 897,
+    "question": "What is the time interval between presenting a conditioned stimulus and unconditioned stimulus called?",
+    "answer": "Interstimulus interval"
+  },
+  {
+    "id": 898,
+    "question": "What term describes a technique for reducing anxiety by facing fears gradually?",
+    "answer": "Systematic desensitization"
+  },
+  {
+    "id": 899,
+    "question": "Which theory suggests dreams help sort memories from daily experiences?",
+    "answer": "Information-processing theory"
+  },
+  {
+    "id": 900,
+    "question": "Who is known for the concept of the inferiority complex?",
+    "answer": "Alfred Adler"
+  },
+  {
+    "id": 901,
+    "question": "What is the effect where expectations influence perceptions or behavior?",
+    "answer": "Placebo effect"
+  },
+  {
+    "id": 902,
+    "question": "What is the term for persistent patterns of thoughts and behaviors that deviate from cultural expectations?",
+    "answer": "Personality disorder"
+  },
+  {
+    "id": 903,
+    "question": "Which type of memory allows you to recall personal events?",
+    "answer": "Episodic memory"
+  },
+  {
+    "id": 904,
+    "question": "What is the initial stage of the general adaptation syndrome?",
+    "answer": "Alarm stage"
+  },
+  {
+    "id": 905,
+    "question": "Who conducted the Bobo doll experiment on aggression?",
+    "answer": "Albert Bandura"
+  },
+  {
+    "id": 906,
+    "question": "What is the term for the observation that we remember best the information we generate ourselves?",
+    "answer": "Generation effect"
+  },
+  {
+    "id": 907,
+    "question": "What is the phenomenon where people overestimate their knowledge or ability?",
+    "answer": "Overconfidence bias"
+  },
+  {
+    "id": 908,
+    "question": "Which part of the nervous system controls the fight-or-flight response?",
+    "answer": "Sympathetic nervous system"
+  },
+  {
+    "id": 909,
+    "question": "What is the study of how people think about, influence, and relate to one another called?",
+    "answer": "Social psychology"
+  },
+  {
+    "id": 910,
+    "question": "Who proposed the eight stages of psychosocial development?",
+    "answer": "Erik Erikson"
+  },
+  {
+    "id": 911,
+    "question": "What is the mental inability to retrieve information called?",
+    "answer": "Retrieval failure"
+  },
+  {
+    "id": 912,
+    "question": "Which therapy uses techniques such as free association and dream analysis?",
+    "answer": "Psychoanalytic therapy"
+  },
+  {
+    "id": 913,
+    "question": "What is the tendency to do less effort in groups than alone?",
+    "answer": "Social loafing"
+  },
+  {
+    "id": 914,
+    "question": "Which disorder involves cycles of overeating followed by purging?",
+    "answer": "Bulimia nervosa"
+  },
+  {
+    "id": 915,
+    "question": "What is the awareness of your own thoughts and feelings called?",
+    "answer": "Metacognition"
+  },
+  {
+    "id": 916,
+    "question": "What is the disorder characterized by repetitive thoughts and behaviors?",
+    "answer": "Obsessive-compulsive disorder"
+  },
+  {
+    "id": 917,
+    "question": "Which principle suggests people are attracted to others who are similar to themselves?",
+    "answer": "Similarity principle"
+  },
+  {
+    "id": 918,
+    "question": "Which region of the brain is involved in language production?",
+    "answer": "Broca's area"
+  },
+  {
+    "id": 919,
+    "question": "What term refers to a sudden onset of intense fear with physical symptoms?",
+    "answer": "Panic attack"
+  },
+  {
+    "id": 920,
+    "question": "Who is known for the law of effect?",
+    "answer": "Edward Thorndike"
+  },
+  {
+    "id": 921,
+    "question": "What is the cognitive bias where people rely too heavily on the first piece of information?",
+    "answer": "Anchoring bias"
+  },
+  {
+    "id": 922,
+    "question": "Which disorder is characterized by inattention and hyperactivity?",
+    "answer": "Attention-deficit/hyperactivity disorder"
+  },
+  {
+    "id": 923,
+    "question": "What is the process of interpreting sensory input below conscious awareness called?",
+    "answer": "Subliminal perception"
+  },
+  {
+    "id": 924,
+    "question": "Who introduced the concept of multiple intelligences?",
+    "answer": "Howard Gardner"
+  },
+  {
+    "id": 925,
+    "question": "What is the persistent belief contrary to reality due to a mental disorder?",
+    "answer": "Delusion"
+  },
+  {
+    "id": 926,
+    "question": "Which neurotransmitter is primarily associated with mood regulation?",
+    "answer": "Serotonin"
+  },
+  {
+    "id": 927,
+    "question": "What is the tendency to respond in ways that make us look good called?",
+    "answer": "Social desirability bias"
+  },
+  {
+    "id": 928,
+    "question": "What is the memory component that briefly stores visual information?",
+    "answer": "Iconic memory"
+  },
+  {
+    "id": 929,
+    "question": "What is behavior intended to benefit others called?",
+    "answer": "Prosocial behavior"
+  },
+  {
+    "id": 930,
+    "question": "What part of the neuron receives incoming signals?",
+    "answer": "Dendrite"
+  },
+  {
+    "id": 931,
+    "question": "Which perspective focuses on mental processes like thinking and memory?",
+    "answer": "Cognitive psychology"
+  },
+  {
+    "id": 932,
+    "question": "What is the anxiety disorder involving intense fear of heights?",
+    "answer": "Acrophobia"
+  },
+  {
+    "id": 933,
+    "question": "Who developed the theory of moral development with six stages?",
+    "answer": "Lawrence Kohlberg"
+  },
+  {
+    "id": 934,
+    "question": "What attachment style involves mixed feelings toward caregivers?",
+    "answer": "Ambivalent attachment"
+  },
+  {
+    "id": 935,
+    "question": "Which sleep stage is associated with vivid dreams?",
+    "answer": "REM sleep"
+  },
+  {
+    "id": 936,
+    "question": "What is the term for performance decline due to anxiety in high-pressure situations?",
+    "answer": "Choking under pressure"
+  },
+  {
+    "id": 937,
+    "question": "Which branch of psychology studies workplace behavior?",
+    "answer": "Industrial-organizational psychology"
+  },
+  {
+    "id": 938,
+    "question": "What is the assumption that good things happen to good people called?",
+    "answer": "Just-world hypothesis"
+  },
+  {
+    "id": 939,
+    "question": "Who proposed the two-factor theory of emotion?",
+    "answer": "Stanley Schachter and Jerome Singer"
+  },
+  {
+    "id": 940,
+    "question": "What is the mental set where past solutions hinder new problem solving?",
+    "answer": "Functional fixedness"
+  },
+  {
+    "id": 941,
+    "question": "What is the final stage in Kübler-Ross's five stages of grief?",
+    "answer": "Acceptance"
+  },
+  {
+    "id": 942,
+    "question": "What is motivation that arises from internal factors called?",
+    "answer": "Intrinsic motivation"
+  },
+  {
+    "id": 943,
+    "question": "What is the medical term for high blood pressure?",
+    "answer": "Hypertension"
+  },
+  {
+    "id": 944,
+    "question": "What type of doctor specializes in the heart?",
+    "answer": "Cardiologist"
+  },
+  {
+    "id": 945,
+    "question": "What organ is the primary site of nutrient absorption?",
+    "answer": "Small intestine"
+  },
+  {
+    "id": 946,
+    "question": "Which blood type is known as the universal donor?",
+    "answer": "O negative"
+  },
+  {
+    "id": 947,
+    "question": "Which vitamin is essential for vision and immune function?",
+    "answer": "Vitamin A"
+  },
+  {
+    "id": 948,
+    "question": "What is the medical term for the voice box?",
+    "answer": "Larynx"
+  },
+  {
+    "id": 949,
+    "question": "What condition is characterized by low blood sugar?",
+    "answer": "Hypoglycemia"
+  },
+  {
+    "id": 950,
+    "question": "Which organ produces insulin?",
+    "answer": "Pancreas"
+  },
+  {
+    "id": 951,
+    "question": "What is the medical term for removal of the appendix?",
+    "answer": "Appendectomy"
+  },
+  {
+    "id": 952,
+    "question": "What disease results from insufficient insulin production?",
+    "answer": "Type 1 diabetes"
+  },
+  {
+    "id": 953,
+    "question": "What is the basic structural unit of the nervous system?",
+    "answer": "Neuron"
+  },
+  {
+    "id": 954,
+    "question": "Which part of the brain controls balance and coordination?",
+    "answer": "Cerebellum"
+  },
+  {
+    "id": 955,
+    "question": "What is the medical term for a heart attack?",
+    "answer": "Myocardial infarction"
+  },
+  {
+    "id": 956,
+    "question": "What is the pigment that gives blood its red color?",
+    "answer": "Hemoglobin"
+  },
+  {
+    "id": 957,
+    "question": "What type of joint is found in the shoulder?",
+    "answer": "Ball-and-socket joint"
+  },
+  {
+    "id": 958,
+    "question": "What is the medical term for nosebleed?",
+    "answer": "Epistaxis"
+  },
+  {
+    "id": 959,
+    "question": "Which gland is known as the master gland?",
+    "answer": "Pituitary gland"
+  },
+  {
+    "id": 960,
+    "question": "What is the medical term for white blood cells?",
+    "answer": "Leukocytes"
+  },
+  {
+    "id": 961,
+    "question": "What condition is treated with a pacemaker?",
+    "answer": "Arrhythmia"
+  },
+  {
+    "id": 962,
+    "question": "What organ filters blood and produces urine?",
+    "answer": "Kidneys"
+  },
+  {
+    "id": 963,
+    "question": "Which vitamin is essential for blood clotting?",
+    "answer": "Vitamin K"
+  },
+  {
+    "id": 964,
+    "question": "What is the medical term for nearsightedness?",
+    "answer": "Myopia"
+  },
+  {
+    "id": 965,
+    "question": "Which disease is caused by a deficiency of vitamin C?",
+    "answer": "Scurvy"
+  },
+  {
+    "id": 966,
+    "question": "What is the medical term for a broken bone?",
+    "answer": "Fracture"
+  },
+  {
+    "id": 967,
+    "question": "Which organ stores bile?",
+    "answer": "Gallbladder"
+  },
+  {
+    "id": 968,
+    "question": "What is the medical term for inflammation of the liver?",
+    "answer": "Hepatitis"
+  },
+  {
+    "id": 969,
+    "question": "Which hormone regulates blood sugar levels?",
+    "answer": "Insulin"
+  },
+  {
+    "id": 970,
+    "question": "What is the medical term for kidney stones?",
+    "answer": "Nephrolithiasis"
+  },
+  {
+    "id": 971,
+    "question": "What condition involves the thinning of bones?",
+    "answer": "Osteoporosis"
+  },
+  {
+    "id": 972,
+    "question": "Which blood vessels carry blood away from the heart?",
+    "answer": "Arteries"
+  },
+  {
+    "id": 973,
+    "question": "What is the medical term for red blood cells?",
+    "answer": "Erythrocytes"
+  },
+  {
+    "id": 974,
+    "question": "Which organ is primarily responsible for detoxifying chemicals?",
+    "answer": "Liver"
+  },
+  {
+    "id": 975,
+    "question": "What is the medical term for excessive urination?",
+    "answer": "Polyuria"
+  },
+  {
+    "id": 976,
+    "question": "Which disease is transmitted by the Anopheles mosquito?",
+    "answer": "Malaria"
+  },
+  {
+    "id": 977,
+    "question": "What is the medical term for surgical removal of the gallbladder?",
+    "answer": "Cholecystectomy"
+  },
+  {
+    "id": 978,
+    "question": "What condition is characterized by inflammation of the joints?",
+    "answer": "Arthritis"
+  },
+  {
+    "id": 979,
+    "question": "Which part of the eye controls the amount of light entering?",
+    "answer": "Iris"
+  },
+  {
+    "id": 980,
+    "question": "What is the medical term for farsightedness?",
+    "answer": "Hyperopia"
+  },
+  {
+    "id": 981,
+    "question": "Which cells are responsible for blood clotting?",
+    "answer": "Platelets"
+  },
+  {
+    "id": 982,
+    "question": "What condition results from lack of red blood cells or hemoglobin?",
+    "answer": "Anemia"
+  },
+  {
+    "id": 983,
+    "question": "What is the medical term for inflammation of the throat?",
+    "answer": "Pharyngitis"
+  },
+  {
+    "id": 984,
+    "question": "Which organ produces bile?",
+    "answer": "Liver"
+  },
+  {
+    "id": 985,
+    "question": "What condition is characterized by chronic high blood sugar?",
+    "answer": "Diabetes mellitus"
+  },
+  {
+    "id": 986,
+    "question": "Which type of muscle is found in the walls of the stomach?",
+    "answer": "Smooth muscle"
+  },
+  {
+    "id": 987,
+    "question": "What is the medical term for swelling due to fluid accumulation?",
+    "answer": "Edema"
+  },
+  {
+    "id": 988,
+    "question": "Which vitamin deficiency causes rickets?",
+    "answer": "Vitamin D"
+  },
+  {
+    "id": 989,
+    "question": "What is the medical term for surgical opening of the windpipe?",
+    "answer": "Tracheostomy"
+  },
+  {
+    "id": 990,
+    "question": "Which disease is caused by the varicella-zoster virus?",
+    "answer": "Chickenpox"
+  },
+  {
+    "id": 991,
+    "question": "What is the medical term for low blood pressure?",
+    "answer": "Hypotension"
+  },
+  {
+    "id": 992,
+    "question": "Which organ is affected by hepatitis?",
+    "answer": "Liver"
+  },
+  {
+    "id": 993,
+    "question": "What is the medical term for pinkeye?",
+    "answer": "Conjunctivitis"
+  },
+  {
+    "id": 994,
+    "question": "Which artery supplies blood to the heart muscle?",
+    "answer": "Coronary artery"
+  },
+  {
+    "id": 995,
+    "question": "What condition is characterized by shortness of breath due to airway inflammation?",
+    "answer": "Asthma"
+  },
+  {
+    "id": 996,
+    "question": "Which cells in the pancreas produce insulin?",
+    "answer": "Beta cells"
+  },
+  {
+    "id": 997,
+    "question": "What is the medical term for surgical repair of a joint?",
+    "answer": "Arthroplasty"
+  },
+  {
+    "id": 998,
+    "question": "What disease is marked by the destruction of the myelin sheath?",
+    "answer": "Multiple sclerosis"
+  },
+  {
+    "id": 999,
+    "question": "What is the medical term for age-related hearing loss?",
+    "answer": "Presbycusis"
+  },
+  {
+    "id": 1000,
+    "question": "Which hormone regulates the sleep-wake cycle?",
+    "answer": "Melatonin"
+  },
+  {
+    "id": 1001,
+    "question": "What is the medical term for blood cancer affecting white blood cells?",
+    "answer": "Leukemia"
+  },
+  {
+    "id": 1002,
+    "question": "Which organ is responsible for producing digestive enzymes and hormones?",
+    "answer": "Pancreas"
+  },
+  {
+    "id": 1003,
+    "question": "What is the medical term for inflammation of the lining of the stomach?",
+    "answer": "Gastritis"
+  },
+  {
+    "id": 1004,
+    "question": "Which condition is treated with insulin injections?",
+    "answer": "Type 1 diabetes"
+  },
+  {
+    "id": 1005,
+    "question": "What is the medical term for surgical removal of the tonsils?",
+    "answer": "Tonsillectomy"
+  },
+  {
+    "id": 1006,
+    "question": "Which disease is caused by the human immunodeficiency virus?",
+    "answer": "AIDS"
+  },
+  {
+    "id": 1007,
+    "question": "What is the medical term for a stroke?",
+    "answer": "Cerebrovascular accident"
+  },
+  {
+    "id": 1008,
+    "question": "Which organ is responsible for regulating body temperature?",
+    "answer": "Hypothalamus"
+  },
+  {
+    "id": 1009,
+    "question": "What is the medical term for difficulty swallowing?",
+    "answer": "Dysphagia"
+  },
+  {
+    "id": 1010,
+    "question": "Which vitamin is essential for calcium absorption?",
+    "answer": "Vitamin D"
+  },
+  {
+    "id": 1011,
+    "question": "What condition is characterized by inflammation of the pancreas?",
+    "answer": "Pancreatitis"
+  },
+  {
+    "id": 1012,
+    "question": "What is the medical term for stiffening or narrowing of the arteries?",
+    "answer": "Atherosclerosis"
+  },
+  {
+    "id": 1013,
+    "question": "Which organ is primarily affected by emphysema?",
+    "answer": "Lungs"
+  },
+  {
+    "id": 1014,
+    "question": "What is the medical term for fear of open spaces?",
+    "answer": "Agoraphobia"
+  },
+  {
+    "id": 1015,
+    "question": "Which gland regulates metabolism?",
+    "answer": "Thyroid gland"
+  },
+  {
+    "id": 1016,
+    "question": "What is the medical term for an abnormally fast heart rate?",
+    "answer": "Tachycardia"
+  },
+  {
+    "id": 1017,
+    "question": "Which organ stores and releases glucose as glycogen?",
+    "answer": "Liver"
+  },
+  {
+    "id": 1018,
+    "question": "What condition is caused by uric acid crystal deposits in joints?",
+    "answer": "Gout"
+  },
+  {
+    "id": 1019,
+    "question": "What is the medical term for inflammation of the appendix?",
+    "answer": "Appendicitis"
+  },
+  {
+    "id": 1020,
+    "question": "Which disease is characterized by progressive memory loss?",
+    "answer": "Alzheimer's disease"
+  },
+  {
+    "id": 1021,
+    "question": "What is the medical term for surgical removal of the uterus?",
+    "answer": "Hysterectomy"
+  },
+  {
+    "id": 1022,
+    "question": "Which organ produces the hormone insulin-like growth factor?",
+    "answer": "Liver"
+  },
+  {
+    "id": 1023,
+    "question": "What is the medical term for a birthmark composed of blood vessels?",
+    "answer": "Hemangioma"
+  },
+  {
+    "id": 1024,
+    "question": "Which condition is characterized by an overactive thyroid gland?",
+    "answer": "Hyperthyroidism"
+  },
+  {
+    "id": 1025,
+    "question": "What is the medical term for the windpipe?",
+    "answer": "Trachea"
+  },
+  {
+    "id": 1026,
+    "question": "Which disease is caused by Mycobacterium tuberculosis?",
+    "answer": "Tuberculosis"
+  },
+  {
+    "id": 1027,
+    "question": "What is the medical term for excessive sweating?",
+    "answer": "Hyperhidrosis"
+  },
+  {
+    "id": 1028,
+    "question": "Which organ is responsible for filtering and removing old red blood cells?",
+    "answer": "Spleen"
+  },
+  {
+    "id": 1029,
+    "question": "What condition is characterized by chronic obstructive airflow limitation?",
+    "answer": "COPD"
+  },
+  {
+    "id": 1030,
+    "question": "Which vitamin is known as ascorbic acid?",
+    "answer": "Vitamin C"
+  },
+  {
+    "id": 1031,
+    "question": "What is the medical term for a heart rhythm with a rate below 60 beats per minute?",
+    "answer": "Bradycardia"
+  },
+  {
+    "id": 1032,
+    "question": "Which organ produces cerebrospinal fluid?",
+    "answer": "Choroid plexus"
+  },
+  {
+    "id": 1033,
+    "question": "What condition is characterized by inflammation of the bronchial tubes?",
+    "answer": "Bronchitis"
+  },
+  {
+    "id": 1034,
+    "question": "Which disease is transmitted by Ixodes ticks?",
+    "answer": "Lyme disease"
+  },
+  {
+    "id": 1035,
+    "question": "What is the medical term for surgical removal of the prostate?",
+    "answer": "Prostatectomy"
+  },
+  {
+    "id": 1036,
+    "question": "Which hormone stimulates the fight-or-flight response?",
+    "answer": "Adrenaline"
+  },
+  {
+    "id": 1037,
+    "question": "What condition is characterized by cloudy areas in the lens of the eye?",
+    "answer": "Cataract"
+  },
+  {
+    "id": 1038,
+    "question": "Which organ is affected by cirrhosis?",
+    "answer": "Liver"
+  },
+  {
+    "id": 1039,
+    "question": "What is the medical term for a benign tumor of fatty tissue?",
+    "answer": "Lipoma"
+  },
+  {
+    "id": 1040,
+    "question": "Which disease is characterized by high blood sugar during pregnancy?",
+    "answer": "Gestational diabetes"
+  },
+  {
+    "id": 1041,
+    "question": "What is the medical term for inflammation of the bladder?",
+    "answer": "Cystitis"
+  },
+  {
+    "id": 1042,
+    "question": "Which organ is primarily affected by hepatitis C?",
+    "answer": "Liver"
+  },
+  {
+    "id": 1043,
+    "question": "Which vein returns blood from the upper body to the heart?",
+    "answer": "Superior vena cava"
+  },
+  {
+    "id": 1044,
+    "question": "What is the largest bone in the human body?",
+    "answer": "Femur"
+  },
+  {
+    "id": 1045,
+    "question": "Which bone is known as the heel bone?",
+    "answer": "Calcaneus"
+  },
+  {
+    "id": 1046,
+    "question": "What is the main muscle used for breathing?",
+    "answer": "Diaphragm"
+  },
+  {
+    "id": 1047,
+    "question": "What is the longest nerve in the human body?",
+    "answer": "Sciatic nerve"
+  },
+  {
+    "id": 1048,
+    "question": "What is the main function of red blood cells?",
+    "answer": "Transport oxygen"
+  },
+  {
+    "id": 1049,
+    "question": "What type of joint allows movement in one plane like the elbow?",
+    "answer": "Hinge joint"
+  },
+  {
+    "id": 1050,
+    "question": "Which organ filters blood to produce urine?",
+    "answer": "Kidney"
+  },
+  {
+    "id": 1051,
+    "question": "What is the name of the first cervical vertebra?",
+    "answer": "Atlas"
+  },
+  {
+    "id": 1052,
+    "question": "Which brain region is responsible for language comprehension?",
+    "answer": "Wernicke's area"
+  },
+  {
+    "id": 1053,
+    "question": "What is the basic functional unit of the kidney?",
+    "answer": "Nephron"
+  },
+  {
+    "id": 1054,
+    "question": "Which protein in red blood cells carries oxygen?",
+    "answer": "Hemoglobin"
+  },
+  {
+    "id": 1055,
+    "question": "What is the tough, fibrous outer layer of the eye?",
+    "answer": "Sclera"
+  },
+  {
+    "id": 1056,
+    "question": "Which bone forms the forehead?",
+    "answer": "Frontal bone"
+  },
+  {
+    "id": 1057,
+    "question": "Which organ produces the hormone glucagon?",
+    "answer": "Pancreas"
+  },
+  {
+    "id": 1058,
+    "question": "What is the ring of muscle that controls the pupil's size?",
+    "answer": "Iris"
+  },
+  {
+    "id": 1059,
+    "question": "What fluid cushions the brain and spinal cord?",
+    "answer": "Cerebrospinal fluid"
+  },
+  {
+    "id": 1060,
+    "question": "Which bone forms the lower jaw?",
+    "answer": "Mandible"
+  },
+  {
+    "id": 1061,
+    "question": "What connective tissue attaches muscle to bone?",
+    "answer": "Tendon"
+  },
+  {
+    "id": 1062,
+    "question": "What is the liquid component of blood called?",
+    "answer": "Plasma"
+  },
+  {
+    "id": 1063,
+    "question": "Which organ stores extra blood for release during physical activity?",
+    "answer": "Spleen"
+  },
+  {
+    "id": 1064,
+    "question": "What is the basic unit of the nervous system?",
+    "answer": "Neuron"
+  },
+  {
+    "id": 1065,
+    "question": "Which structure connects the throat to the stomach?",
+    "answer": "Esophagus"
+  },
+  {
+    "id": 1066,
+    "question": "Which part of the eye is responsible for focusing light?",
+    "answer": "Lens"
+  },
+  {
+    "id": 1067,
+    "question": "What is the largest part of the human brain?",
+    "answer": "Cerebrum"
+  },
+  {
+    "id": 1068,
+    "question": "Which blood vessels contain valves to prevent backflow?",
+    "answer": "Veins"
+  },
+  {
+    "id": 1069,
+    "question": "What is the main function of platelets?",
+    "answer": "Blood clotting"
+  },
+  {
+    "id": 1070,
+    "question": "What is the region where two bones meet called?",
+    "answer": "Joint"
+  },
+  {
+    "id": 1071,
+    "question": "Which organ has tiny hair-like structures called villi?",
+    "answer": "Small intestine"
+  },
+  {
+    "id": 1072,
+    "question": "What is the primary function of the large intestine?",
+    "answer": "Absorb water"
+  },
+  {
+    "id": 1073,
+    "question": "Which heart chamber pumps oxygenated blood to the body?",
+    "answer": "Left ventricle"
+  },
+  {
+    "id": 1074,
+    "question": "What is the term for the voice box?",
+    "answer": "Larynx"
+  },
+  {
+    "id": 1075,
+    "question": "Which bone is commonly known as the collarbone?",
+    "answer": "Clavicle"
+  },
+  {
+    "id": 1076,
+    "question": "What pigment is responsible for skin color?",
+    "answer": "Melanin"
+  },
+  {
+    "id": 1077,
+    "question": "Which cells are responsible for forming bone tissue?",
+    "answer": "Osteoblasts"
+  },
+  {
+    "id": 1078,
+    "question": "Which structure connects the two hemispheres of the brain?",
+    "answer": "Corpus callosum"
+  },
+  {
+    "id": 1079,
+    "question": "Which structure prevents food from entering the windpipe?",
+    "answer": "Epiglottis"
+  },
+  {
+    "id": 1080,
+    "question": "What is the main function of the spleen?",
+    "answer": "Filter blood"
+  },
+  {
+    "id": 1081,
+    "question": "Which inner ear structures are responsible for balance?",
+    "answer": "Semicircular canals"
+  },
+  {
+    "id": 1082,
+    "question": "What is the name of the tube that carries urine from the kidney to the bladder?",
+    "answer": "Ureter"
+  },
+  {
+    "id": 1083,
+    "question": "Which hormone regulates blood calcium levels?",
+    "answer": "Parathyroid hormone"
+  },
+  {
+    "id": 1084,
+    "question": "What structural protein makes up hair and nails?",
+    "answer": "Keratin"
+  },
+  {
+    "id": 1085,
+    "question": "Which structure connects the middle ear to the throat?",
+    "answer": "Eustachian tube"
+  },
+  {
+    "id": 1086,
+    "question": "What is the first part of the small intestine?",
+    "answer": "Duodenum"
+  },
+  {
+    "id": 1087,
+    "question": "Which part of the brain controls involuntary actions like breathing?",
+    "answer": "Brainstem"
+  },
+  {
+    "id": 1088,
+    "question": "Which brain region regulates body temperature?",
+    "answer": "Hypothalamus"
+  },
+  {
+    "id": 1089,
+    "question": "What tough tissue connects bones to other bones?",
+    "answer": "Ligament"
+  },
+  {
+    "id": 1090,
+    "question": "Which gland produces growth hormone?",
+    "answer": "Pituitary gland"
+  },
+  {
+    "id": 1091,
+    "question": "What is the structural unit of skeletal muscle?",
+    "answer": "Sarcomere"
+  },
+  {
+    "id": 1092,
+    "question": "Which structure protects the ends of bones at joints?",
+    "answer": "Cartilage"
+  },
+  {
+    "id": 1093,
+    "question": "Which blood vessel carries oxygen-rich blood from the lungs to the heart?",
+    "answer": "Pulmonary vein"
+  },
+  {
+    "id": 1094,
+    "question": "What bone is commonly called the hip bone?",
+    "answer": "Pelvis"
+  },
+  {
+    "id": 1095,
+    "question": "Which part of the brain is responsible for vision?",
+    "answer": "Occipital lobe"
+  },
+  {
+    "id": 1096,
+    "question": "What fluid fills the space between body cells?",
+    "answer": "Interstitial fluid"
+  },
+  {
+    "id": 1097,
+    "question": "Which cells detect light in the retina?",
+    "answer": "Photoreceptors"
+  },
+  {
+    "id": 1098,
+    "question": "What bones protect the heart and lungs?",
+    "answer": "Rib cage"
+  },
+  {
+    "id": 1099,
+    "question": "What is the part of a tooth visible above the gum?",
+    "answer": "Crown"
+  },
+  {
+    "id": 1100,
+    "question": "What system includes the skin, hair, and nails?",
+    "answer": "Integumentary system"
+  },
+  {
+    "id": 1101,
+    "question": "What fluid inside the eye maintains pressure?",
+    "answer": "Aqueous humor"
+  },
+  {
+    "id": 1102,
+    "question": "Which organs contain alveoli for gas exchange?",
+    "answer": "Lungs"
+  },
+  {
+    "id": 1103,
+    "question": "What is the functional unit of the liver?",
+    "answer": "Hepatic lobule"
+  },
+  {
+    "id": 1104,
+    "question": "Which part of a neuron receives signals?",
+    "answer": "Dendrite"
+  },
+  {
+    "id": 1105,
+    "question": "What small pouch marks the start of the large intestine?",
+    "answer": "Cecum"
+  },
+  {
+    "id": 1106,
+    "question": "Which muscle closes the eyelids?",
+    "answer": "Orbicularis oculi"
+  },
+  {
+    "id": 1107,
+    "question": "What is the bone of the upper arm called?",
+    "answer": "Humerus"
+  },
+  {
+    "id": 1108,
+    "question": "Which organ produces red blood cells in adults?",
+    "answer": "Bone marrow"
+  },
+  {
+    "id": 1109,
+    "question": "What is the sac where sperm matures?",
+    "answer": "Epididymis"
+  },
+  {
+    "id": 1110,
+    "question": "Which gland located in the neck regulates metabolism?",
+    "answer": "Thyroid gland"
+  },
+  {
+    "id": 1111,
+    "question": "What cartilage in the knee joint acts as a cushion?",
+    "answer": "Meniscus"
+  },
+  {
+    "id": 1112,
+    "question": "Which layer of skin contains blood vessels and nerves?",
+    "answer": "Dermis"
+  },
+  {
+    "id": 1113,
+    "question": "What pancreatic cell clusters produce insulin?",
+    "answer": "Islets of Langerhans"
+  },
+  {
+    "id": 1114,
+    "question": "Which part of the brain is crucial for memory formation?",
+    "answer": "Hippocampus"
+  },
+  {
+    "id": 1115,
+    "question": "Which lobe of the brain processes auditory information?",
+    "answer": "Temporal lobe"
+  },
+  {
+    "id": 1116,
+    "question": "Which muscle separates the thoracic and abdominal cavities?",
+    "answer": "Diaphragm"
+  },
+  {
+    "id": 1117,
+    "question": "Which organelle stores the cell's genetic material?",
+    "answer": "Nucleus"
+  },
+  {
+    "id": 1118,
+    "question": "Which muscle is known as the calf muscle?",
+    "answer": "Gastrocnemius"
+  },
+  {
+    "id": 1119,
+    "question": "What is the middle section of the small intestine called?",
+    "answer": "Jejunum"
+  },
+  {
+    "id": 1120,
+    "question": "Which artery is felt when taking the pulse at the wrist?",
+    "answer": "Radial artery"
+  },
+  {
+    "id": 1121,
+    "question": "Which bones make up the forearm?",
+    "answer": "Radius and ulna"
+  },
+  {
+    "id": 1122,
+    "question": "What is the first section of the spinal column?",
+    "answer": "Cervical region"
+  },
+  {
+    "id": 1123,
+    "question": "Which ear structure converts vibrations into nerve impulses?",
+    "answer": "Cochlea"
+  },
+  {
+    "id": 1124,
+    "question": "Which vestigial pouch is attached to the cecum?",
+    "answer": "Appendix"
+  },
+  {
+    "id": 1125,
+    "question": "Which muscle is primarily responsible for chewing?",
+    "answer": "Masseter"
+  },
+  {
+    "id": 1126,
+    "question": "Which part of the nervous system controls voluntary muscles?",
+    "answer": "Somatic nervous system"
+  },
+  {
+    "id": 1127,
+    "question": "What protective membranes surround the brain and spinal cord?",
+    "answer": "Meninges"
+  },
+  {
+    "id": 1128,
+    "question": "Which blood vessels carry blood back to the heart?",
+    "answer": "Veins"
+  },
+  {
+    "id": 1129,
+    "question": "What structural protein provides strength to connective tissue?",
+    "answer": "Collagen"
+  },
+  {
+    "id": 1130,
+    "question": "Which part of the brainstem regulates breathing and heart rate?",
+    "answer": "Medulla oblongata"
+  },
+  {
+    "id": 1131,
+    "question": "What is the region where the optic nerve exits the eye?",
+    "answer": "Optic disc"
+  },
+  {
+    "id": 1132,
+    "question": "Which muscles move the eye?",
+    "answer": "Extraocular muscles"
+  },
+  {
+    "id": 1133,
+    "question": "What large vein returns blood from the lower body to the heart?",
+    "answer": "Inferior vena cava"
+  },
+  {
+    "id": 1134,
+    "question": "Which bone encases the inner ear structures?",
+    "answer": "Temporal bone"
+  },
+  {
+    "id": 1135,
+    "question": "What is the main function of lymph nodes?",
+    "answer": "Filter lymph"
+  },
+  {
+    "id": 1136,
+    "question": "Which bone is known as the cheekbone?",
+    "answer": "Zygomatic bone"
+  },
+  {
+    "id": 1137,
+    "question": "Which brain region controls the pituitary gland?",
+    "answer": "Hypothalamus"
+  },
+  {
+    "id": 1138,
+    "question": "Which structure carries signals away from the neuron's cell body?",
+    "answer": "Axon"
+  },
+  {
+    "id": 1139,
+    "question": "What large muscle is at the front of the thigh?",
+    "answer": "Quadriceps"
+  },
+  {
+    "id": 1140,
+    "question": "Which part of the nephron is responsible for filtration?",
+    "answer": "Glomerulus"
+  },
+  {
+    "id": 1141,
+    "question": "Which bone is also known as the shinbone?",
+    "answer": "Tibia"
+  },
+  {
+    "id": 1142,
+    "question": "Which gland sits on top of each kidney?",
+    "answer": "Adrenal gland"
+  },
+  {
+    "id": 1143,
+    "question": "What is a noun?",
+    "answer": "A person, place, thing, or idea"
+  },
+  {
+    "id": 1144,
+    "question": "What is a verb?",
+    "answer": "A word that expresses an action or state of being"
+  },
+  {
+    "id": 1145,
+    "question": "What is an adjective?",
+    "answer": "A word that describes a noun or pronoun"
+  },
+  {
+    "id": 1146,
+    "question": "What is an adverb?",
+    "answer": "A word that modifies a verb, adjective, or other adverb"
+  },
+  {
+    "id": 1147,
+    "question": "What is a pronoun?",
+    "answer": "A word that takes the place of a noun"
+  },
+  {
+    "id": 1148,
+    "question": "What is a preposition?",
+    "answer": "A word that shows a relationship between a noun or pronoun and another word"
+  },
+  {
+    "id": 1149,
+    "question": "What is a conjunction?",
+    "answer": "A word that connects words, phrases, or clauses"
+  },
+  {
+    "id": 1150,
+    "question": "What is an interjection?",
+    "answer": "A word that expresses emotion or exclamation"
+  },
+  {
+    "id": 1151,
+    "question": "What is a subject in a sentence?",
+    "answer": "The person, place, thing, or idea that performs the action"
+  },
+  {
+    "id": 1152,
+    "question": "What is a predicate in a sentence?",
+    "answer": "The part of the sentence that tells what the subject does or is"
+  },
+  {
+    "id": 1153,
+    "question": "What is a simple sentence?",
+    "answer": "A sentence with one independent clause"
+  },
+  {
+    "id": 1154,
+    "question": "What is a compound sentence?",
+    "answer": "A sentence with two or more independent clauses joined by a conjunction"
+  },
+  {
+    "id": 1155,
+    "question": "What is a complex sentence?",
+    "answer": "A sentence with one independent clause and at least one dependent clause"
+  },
+  {
+    "id": 1156,
+    "question": "What is a compound-complex sentence?",
+    "answer": "A sentence with at least two independent clauses and one or more dependent clauses"
+  },
+  {
+    "id": 1157,
+    "question": "What is a clause?",
+    "answer": "A group of words with a subject and a predicate"
+  },
+  {
+    "id": 1158,
+    "question": "What is a phrase?",
+    "answer": "A group of related words that lacks either a subject or a predicate"
+  },
+  {
+    "id": 1159,
+    "question": "What is a dependent clause?",
+    "answer": "A clause that cannot stand alone as a complete sentence"
+  },
+  {
+    "id": 1160,
+    "question": "What is an independent clause?",
+    "answer": "A clause that can stand alone as a complete sentence"
+  },
+  {
+    "id": 1161,
+    "question": "What is a gerund?",
+    "answer": "A verb form ending in -ing that functions as a noun"
+  },
+  {
+    "id": 1162,
+    "question": "What is an infinitive?",
+    "answer": "The base form of a verb preceded by 'to'"
+  },
+  {
+    "id": 1163,
+    "question": "What is a participle?",
+    "answer": "A verb form used as an adjective"
+  },
+  {
+    "id": 1164,
+    "question": "What is the past tense of a verb?",
+    "answer": "A verb form that shows action completed in the past"
+  },
+  {
+    "id": 1165,
+    "question": "What is the present tense of a verb?",
+    "answer": "A verb form that shows action happening now"
+  },
+  {
+    "id": 1166,
+    "question": "What is the future tense of a verb?",
+    "answer": "A verb form that shows action that will happen"
+  },
+  {
+    "id": 1167,
+    "question": "What is the past perfect tense?",
+    "answer": "A verb tense that shows an action completed before another past action"
+  },
+  {
+    "id": 1168,
+    "question": "What is the present perfect tense?",
+    "answer": "A verb tense that shows an action completed at an unspecified time before now"
+  },
+  {
+    "id": 1169,
+    "question": "What is the future perfect tense?",
+    "answer": "A verb tense that shows an action that will be completed before a future time"
+  },
+  {
+    "id": 1170,
+    "question": "What is the progressive aspect?",
+    "answer": "A verb form that shows ongoing action"
+  },
+  {
+    "id": 1171,
+    "question": "What is the perfect progressive aspect?",
+    "answer": "A verb form that shows ongoing action that has been or will be completed"
+  },
+  {
+    "id": 1172,
+    "question": "What is subject-verb agreement?",
+    "answer": "The requirement that the verb matches the subject in number and person"
+  },
+  {
+    "id": 1173,
+    "question": "What is a direct object?",
+    "answer": "The noun or pronoun that receives the action of the verb"
+  },
+  {
+    "id": 1174,
+    "question": "What is an indirect object?",
+    "answer": "The noun or pronoun that benefits from the action of the verb"
+  },
+  {
+    "id": 1175,
+    "question": "What is a transitive verb?",
+    "answer": "A verb that takes a direct object"
+  },
+  {
+    "id": 1176,
+    "question": "What is an intransitive verb?",
+    "answer": "A verb that does not take a direct object"
+  },
+  {
+    "id": 1177,
+    "question": "What is an article in grammar?",
+    "answer": "A word that defines a noun as specific or unspecific"
+  },
+  {
+    "id": 1178,
+    "question": "What are the definite and indefinite articles in English?",
+    "answer": "\"The\" is definite; \"a\" and \"an\" are indefinite"
+  },
+  {
+    "id": 1179,
+    "question": "What is a sentence fragment?",
+    "answer": "An incomplete sentence missing a subject, predicate, or complete thought"
+  },
+  {
+    "id": 1180,
+    "question": "What is a run-on sentence?",
+    "answer": "Two or more independent clauses joined without proper punctuation or conjunction"
+  },
+  {
+    "id": 1181,
+    "question": "What is a comma splice?",
+    "answer": "Two independent clauses joined only by a comma"
+  },
+  {
+    "id": 1182,
+    "question": "When is a semicolon used?",
+    "answer": "To join closely related independent clauses or separate items in a complex list"
+  },
+  {
+    "id": 1183,
+    "question": "When is a colon used?",
+    "answer": "To introduce a list, explanation, or quotation"
+  },
+  {
+    "id": 1184,
+    "question": "What is a hyphen used for?",
+    "answer": "To join words or parts of words"
+  },
+  {
+    "id": 1185,
+    "question": "What is a dash used for?",
+    "answer": "To indicate a break in thought or to set off parenthetical information"
+  },
+  {
+    "id": 1186,
+    "question": "What is the Oxford comma?",
+    "answer": "The comma before the conjunction in a list of three or more items"
+  },
+  {
+    "id": 1187,
+    "question": "What is a proper noun?",
+    "answer": "A specific name of a person, place, or organization"
+  },
+  {
+    "id": 1188,
+    "question": "What is a common noun?",
+    "answer": "A general name for a person, place, or thing"
+  },
+  {
+    "id": 1189,
+    "question": "What is a collective noun?",
+    "answer": "A noun that refers to a group acting as one unit"
+  },
+  {
+    "id": 1190,
+    "question": "What is a countable noun?",
+    "answer": "A noun that can be counted and has singular and plural forms"
+  },
+  {
+    "id": 1191,
+    "question": "What is an uncountable noun?",
+    "answer": "A noun that cannot be counted and usually has no plural form"
+  },
+  {
+    "id": 1192,
+    "question": "What is a comparative adjective?",
+    "answer": "An adjective used to compare two things"
+  },
+  {
+    "id": 1193,
+    "question": "What is a superlative adjective?",
+    "answer": "An adjective used to compare three or more things"
+  },
+  {
+    "id": 1194,
+    "question": "What is a base adjective?",
+    "answer": "The simple form of an adjective without comparison"
+  },
+  {
+    "id": 1195,
+    "question": "What is an adverb of frequency?",
+    "answer": "An adverb that describes how often something happens"
+  },
+  {
+    "id": 1196,
+    "question": "What is an adverb of manner?",
+    "answer": "An adverb that describes how an action is performed"
+  },
+  {
+    "id": 1197,
+    "question": "What is an adverb of time?",
+    "answer": "An adverb that tells when something happens"
+  },
+  {
+    "id": 1198,
+    "question": "What is an adverb of place?",
+    "answer": "An adverb that tells where something happens"
+  },
+  {
+    "id": 1199,
+    "question": "What is an interrogative sentence?",
+    "answer": "A sentence that asks a question"
+  },
+  {
+    "id": 1200,
+    "question": "What is an imperative sentence?",
+    "answer": "A sentence that gives a command or request"
+  },
+  {
+    "id": 1201,
+    "question": "What is a declarative sentence?",
+    "answer": "A sentence that makes a statement"
+  },
+  {
+    "id": 1202,
+    "question": "What is an exclamatory sentence?",
+    "answer": "A sentence that expresses strong emotion"
+  },
+  {
+    "id": 1203,
+    "question": "What is a modal verb?",
+    "answer": "A verb that expresses necessity or possibility"
+  },
+  {
+    "id": 1204,
+    "question": "What is the role of 'who' in a sentence?",
+    "answer": "It functions as a subject pronoun"
+  },
+  {
+    "id": 1205,
+    "question": "What is the role of 'whom' in a sentence?",
+    "answer": "It functions as an object pronoun"
+  },
+  {
+    "id": 1206,
+    "question": "What is a relative clause?",
+    "answer": "A clause that modifies a noun and begins with a relative pronoun"
+  },
+  {
+    "id": 1207,
+    "question": "What is a dangling modifier?",
+    "answer": "A word or phrase that modifies a word not clearly stated in the sentence"
+  },
+  {
+    "id": 1208,
+    "question": "What is active voice?",
+    "answer": "A sentence structure where the subject performs the action"
+  },
+  {
+    "id": 1209,
+    "question": "What is passive voice?",
+    "answer": "A sentence structure where the subject receives the action"
+  },
+  {
+    "id": 1210,
+    "question": "What is parallel structure?",
+    "answer": "Using the same grammatical form for items in a list or comparison"
+  },
+  {
+    "id": 1211,
+    "question": "What is the difference between 'its' and 'it's'?",
+    "answer": "'Its' is possessive; 'it's' is contraction of 'it is'"
+  },
+  {
+    "id": 1212,
+    "question": "What is the difference between 'their,' 'there,' and 'they're'?",
+    "answer": "'Their' is possessive, 'there' refers to a place, and 'they're' means 'they are'"
+  },
+  {
+    "id": 1213,
+    "question": "What is the difference between 'your' and 'you're'?",
+    "answer": "'Your' is possessive; 'you're' means 'you are'"
+  },
+  {
+    "id": 1214,
+    "question": "What is a homophone?",
+    "answer": "Words that sound alike but have different meanings and spellings"
+  },
+  {
+    "id": 1215,
+    "question": "What is a subject complement?",
+    "answer": "A word that follows a linking verb and describes the subject"
+  },
+  {
+    "id": 1216,
+    "question": "What is an object complement?",
+    "answer": "A word that follows and modifies or renames a direct object"
+  },
+  {
+    "id": 1217,
+    "question": "What is the function of a comma in a compound sentence?",
+    "answer": "To separate independent clauses joined by a conjunction"
+  },
+  {
+    "id": 1218,
+    "question": "When should you use quotation marks?",
+    "answer": "To enclose direct speech or quotations"
+  },
+  {
+    "id": 1219,
+    "question": "What is a split infinitive?",
+    "answer": "Placing an adverb between 'to' and the verb in an infinitive"
+  },
+  {
+    "id": 1220,
+    "question": "What is an auxiliary verb?",
+    "answer": "A helper verb used with a main verb to form tense or mood"
+  },
+  {
+    "id": 1221,
+    "question": "What is a phrasal verb?",
+    "answer": "A verb combined with a preposition or adverb that changes its meaning"
+  },
+  {
+    "id": 1222,
+    "question": "What is a sentence's syntax?",
+    "answer": "The arrangement of words to create meaningful sentences"
+  },
+  {
+    "id": 1223,
+    "question": "What is an antecedent?",
+    "answer": "The noun to which a pronoun refers"
+  },
+  {
+    "id": 1224,
+    "question": "What is the subjunctive mood used for?",
+    "answer": "To express wishes, demands, or hypothetical situations"
+  },
+  {
+    "id": 1225,
+    "question": "What is the imperative mood used for?",
+    "answer": "To give commands or requests"
+  },
+  {
+    "id": 1226,
+    "question": "What is the indicative mood used for?",
+    "answer": "To make factual statements or ask questions"
+  },
+  {
+    "id": 1227,
+    "question": "What is a double negative?",
+    "answer": "Using two negatives in a sentence to express a single negation"
+  },
+  {
+    "id": 1228,
+    "question": "What is ellipsis in grammar?",
+    "answer": "The omission of words that are understood in context"
+  },
+  {
+    "id": 1229,
+    "question": "What is a conditional sentence?",
+    "answer": "A sentence expressing a condition and its result"
+  },
+  {
+    "id": 1230,
+    "question": "What is the first conditional used for?",
+    "answer": "Real future possibilities"
+  },
+  {
+    "id": 1231,
+    "question": "What is the second conditional used for?",
+    "answer": "Hypothetical or unlikely present situations"
+  },
+  {
+    "id": 1232,
+    "question": "What is the third conditional used for?",
+    "answer": "Imagined past situations and their results"
+  },
+  {
+    "id": 1233,
+    "question": "What is a compound subject?",
+    "answer": "Two or more subjects joined by a conjunction"
+  },
+  {
+    "id": 1234,
+    "question": "What is a compound predicate?",
+    "answer": "Two or more predicates that share the same subject"
+  },
+  {
+    "id": 1235,
+    "question": "What is an appositive?",
+    "answer": "A noun or phrase that renames another noun beside it"
+  },
+  {
+    "id": 1236,
+    "question": "What is a reflexive pronoun?",
+    "answer": "A pronoun ending in -self or -selves that refers back to the subject"
+  },
+  {
+    "id": 1237,
+    "question": "What is an intensive pronoun?",
+    "answer": "A pronoun ending in -self or -selves used for emphasis"
+  },
+  {
+    "id": 1238,
+    "question": "What is a determiner's role in a sentence?",
+    "answer": "To introduce nouns and specify them"
+  },
+  {
+    "id": 1239,
+    "question": "What is the difference between 'few' and 'a few'?",
+    "answer": "'Few' emphasizes scarcity; 'a few' means some"
+  },
+  {
+    "id": 1240,
+    "question": "What is the difference between 'less' and 'fewer'?",
+    "answer": "'Less' for uncountable nouns; 'fewer' for countable nouns"
+  },
+  {
+    "id": 1241,
+    "question": "What is the difference between 'much' and 'many'?",
+    "answer": "'Much' for uncountable nouns; 'many' for countable nouns"
+  },
+  {
+    "id": 1242,
+    "question": "What is a collocation?",
+    "answer": "A natural combination of words that are often used together"
+  }
+]
