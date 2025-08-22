@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        dataset: [go-epic, caia-math, caia-system-design, cicd-epic, python-epic, rust-epic]
+        dataset: [go-epic, caia-math, caia-system-design, cicd-epic, python-epic, rust-epic, caia-civil-rights, caia-reasoning]
     steps:
       - uses: actions/checkout@v3
         with:
